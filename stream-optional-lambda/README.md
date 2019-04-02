@@ -164,6 +164,28 @@ class Main {
 
 ### インスタンス生成(of/ofNullable/empty)
 
+`Optional` の本質は値の有無ですので、値の有無それぞれに該当するインスタンス生成のためのメソッドが提供されています。
+なお、 `Optional` はジェネリックな型なので、型パラメーターの指定が必要になりますが、
+変数の型またはメソッドの戻り値の型などが与えられている場合は、そこから推論可能ですので、
+型パラメーターを省略できます。
+
+```jshelllanguage
+// 値がある
+var valuePresent = Optional.of("item");
+// 値がない(var からは型が推論できないので、明示的に与える必要がある)
+var valueNotPresent = Optional.<String>empty();
+```
+
+また、値の有無が不明の場合のメソッドも提供されています。
+
+```jshelllanguage
+var valueUnknown = Optional.of(someUnknownMethod());
+```
+
+#### 練習1
+
+このプロジェクトにある `com.example.Opt` クラスを完成させること
+
 ### データの取り出し(orElse/orElseGet/orElseThrow)
 
 ### データ変換1(map)
