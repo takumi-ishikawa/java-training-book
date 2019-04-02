@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = JavaVersion.VERSION_12
+targetCompatibility = JavaVersion.VERSION_12
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(group: 'org.assertj', name: 'assertj-core', version: '3.12.2')
+    testImplementation("org.junit.jupiter:junit-jupiter:5.4.1")
+}
+
+test {
+    useJUnitPlatform()
+}
