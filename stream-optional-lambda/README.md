@@ -184,9 +184,32 @@ var valueUnknown = Optional.of(someUnknownMethod());
 
 #### 練習1
 
-このプロジェクトにある `com.example.Opt` クラスを完成させること
+このプロジェクトにある `com.example.optional.Opt` クラスを完成させてください。
 
 ### データの取り出し(orElse/orElseGet/orElseThrow)
+
+データの有無が表現できても、中に入っている値が取り出せなければ意味がありません。
+そこで、 `Optional` からデータを取り出す方法が提供されています。
+
+```jshelllanguage
+Optional<String> optional = someTryableMethod()
+
+// 値がない場合のデフォルト値を提供して値を取り出す
+String valueWithDefault = optional.orElse("default-value");
+
+// 値がない場合のデフォルト値の生成メソッドを呼び出す
+String valueWithDefaultGet = optional.orElseGet(() -> getDefaultValue());
+
+// 値がない場合は例外
+String valueOrException = optional.orElseThrow(() -> new IllegalStateException("exception"));
+```
+
+`Optional#orElseGet` および `Optional#orElseThrow` にわたすラムダの型はそれぞれ
+`Supplier<? extends T>` 、 `Supplier<? extends Throwable>` です。
+
+#### 練習2
+
+このプロジェクトにある `com.example.optional.OptUser` クラスを完成させてください。
 
 ### データ変換1(map)
 

@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example;
+package com.example.optional;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
 
 class Opt {
 
+  @NotNull
   private final String name;
 
   private final Map<String, String> map =
@@ -31,19 +34,27 @@ class Opt {
           "大阪城留守居", "豊臣秀頼"
       );
 
-  Opt(String name) {
+  Opt(@NotNull String name) {
     this.name = name;
   }
 
+  @NotNull
+  String getName() {
+    return name;
+  }
+
+  @NotNull
   Optional<String> name() {
     throw new UnsupportedOperationException("not implemented");
   }
 
+  @NotNull
   Optional<String> teamName() {
     throw new UnsupportedOperationException("not implemented");
   }
 
-  Optional<String> fromMap(final String key) {
+  @NotNull
+  Optional<String> responsibleFor(final String position) {
     throw new UnsupportedOperationException("not implemented");
   }
 }
