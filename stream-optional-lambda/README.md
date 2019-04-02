@@ -48,7 +48,7 @@ interface Qux extends Bar {
 
 例えば、同じ型のもの同士を比較する `Comparator<T>` は次のように書けます。
 
-```java
+```jshelllanguage
 Comparator<User> orderByUserId = (User left, User right) -> {
     return Integer.compare(left.userId, right.userId);
 };
@@ -58,7 +58,7 @@ Comparator<User> orderByUserId = (User left, User right) -> {
 
 `Comparator<User>` の定義は次のとおりであり、ラムダのパラメーター部分の型はあらかじめわかっています。
 
-```java
+```jshelllanguage
 interface Comparator<T> {
   int compare(T o1, T o2);
 }
@@ -66,7 +66,7 @@ interface Comparator<T> {
 
 このような場合には、ラムダのパラメーター部分の型を省略できます。
 
-```java
+```jshelllanguage
 Comparator<User> orderByUserId = (left, right) -> {
     return Integer.compare(left.userId, right.userId);
 };
@@ -78,7 +78,7 @@ Comparator<User> orderByUserId = (left, right) -> {
 
 例: `Consumer<T>` - `T` 型のパラメーターを受け取り、 `void`(何も返さない処理を行う) な関数型インターフェース
 
-```java
+```jshelllanguage
 Consumer<String> showString = string -> { System.out.println(string); };
 ```
 
@@ -87,7 +87,7 @@ Consumer<String> showString = string -> { System.out.println(string); };
 ラムダの中の処理部分の式が1つである場合には、両端にある波括弧 `{` 、 `}` と、
 戻り値を示す `return` を省略できます。
 
-```java
+```jshelllanguage
 Comparator<User> orderByUserId = (left, right) ->
   Integer.compare(left.userId, right.userId);
 ```
@@ -99,7 +99,7 @@ Comparator<User> orderByUserId = (left, right) ->
 1. パラメーターの型がもつ、引数が `0` 個のメソッドを呼び出す場合
 1. 参照可能な変数/定数のメソッド あるいは `static` メソッドにパラメーターを順番通りに渡せる
 
-```java
+```jshelllanguage
 // 1. の例(元は string -> string.toUpperCase())
 Function<String, String> toUpper = String::toUpperCase;
 
