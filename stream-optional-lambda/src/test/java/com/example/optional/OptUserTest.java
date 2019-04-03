@@ -51,5 +51,5 @@ class OptUserTest {
     OptUser optUser = new OptUser("今川軍", opt);
 
     assertThat(optUser.name()).isEqualTo("今川義元");
-    }
+  }
 }
