@@ -213,6 +213,36 @@ String valueOrException = optional.orElseThrow(() -> new IllegalStateException("
 
 ### データ変換1(map)
 
+失敗する可能性のあるデータ(つまり `Optional` に包まれているデータ)を取得するたびに、デフォルト値を指定して
+取り出していては、ロジックが煩雑になります。そのため、データの有無の状態を保ったまま、
+中にあるデータを別のデータに変換して、最後に取り出すほうが処理が簡潔に書けます。
+`map` メソッドはデータの有無の状態を保ったまま中身のデータを変換するためのメソッドです。
+
+`map` メソッドには関数型インターフェースの `Function<? super T, ? extends R>` を渡して、
+中身の `T` 型のオブジェクトを `R` 型のオブジェクトに変換します。
+
+例えばショッピングサイトにアクセスしたときにセッションから `User` を取り出した状態、
+`Optional<User>` から、ショッピングカートを取り出す操作は次のようになります。
+
+```jshelllanguage
+Optional<User> user = userFromSession()
+Optional<ShoppingCart> shoppingCart = user.map(User::shoppingCart)
+// User#shoppingCart() は ShoppingCart を返す
+```
+
+#### 練習3
+
+ショッピングサイトシステムのモデルを考えます
+
+![model](http://www.plantuml.com/plantuml/png/RL0zQyCm4DtrAmvFxk3GhgMOa4w1VXH2XuvghJG2MHBIPGYc_xqwwqoakelWxdsyfzj6b07Fen52MrJXAByK75ICsbcO1407Hss7zwZ2xh8VsaIwkOTNZmcNve7slVWfnRHYPJmvxxNzVamHRP8TYdacV6fZsWybmxEpU2gDTmdfPuuqvarUHcKnaiUJZfZHAhRovdYDQhng2DYdJNzDhWBNbei2fdfFL8xmkLdbn6t_cF4sUoq7RkuQw2PeRc6pWPTclfqGz6Q8tlfgvP0vdIEz2v06QlOVfOXOFYK4aTSMt9DBr6eEs2exd4Vp2m00)
+
+
+##### 1
+
+`Bill` の実装クラス `com.example.optional.shopping.impl.BillImpl` の `payment` メソッドを完成させてください
+
+
+
 ### データ変換2(flatMap)
 
 ### 注意事項
