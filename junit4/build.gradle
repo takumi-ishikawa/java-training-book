@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = JavaVersion.VERSION_12
+targetCompatibility = JavaVersion.VERSION_12
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly("org.jetbrains:annotations:17.0.0")
+    testImplementation(group: 'org.assertj', name: 'assertj-core', version: '3.12.2')
+    testImplementation("junit:junit:4.13-beta-2")
+}
