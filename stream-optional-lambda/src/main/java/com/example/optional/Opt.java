@@ -25,7 +25,7 @@ class Opt {
   @NotNull
   private final String name;
 
-  private final Map<String, String> map =
+  final Map<String, String> map =
       Map.of("本隊", "石田三成",
           "奥羽本隊", "上杉景勝",
           "大津城攻撃部隊", "毛利元康",
