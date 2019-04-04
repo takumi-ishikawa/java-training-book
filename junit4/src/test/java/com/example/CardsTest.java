@@ -14,7 +14,7 @@ public class CardsTest {
   }
 
   @Test
-  public void equality() {
+  public void equality_異なる() {
     final Cards cards = Cards.of(1, 2);
     final Cards another = Cards.of(2, 1);
 
