@@ -14,6 +14,10 @@ public class Cards {
     return new Cards(cards);
   }
 
+  public static Cards twoTimes(final int number) {
+    return of(number);
+  }
+
   public Cards cutAt(final int position) {
     final int[] newCards = new int[cards.length];
     System.arraycopy(cards, 0, newCards, cards.length - position, position);
