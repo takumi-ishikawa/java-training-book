@@ -16,8 +16,8 @@ public class Cards {
 
   public Cards cutAt(final int position) {
     final int[] newCards = new int[cards.length];
-    System.arraycopy(cards, 0, newCards, 5, 1);
-    System.arraycopy(cards, 1, newCards, 0, 5);
+    System.arraycopy(cards, 0, newCards, cards.length - position, position);
+    System.arraycopy(cards, position, newCards, 0, cards.length - position);
     return new Cards(newCards);
   }
 
