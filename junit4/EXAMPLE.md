@@ -1,6 +1,23 @@
 回答例
 ---
 
+#### 設計
+
+* 入力はこれらであると
+  * 条件 - カード枚数/操作回数
+  * 操作内容
+* これらは IO を伴うので、 `String` からモデルへの変換処理が必要そうだ。
+* これを `Converter` と名付けよう
+* 出力データの状態まではモデルで処理をしよう
+* 出力はモデルデータを出力用のデータに変換するオブジェクトが必要そうだ
+* これを `Formatter` と名付けよう
+* 入力データ・出力データはモデルのデータ構造に依存するので、これらを作るのは後にしよう
+* ということで、モデルから作り始めよう
+
+![コンポーネント](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuOhspKz9pObLI2nMyENYYdREpojBBIf9BGABE7D5U_g3MPx-ND5k-KMvYIKmEJSkBby56rrT1MShXSTDcnyt0z64nyrx7ZVj1v6DwnytBthStFwuUVNZfabF-vkUjowFoTF0fdBTq_PTJxjcFzywuTcyEK2DCNa8hOr0jEfnKxScbxE2dfuTq1quRFFqHxO6o6je09giu1ZWgG2KUB9t_-F6nOyRbu7CReVe0wkVzhYfwyK-8BT14-OVDw0DpLCVDwq4AMkUzxYv6R-Nq1GZVDMw5EWhP5sQN6vmJw3fmkaF1Mo-GF53-owmDJF1eUIGcfS2Z5O0)
+
+#### モデル
+
 * どうやらカードの集まりというものがあるらしいので、 `Cards` と名付けよう。
 * そこで、 `Cards` クラスではなく、 `CardsTest` クラスを作る。
 * `Cards` をシャッフルする方法には、カットとリフルシャッフルという方法があるらしい。
