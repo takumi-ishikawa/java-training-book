@@ -15,7 +15,10 @@ public class Cards {
   }
 
   public Cards cutAt(final int position) {
-    return new Cards(this.cards);
+    final int[] newCards = new int[cards.length];
+    System.arraycopy(cards, 0, newCards, 5, 1);
+    System.arraycopy(cards, 1, newCards, 0, 5);
+    return new Cards(newCards);
   }
 
   @Override
