@@ -29,6 +29,10 @@ public class Cards {
     return new Cards(newCards);
   }
 
+  public Cards reFullShuffle() {
+    return new Cards(cards);
+  }
+
   @Override
   public String toString() {
     return "cards[" + Arrays.toString(cards) + "]";
