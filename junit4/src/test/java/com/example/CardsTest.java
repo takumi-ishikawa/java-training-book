@@ -40,6 +40,15 @@ public class CardsTest {
   }
 
   @Test
+  public void reFullShuffle() {
+    final Cards cards = Cards.twoTimes(3);
+
+    final Cards actual = cards.reFullShuffle();
+
+    assertThat(actual).isEqualTo(Cards.of(1,4,2,5,3,6));
+  }
+
+  @Test
   public void equality_異なる() {
     final Cards cards = Cards.of(1, 2);
     final Cards another = Cards.of(2, 1);
