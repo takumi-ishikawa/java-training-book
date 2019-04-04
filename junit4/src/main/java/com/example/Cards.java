@@ -30,7 +30,15 @@ public class Cards {
   }
 
   public Cards reFullShuffle() {
-    return new Cards(cards);
+    final int[] newCards = new int[cards.length];
+    final int number = cards.length / 2;
+    final int[] tops = Arrays.copyOf(cards, number);
+    final int[] bottoms = Arrays.copyOfRange(cards, number, number * 2);
+    for (int i = 0; i < number; i++) {
+      newCards[i * 2] = tops[i];
+      newCards[i * 2 + 1] = bottoms[i];
+    }
+    return new Cards(newCards);
   }
 
   @Override
