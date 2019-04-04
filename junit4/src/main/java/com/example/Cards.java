@@ -1,18 +1,26 @@
 package com.example;
 
+import java.util.Arrays;
+
 public class Cards {
 
+  private final int[] cards;
+
+  private Cards(final int[] cards) {
+    this.cards = cards;
+  }
+
   public static Cards of(final int... cards) {
-    return new Cards();
+    return new Cards(cards);
   }
 
   public Cards cutAt(final int position) {
-    return new Cards();
+    return new Cards(this.cards);
   }
 
   @Override
   public int hashCode() {
-    return 1;
+    return Arrays.hashCode(cards);
   }
 
   @Override
@@ -20,6 +28,10 @@ public class Cards {
     if (obj == null) {
       return false;
     }
-    return obj instanceof Cards;
+    if(!(obj instanceof Cards)) {
+      return false;
+    }
+    final Cards another = (Cards) obj;
+    return Arrays.equals(this.cards, another.cards);
   }
 }
