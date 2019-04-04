@@ -22,6 +22,11 @@ public class Cards {
   }
 
   @Override
+  public String toString() {
+    return "cards[" + Arrays.toString(cards) + "]";
+  }
+
+  @Override
   public int hashCode() {
     return Arrays.hashCode(cards);
   }
