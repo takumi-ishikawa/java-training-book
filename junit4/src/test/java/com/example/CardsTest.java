@@ -33,6 +33,13 @@ public class CardsTest {
   }
 
   @Test
+  public void twoTimes() {
+    final Cards cards = Cards.twoTimes(3);
+
+    assertThat(cards).isEqualTo(Cards.of(1,2,3,4,5,6));
+  }
+
+  @Test
   public void equality_異なる() {
     final Cards cards = Cards.of(1, 2);
     final Cards another = Cards.of(2, 1);
