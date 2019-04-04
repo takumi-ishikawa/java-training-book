@@ -15,7 +15,11 @@ public class Cards {
   }
 
   public static Cards twoTimes(final int number) {
-    return of(number);
+    final int[] cards = new int[number * 2];
+    for (int i = 0; i < (number * 2); i++) {
+      cards[i] = i + 1;
+    }
+    return of(cards);
   }
 
   public Cards cutAt(final int position) {
