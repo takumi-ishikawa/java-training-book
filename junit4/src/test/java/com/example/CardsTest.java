@@ -20,4 +20,12 @@ public class CardsTest {
 
     assertThat(cards).isNotEqualTo(another);
   }
+
+  @Test
+  public void equality_一致() {
+    final Cards cards = Cards.of(1, 2,3,4);
+    final Cards another = Cards.of(1,2,3,4);
+
+    assertThat(cards).isEqualTo(another);
+  }
 }
