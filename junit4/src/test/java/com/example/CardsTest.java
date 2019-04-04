@@ -24,6 +24,15 @@ public class CardsTest {
   }
 
   @Test
+  public void cutManyCardsAt() {
+    final Cards cards = Cards.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+    final Cards actual = cards.cutAt(9);
+
+    assertThat(actual).isEqualTo(Cards.of(10,11,12, 1,2,3,4,5,6,7,8,9));
+  }
+
+  @Test
   public void equality_異なる() {
     final Cards cards = Cards.of(1, 2);
     final Cards another = Cards.of(2, 1);
