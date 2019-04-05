@@ -16,6 +16,18 @@ public class OperationTest {
     assertThat(actual).isInstanceOf(Shuffle.class);
   }
 
+  @Test
+  public void cutAtはcutAtを呼び出す() {
+    final Operation operation = new CutAt(2);
+    final Cards cards = new Shuffle();
+
+    final Cards actual = operation.doOp(cards);
+
+    assertThat(actual)
+        .isInstanceOf(Cut.class)
+        .satisfies(c -> assertThat(((Cut)c).pos).isEqualTo(2));
+  }
+
   static class Shuffle implements Cards {
 
     @Override
