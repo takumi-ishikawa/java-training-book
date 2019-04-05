@@ -4,6 +4,6 @@ public class ReFullShuffle implements Operation {
 
   @Override
   public Cards doOp(final Cards cards) {
-    return null;
+    return cards.reFullShuffle();
   }
 }
