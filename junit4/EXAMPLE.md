@@ -16,7 +16,7 @@
 
 ![コンポーネント](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuOhspKz9pObLI2nMyENYYdREpojBBIf9BGABE7D5U_g3MPx-ND5k-KMvYIKmEJSkBby56rrT1MShXSTDcnyt0z64nyrx7ZVj1v6DwnytBthStFwuUVNZfabF-vkUjowFoTF0fdBTq_PTJxjcFzywuTcyEK2DCNa8hOr0jEfnKxScbxE2dfuTq1quRFFqHxO6o6je09giu1ZWgG2KUB9t_-F6nOyRbu7CReVe0wkVzhYfwyK-8BT14-OVDw0DpLCVDwq4AMkUzxYv6R-Nq1GZVDMw5EWhP5sQN6vmJw3fmkaF1Mo-GF53-owmDJF1eUIGcfS2Z5O0)
 
-#### モデル
+#### モデル - 1
 
 * どうやらカードの集まりというものがあるらしいので、 `Cards` と名付けよう。
 * そこで、 `Cards` クラスではなく、 `CardsTest` クラスを作る。
@@ -84,3 +84,19 @@
 * テスト1件だけでは不安だね。じゃあ、別のケースのテストを書こう
 * テストの結果を想像しやすい、 20件のデータパターンのテストを追加したよ
 * …もちろん通過したね
+
+### モデル - 2
+
+* カードの束のモデルはできたので、今度は操作のモデルを作ってくよ
+* 操作にはカットとリフルシャッフルの二つがあったのは確認済みだね
+* なので、それぞれの操作をモデル化するよ
+* え？入力値から操作の内容はわかるのだから、入力値に応じて `if` 文で先程作った `Cards` のメソッドの呼び出しを切り替えればいいって？
+* それだと、入力(IO) とモデルの結びつきが強くなってしまうね
+  * 操作のモデルクラスを作って、そのオブジェクトが `Cards` を操作する形にすると、このアプリケーションのロジックすべてをモデルで表現できる
+  * すると、入力に依存しなくなるので、このアプリケーションを模擬的に動かせるようになるので、あれこれ実験もできるし、当然テストも行いやすくなる
+  * なぜなら、自分たちがつくったコードそのものだけで動かせるからね
+  * だけど入力(IO)を受けてから `if` 文で分岐させる形にしてしまうと、このアプリケーションを動かすためには入力(IO)が必要になってしまうし、そうなるとテストを実行する難易度もあがる
+* じゃあ入力(IO)を受け取ってから `Cards` の操作をするまではどうするのかって？
+* それは入力をモデルに変換する層でモデルに作り変えればよいわけですよ
+* では、早速 `Operation` というインターフェースを考えるよ
+* `Operation` インターフェースは `Cards` を受け取って、 `Cards` に変換するインターフェースだね
