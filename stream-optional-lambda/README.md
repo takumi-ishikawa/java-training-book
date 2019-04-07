@@ -237,10 +237,8 @@ Optional<ShoppingCart> shoppingCart = user.map(User::shoppingCart)
 ![model](http://www.plantuml.com/plantuml/png/RL0zQyCm4DtrAmvFxk3GhgMOa4w1VXH2XuvghJG2MHBIPGYc_xqwwqoakelWxdsyfzj6b07Fen52MrJXAByK75ICsbcO1407Hss7zwZ2xh8VsaIwkOTNZmcNve7slVWfnRHYPJmvxxNzVamHRP8TYdacV6fZsWybmxEpU2gDTmdfPuuqvarUHcKnaiUJZfZHAhRovdYDQhng2DYdJNzDhWBNbei2fdfFL8xmkLdbn6t_cF4sUoq7RkuQw2PeRc6pWPTclfqGz6Q8tlfgvP0vdIEz2v06QlOVfOXOFYK4aTSMt9DBr6eEs2exd4Vp2m00)
 
 
-##### 1
-
-`Bill` の実装クラス `com.example.optional.shopping.impl.BillImpl` の `payment` メソッドを完成させてください
-
+1. `Bill` の実装クラス `com.example.optional.shopping.impl.BillImpl` の `payment` メソッドを完成させてください
+2. `Session` の実装クラス `com.example.optional.shopping.impl.SessionImpl` の `findUserById` メッソドを完成させてください
 
 
 ### データ変換2(flatMap)
