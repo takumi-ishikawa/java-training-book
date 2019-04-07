@@ -239,6 +239,9 @@ Optional<ShoppingCart> shoppingCart = user.map(User::shoppingCart)
 
 1. `Bill` の実装クラス `com.example.optional.shopping.impl.BillImpl` の `payment` メソッドを完成させてください
 2. `Session` の実装クラス `com.example.optional.shopping.impl.SessionImpl` の `findUserById` メッソドを完成させてください
+3. `Session` から、与えられた `int useId` を使って `User` を取り出し、取り出した `User` の `ShoppingCart` を取り出し、 取り出した `ShoppingCart` 内にある 
+`CartItem` を取り出すコードを書いてください。なお、 `CartItem` が `0` 件の場合は、 `Optional.empty()` が返ってくるようにしてください。
+(回答は `com.example.optional.shopping.App`)
 
 
 ### データ変換2(flatMap)

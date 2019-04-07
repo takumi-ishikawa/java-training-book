@@ -13,37 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.optional.shopping.impl;
+package com.example.optional.shopping;
 
-import com.example.optional.shopping.Bill;
-import com.example.optional.shopping.CartItem;
-import com.example.optional.shopping.ShoppingCart;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
-public class FilledCart implements ShoppingCart {
+public class App {
 
     @NotNull
-    private final List<CartItem> items;
+    private final Session session;
 
     @Contract(pure = true)
-    public FilledCart(@NotNull List<CartItem> items) {
-        this.items = items;
+    public App(@NotNull Session session) {
+        this.session = session;
     }
 
-    @NotNull
-    @Override
-    public List<CartItem> items() {
-        return items;
-    }
-
-    @NotNull
-    @Override
-    public Optional<Bill> bill() {
-        // TODO Stream の演算によさそう
+    Optional<List<CartItem>> findUsersCartItem(final int userId) {
         throw new UnsupportedOperationException();
     }
 }

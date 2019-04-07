@@ -28,11 +28,11 @@ import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SessionTest {
-
+class AppTest {
     private static Instant date(int year, int month, int day, int hour, int min) {
         return LocalDateTime.of(year, month, day, hour, min)
                 .atOffset(ZoneOffset.UTC)
@@ -47,12 +47,18 @@ class SessionTest {
             ));
 
     @Test
-    void findByUserIdExisting() {
-        assertThat(session.findUserById(1)).isPresent();
+    void findUsersCartItemBecomesEmpty() {
+        App app = new App(session);
+        Optional<List<CartItem>> usersCartItem = app.findUsersCartItem(1);
+
+        assertThat(usersCartItem).isEmpty();
     }
 
     @Test
-    void findByUserIdNotExisting() {
-        assertThat(session.findUserById(2)).isEmpty();
+    void findUsersCartItemNotEmpty() {
+        App app = new App(session);
+        Optional<List<CartItem>> usersCartItem = app.findUsersCartItem(3);
+
+        assertThat(usersCartItem).isPresent();
     }
 }
