@@ -16,11 +16,31 @@
 package com.example.optional.shopping;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public interface Bill {
 
     Optional<Payment> payment();
+
+    default Optional<Instant> paymentDate() {
+        return payment().flatMap(Payment::date);
+    }
+
+    default boolean payedAt(YearMonth yearMonth) {
+        Instant startOfMonth = yearMonth.atDay(1).atStartOfDay(ZoneOffset.UTC).toInstant();
+        Instant endOfMonth = yearMonth.atEndOfMonth().plusDays(1L).atStartOfDay(ZoneOffset.UTC).toInstant();
+
+        Predicate<Instant> beforeStartOfMonth = instant -> instant.isBefore(startOfMonth);
+        Predicate<Instant> beforeEndOfMonth = endOfMonth::isAfter;
+
+        Predicate<Instant> withInYearMonth = beforeStartOfMonth.negate().and(beforeEndOfMonth);
+
+        return paymentDate().filter(withInYearMonth).isPresent();
+    }
 
     BigDecimal total();
 }

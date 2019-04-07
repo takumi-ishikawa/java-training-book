@@ -15,6 +15,7 @@
  */
 package com.example.optional.shopping.impl;
 
+import com.example.optional.shopping.Bill;
 import com.example.optional.shopping.Payment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
-public class Paid implements Payment {
+public class Paid implements Payment, Bill {
 
     @NotNull
     private final Purchased purchased;
@@ -34,6 +35,11 @@ public class Paid implements Payment {
     public Paid(@NotNull Purchased purchased, @NotNull Instant paymentDate) {
         this.purchased = purchased;
         this.paymentDate = paymentDate;
+    }
+
+    @Override
+    public Optional<Payment> payment() {
+        return Optional.of(this);
     }
 
     @Override

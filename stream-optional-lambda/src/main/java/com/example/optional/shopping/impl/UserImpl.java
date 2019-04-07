@@ -16,32 +16,43 @@
 package com.example.optional.shopping.impl;
 
 import com.example.optional.shopping.Bill;
-import com.example.optional.shopping.CartItem;
 import com.example.optional.shopping.ShoppingCart;
+import com.example.optional.shopping.User;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
-class FilledCart implements ShoppingCart {
+public class UserImpl implements User {
 
+    @Nullable
+    private final ShoppingCart cart;
     @NotNull
-    private final List<CartItem> items;
+    private final List<Bill> bills;
 
     @Contract(pure = true)
-    FilledCart(@NotNull List<CartItem> items) {
-        this.items = items;
+    public UserImpl(@Nullable ShoppingCart cart, @NotNull List<Bill> bills) {
+        this.cart = cart;
+        this.bills = bills;
     }
 
     @Override
-    public List<CartItem> items() {
-        return items;
+    public ShoppingCart shoppingCart() {
+        return cart;
     }
 
     @Override
-    public Optional<Bill> bill() {
-        // TODO Stream の演算によさそう
-        throw new UnsupportedOperationException();
+    public Optional<Bill> bill(YearMonth yearMonth) {
+        return bills.stream()
+                .filter(bill -> bill.payedAt(yearMonth))
+                .findFirst();
+    }
+
+    @Override
+    public List<Bill> allPayments() {
+        return bills;
     }
 }
