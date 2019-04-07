@@ -37,6 +37,7 @@ public class Paid implements Payment, Bill {
         this.paymentDate = paymentDate;
     }
 
+    @NotNull
     @Override
     public Optional<Payment> payment() {
         return Optional.of(this);

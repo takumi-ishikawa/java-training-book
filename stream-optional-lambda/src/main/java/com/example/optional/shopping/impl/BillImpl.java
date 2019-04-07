@@ -50,6 +50,7 @@ public class BillImpl implements Bill {
         return new BillImpl(null, total);
     }
 
+    @NotNull
     @Override
     public Optional<Payment> payment() {
         // purchasedDate は null になる可能性のあるフィールドです
@@ -58,6 +59,7 @@ public class BillImpl implements Bill {
         throw new UnsupportedOperationException();
     }
 
+    @NotNull
     @Override
     public BigDecimal total() {
         return total;

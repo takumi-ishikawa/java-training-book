@@ -50,11 +50,13 @@ public class CartItemImpl implements CartItem {
         return id;
     }
 
+    @NotNull
     @Override
     public String itemName() {
         return name;
     }
 
+    @NotNull
     @Override
     public BigDecimal price() {
         return price;
@@ -65,6 +67,7 @@ public class CartItemImpl implements CartItem {
         return quantity;
     }
 
+    @NotNull
     @Override
     public Instant added() {
         return added;

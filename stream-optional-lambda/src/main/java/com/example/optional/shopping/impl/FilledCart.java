@@ -34,11 +34,13 @@ class FilledCart implements ShoppingCart {
         this.items = items;
     }
 
+    @NotNull
     @Override
     public List<CartItem> items() {
         return items;
     }
 
+    @NotNull
     @Override
     public Optional<Bill> bill() {
         // TODO Stream の演算によさそう

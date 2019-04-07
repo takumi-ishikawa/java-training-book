@@ -15,15 +15,20 @@
  */
 package com.example.optional.shopping;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
 public interface User {
 
+    @NotNull
     ShoppingCart shoppingCart();
 
+    @NotNull
     Optional<Bill> bill(YearMonth yearMonth);
 
+    @NotNull
     List<Bill> allPayments();
 }

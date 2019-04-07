@@ -15,6 +15,8 @@
  */
 package com.example.optional.shopping;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -22,11 +24,14 @@ public interface CartItem {
 
     int itemId();
 
+    @NotNull
     String itemName();
 
+    @NotNull
     BigDecimal price();
 
     int quantity();
 
+    @NotNull
     Instant added();
 }

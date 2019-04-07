@@ -15,6 +15,8 @@
  */
 package com.example.optional.shopping;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.YearMonth;
@@ -24,13 +26,15 @@ import java.util.function.Predicate;
 
 public interface Bill {
 
+    @NotNull
     Optional<Payment> payment();
 
+    @NotNull
     default Optional<Instant> paymentDate() {
         return payment().flatMap(Payment::date);
     }
 
-    default boolean payedAt(YearMonth yearMonth) {
+    default boolean payedAt(@NotNull YearMonth yearMonth) {
         Instant startOfMonth = yearMonth.atDay(1).atStartOfDay(ZoneOffset.UTC).toInstant();
         Instant endOfMonth = yearMonth.atEndOfMonth().plusDays(1L).atStartOfDay(ZoneOffset.UTC).toInstant();
 
@@ -42,5 +46,6 @@ public interface Bill {
         return paymentDate().filter(withInYearMonth).isPresent();
     }
 
+    @NotNull
     BigDecimal total();
 }

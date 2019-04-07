@@ -15,12 +15,16 @@
  */
 package com.example.optional.shopping;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface ShoppingCart {
 
+    @NotNull
     List<CartItem> items();
 
+    @NotNull
     Optional<Bill> bill();
 }

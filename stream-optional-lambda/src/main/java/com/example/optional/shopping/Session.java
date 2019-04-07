@@ -15,9 +15,12 @@
  */
 package com.example.optional.shopping;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Optional;
 
 public interface Session {
 
+    @NotNull
     Optional<User> findUserById(int userId);
 }

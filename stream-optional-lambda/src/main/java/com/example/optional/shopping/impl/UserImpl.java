@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.YearMonth;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +40,16 @@ public class UserImpl implements User {
         this.bills = bills;
     }
 
+    @NotNull
     @Override
     public ShoppingCart shoppingCart() {
+        if (cart == null) {
+            return new FilledCart(Collections.emptyList());
+        }
         return cart;
     }
 
+    @NotNull
     @Override
     public Optional<Bill> bill(YearMonth yearMonth) {
         return bills.stream()
@@ -51,6 +57,7 @@ public class UserImpl implements User {
                 .findFirst();
     }
 
+    @NotNull
     @Override
     public List<Bill> allPayments() {
         return bills;
