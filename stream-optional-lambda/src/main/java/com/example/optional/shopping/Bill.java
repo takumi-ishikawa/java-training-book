@@ -31,7 +31,10 @@ public interface Bill {
 
     @NotNull
     default Optional<Instant> paymentDate() {
-        return payment().flatMap(Payment::date);
+        final Optional<Payment> payment = payment();
+        return payment.map(Payment::date)
+            .filter(Optional::isPresent)
+            .map(Optional::orElseThrow);
     }
 
     default boolean payedAt(@NotNull YearMonth yearMonth) {

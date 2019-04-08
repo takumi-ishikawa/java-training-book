@@ -246,6 +246,22 @@ Optional<ShoppingCart> shoppingCart = user.map(User::shoppingCart)
 
 ### データ変換2(flatMap)
 
+`Optional<T>` な型に対して `map` メソッドで `Optional<R>` が返される関数を適用すると、戻り値の型は `Optional<Optional<R>>` となって、その後の処理が非常に煩わしくなります。
+そこで、 `Optional<T>` にはネストしてしまう `Optional` を返す関数を適用して平ら(`flatten`)にする `flatMap` が提供されています。
+
+```jshelllanguage
+interface Optional<T> {
+  <R> Optional<R> flatMap(Function<? super T, ? extends Optional<R>> function);
+}
+``` 
+
+例えば、 `Session` から、`int userId` をキーにして `User` を取り出し、そのユーザーの特定の年月(`yearMonth`)の `Bill` から `Payment` を取り出す場合、
+
+```jshelllanguage
+Optional<User> user = session.findById(userId);
+Optional<Payment> payment = user.flatMap(u -> u.bill(yearMonth));
+```
+
 ### 注意事項
 
 // `Optional#get` はバグなので使わないこと(Java10 で `orElseThrow` を使えというノートがついた)
