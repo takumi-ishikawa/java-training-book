@@ -207,6 +207,8 @@ String valueOrException = optional.orElseThrow(() -> new IllegalStateException("
 `Optional#orElseGet` および `Optional#orElseThrow` にわたすラムダの型はそれぞれ
 `Supplier<? extends T>` 、 `Supplier<? extends Throwable>` です。
 
+なお `Optional#get` はバグなので使わないこと(Java10 で `orElseThrow` を使えというノートがついた)
+
 #### 練習2
 
 このプロジェクトにある `com.example.optional.OptUser` クラスを完成させてください。
@@ -261,6 +263,19 @@ interface Optional<T> {
 Optional<User> user = session.findById(userId);
 Optional<Payment> payment = user.flatMap(u -> u.bill(yearMonth));
 ```
+
+
+### フィルター操作
+
+`Optional<T>` の内部のデータの値によっては、 `empty` として扱いたい場合に使います。たとえば以下のケースが挙げられます
+
+* `Optional<String>` で正しいフォーマットの文字列だけを処理対象にしたい場合
+* `Optional<User>` で特定のロールを持っているユーザーだけを処理対象にしたい場合
+* `Optional<RuntimeException>` で特定の例外は除外したい場合
+
+#### 練習5
+
+T.B.D.
 
 ### 注意事項
 
