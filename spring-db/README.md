@@ -137,7 +137,7 @@ SQL には主に DML(Data Manipulation Language) と DDL(Data Definition Languag
 
 ### SELECT
 
-データを取り出す系列のSQLです文法は次のとおりです(厳密ではない)
+データを取り出す系列のSQLです。文法は次のとおりです(厳密ではない)
 
 ```postgresql
 SELECT /* 列名 ((as) 別名), 列名 (as) 別名 */
@@ -146,9 +146,9 @@ WHERE /* テーブル名.カラム名 = 値 AND テーブル名.カラム名2 = 
 ;
 ```
 
-なお、列名の代わりに `*` を使うとすべてのカラムを取得します
+* すべてのカラムを取得する場合には、列名の代わりに `*` を使います
 
-#### 課題3
+#### 課題3-1
 
 `users` テーブルから全データを取得するSQL を実行してください。
 
@@ -161,22 +161,63 @@ user_id | name | created_at
 3000 | Paul | 2019-01-05 06:07:08.900000
 4000 | Avril | 2019-01-06 07:08:09.000000
 
-#### 課題4
+#### 課題3-2
+
+`users` テーブルから `user_id` が 2000 のユーザーを取得するSQLを実行してください
+
+##### ヒント
+
+* 抽出の条件は `WHERE` の後に記述します
+  * 等しいことをテストする条件は `カラム名 = 値` の用に記述します
+  * 値が数値の場合は SQL にそのまま記述します
+
+user_id | name | created_at
+-- | -- | --
+2000 | Denny | 2019-01-04 05:06:07.800000
+
+#### 課題3-3
+
+`users` テーブルから `name` が `Avril` のユーザーの `user_id` と `created_at` を取得するSQLを実行してください
+
+##### ヒント
+
+* 抽出の条件は `WHERE` の後に記述します
+  * 等しいことをテストする条件は `カラム名 = 値` の用に記述します
+  * 値が文字列の場合はシングルクオートで文字列を括ります(`'Avril'`)
+
+user_id | created_at
+-- | --
+4000 | 2019-01-06 07:08:09.000000
+
+#### 課題3-4
 
 `users` テーブルから、 `created_at` が `2019-01-05 00:00:00.000` 以前のレコードの `name` を取得するSQLを実行してください
 
+##### ヒント
+
+* 抽出の条件は `WHERE` の後に記述します
+  * 比較をテストする条件は `カラム名 < 値` や `カラム名 >= 値` の用に記述します
+  * 値が日付の場合はシングルクオートで日付文字列を括ります(`'2019-01-02'`)
+  * 値が日時の場合はシングルクオートで日時文字列を括ります(`'2019-01-02 15:04:05'`/`'2019-01-02 15:04:05.700'`)
+  * なお、日時のフォーマットは `YYYY-mm-dd HH24:MM:SS.sss` ですが、データベースによって異なるフォーマットがあるかもしれないので、使うデータベースのに合わせてください
 
 name|
 --|
 John|
 Denny|
 
-#### 課題5
+#### 課題3-5
 
 `users` テーブルから `created_at` が `2019-01-05 00:00:00.000` 以前のレコードの `user_id`,`name` を取得するSQLを実行してください。
 なお、 `user_id` は `id` という名前で、 `name` は `user_name` という名前で取得できるようにしてください
 
-#### 課題6
+user_id | name
+-- | --
+1000 | John
+2000 | Denny
+
+
+#### 課題3-6
 
 `users` テーブルと `user_tokens` テーブルのデータを結合して、 `users.user_id` と `users.name` と `user_tokens.token` を取得するSQLを実行してください。
 
@@ -185,16 +226,14 @@ Denny|
 * 複数のテーブルを結合する場合は `FROM` の中で `JOIN` 句を使います。その際の結合条件は `join` の後の `on` にて指定できます
   * `users join user_tokens on users.user_id = user_tokens.user_id`
 
-#### 課題7
+user_id | name | token
+-- | -- | --
+1000 | John | 838128c4-acb1-46ba-a3ee-4c995cb0f57c
+2000 | Denny | 5902e8df-a472-4bac-b164-782a0185a6ba
+3000 | Paul | f45e0620-4932-497c-b2dd-108effebb0f1
+4000 | Avril | e2452225-c753-497d-81a0-4460d0ed5c70
 
-`aliases` テーブルから `name` 列が `'ll'` であるもののみを取得するSQLを実行してください
-
-##### ヒント
-
-* 条件は `WHERE` 句に記述します。
-  * 等しいことをテストするクエリーは `aliases.name = 'll'` の形になります
-
-#### 課題8
+#### 課題3-7
 
 `aliases` テーブルから `name` が 文字 `l` から始まっている行のみを取得するSQLを実行してください。
 
@@ -204,8 +243,65 @@ Denny|
   * この場合だと `name like 'l%'` となります
     * ここの `%` はなんでもよいという意味になります
 
-#### 課題9
+alias_id | user_id | name | value | created_at
+-- | -- | -- | -- | --
+1030 | 1000 | ll | ls -la | 2019-01-06 00:01:02.300000
+3010 | 3000 | ll | ls -la | 2019-01-07 01:02:03.400000
+4010 | 4000 | ll | ls -la | 2019-01-08 02:03:04.500000
+4030 | 4000 | log | echo | 2019-01-10 04:05:06.700000
 
-`aliases` テーブルと `users` テーブルから、 `aliases` の `name` が `'vim'` で、名前が `Johanness` であるユーザーを取得するSQLを実行してください。
+#### 課題3-8
+
+`aliases` テーブルと `users` テーブルを結合して、 `aliases` の `name` が `'vim'` で、 `users` の `name` が `Avril` である行の `user_id`, `aliases.name`, `aliases.value` を取得するSQLを実行してください。
+
+##### ヒント
+
+* 複数の条件をみたす条件を書く場合は、複数の条件を `AND` でつなげたものを使います。
+  * `カラム1 = 値1 AND カラム2 = 値2`
+
+user_id | name | value
+-- | -- | --
+4000 | vim | emacs
+
+#### 課題3-9
+
+`aliases` テーブルと `users` テーブルを結合して、 `aliases` の `name` が `'vim'` または `users` の `name` `Denny` である行の `user_id`,`users.name`,`aliases.name`,`aliases.value` を取得するSQLを実行してください。
+
+* 複数の条件のいずれか一つをみたすクエリーを書く場合は、複数の条件を `OR` でつなげたものを使います。
+  * `カラム1 = 値1 OR カラム2 = 値2`
+
+user_id | name | name | value
+-- | -- | -- | --
+1000 | John | vim | emacs
+4000 | Avril | vim | emacs
+
+#### 課題3-9改
+
+`aliases` テーブルと `users` テーブルを結合して、 `aliases` の `name` が `'vim'` または `users` の `name` `Denny` である行の `user_id`,`users.name`,`aliases.name`,`aliases.value` を取得するSQLを実行してください。
+なお、 `aliases` のレコードがない場合は `user_id`, `users.name` を出力してください。
+
+##### ヒント
+
+* 結合の元表にない表をふくめて検索する結合句(`JOIN`)を書く場合は、 `LEFT JOIN` を使います
+  * `users as u left join aliases as a on u.user_id = a.user_id` とした場合は、 `users` のすべてを、 `aliases` は対応するものがあればその行を、対応する要素がなければ `NULL` を結合するクエリーとなります
+
+user_id | name | name | value
+-- | -- | -- | --
+1000 | John | vim | emacs
+2000 | Denny | NULL | NULL
+4000 | Avril | vim | emacs
+
+### INSERT
+
+テーブルに新しい行を追加するためのSQLです。文法は次のとおりです。
+
+```postgresql
+insert into /* テーブル名 */ (/* カラム名1 */, /* カラム名2 */,/* カラム名3 */)
+values 
+(/* 値1-1 */, /* 値2-1 */, /* 値3-1 */),
+(/* 値1-2 */, /* 値2-2 */, /* 値3-2 */),
+(/* 値1-3 */, /* 値2-3 */, /* 値3-3 */)
+```
+
 
 
