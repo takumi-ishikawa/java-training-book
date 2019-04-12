@@ -5,6 +5,7 @@ Spring + Database の練習
 ---
 
 * postgresql の docker image(`postgres:11``)
+  * docker を用意できない場合は [db-fiddle](https://db-fiddle.com) を使います
 
 概要
 ---
