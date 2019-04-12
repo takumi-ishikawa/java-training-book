@@ -14,7 +14,7 @@ Spring + Database の練習
 
 ---
 
-本題
+本題準備
 ---
 
 ユーザーが保尊している alias を管理するシステムのデータベースを考えます。
@@ -118,7 +118,58 @@ insert into aliases(alias_id, user_id, name, value, created_at) VALUES
 commit ;
 ```
 
+SQL
+---
+
+SQL には主に DML(Data Manipulation Language) と DDL(Data Definition Language) と DCL(Data Control Language) があります。
+
+* DML ではデータの操作、レコード作成/レコード参照/レコード更新/レコード削除を行います。先程の課題2の内容が DML にあたります。
+* DDL ではデータの定義を行います。先程の課題1の内容が DDL にあたります。
+* DCL はデータ操作の制御を行うコマンドで、課題2の最初と最後にある `begin transaction`/`commit` などにあたります。
 
 
+ここでは主に、 DML を扱っていきます。
+
+
+### SELECT
+
+データを取り出す系列のSQLです文法は次のとおりです(厳密ではない)
+
+```postgresql
+SELECT /* 列名 ((as) 別名), 列名 (as) 別名 */
+FROM /* テーブル名 ((as) 別名), テーブル名 as 別名 */
+WHERE /* テーブル名.カラム名 = 値 AND テーブル名.カラム名2 = 値2 */
+;
+```
+
+なお、列名の代わりに `*` を使うとすべてのカラムを取得します
+
+#### 課題3
+
+先程のDBにアクセスして、 `users` テーブルから全データを取得するSQL を実行してください。
+
+次のようなレコードが出力されます
+
+user_id | name | created_at
+-- | -- | --
+1000 | John | 2019-01-03 04:05:06.700000
+2000 | Denny | 2019-01-04 05:06:07.800000
+3000 | Paul | 2019-01-05 06:07:08.900000
+4000 | Avril | 2019-01-06 07:08:09.000000
+
+#### 課題4
+
+先程のDBにて、 `users` テーブルから、 `created_at` が `2019-01-05 00:00:00.000` 以前のレコードの `name` を取得するSQLを実行してください
+
+
+name|
+--|
+John|
+Denny|
+
+#### 課題5
+
+先程のDBにて、 `users` テーブルから `created_at` が `2019-01-05 00:00:00.000` 以前のレコードの `user_id`,`name` を取得するSQLを実行してください。
+なお、 `user_id` は `id` という名前で、 `name` は `user_name` という名前で取得できるようにしてください
 
 
