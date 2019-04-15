@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.dao.UserDao;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ public class App {
   }
 
   @Bean
-  CommandLineRunner commandLineRunner() {
-    return args -> {};
+  CommandLineRunner commandLineRunner(UserDao userDao) {
+    return args -> userDao.selectAll().forEach(System.out::println);
   }
 }
