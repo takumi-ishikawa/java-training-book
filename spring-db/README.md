@@ -386,6 +386,8 @@ RDBMS によっては `begin` だけでも可能。
 commit transaction ;
 ```
 
+RDBMS によっては `commit` だけでも可能。
+
 ##### 3.トランザクションの無効化
 
 トランザクション中に発行したSQLの結果をなかったことにするためには、次のコマンドを実行します。
@@ -394,6 +396,7 @@ commit transaction ;
 rollback transaction ;
 ```
 
+RDBMS によっては `rollback` だけでも可能。
 
 #### 課題7
 
