@@ -353,4 +353,90 @@ where
 
 課題4 で追加したレコードを消すための SQL を実行してください。
 
+---
+
+トランザクション
+---
+
+ビジネス上、複数のテーブルへのレコード追加・変更・削除をもって一つの処理とみなしたい場合があります。
+
+例えば、サンプルのテーブル群のレコードのうち、 `users` へのレコードの追加は `user_token` へのレコードの追加と同じタイミングでおこなう必要があり、
+これらを別個に登録できてしまうのは、業務上不整合が発生しかねません。
+
+そのような場合に、トランザクション機能を使うことで、複数のテーブルへの変更をひとまとめにできます。
+
+![トランザクションの概念](http://www.plantuml.com/plantuml/png/JT2nIZGn40VmVfvYkFA3Uu65J-vkByBXhYkRM8d5iXlaO2-7IQwmCzV9TLg9WeKMegrlDEXpE0a4h9BvPJBvavdpdVMxpGYyyHedodR6TRrVRyq4EuSAyedSzRrsBgdCAApTsaG2uEBV9KwdHwWANEYhjS4_mm1OtVM8wU966--YI569KY7TFiVg_6mvLo9NgrCfMiMBQZ8jkPqRZjkcJWGA-JrPO3Vov1XG3tg8oYoOpGtg61509kE81PPDNQyK2CpGDbMrc9SdYF_n--tkv-cBzlSKFYWSABnIUA7mGE6TmYU5HzeVOARDm9_s2m00)
+
+
+##### 1.トランザクションの開始
+
+トランザクションを開始するためには、一連の処理の最初に次のコマンドを実行します
+
+```postgresql
+begin transaction ;
+```
+
+RDBMS によっては `begin` だけでも可能。
+
+##### 2.トランザクションの確定
+
+トランザクション中に発行したSQLの結果を確定するためには、次のコマンドを実行します。
+
+```postgresql
+commit transaction ;
+```
+
+##### 3.トランザクションの無効化
+
+トランザクション中に発行したSQLの結果をなかったことにするためには、次のコマンドを実行します。
+
+```postgresql
+rollback transaction ;
+```
+
+
+#### 課題7
+
+次の２つの一連のSQLを実行して、結果を確認してみてください。
+
+##### 1.ロールバック
+
+```postgresql
+begin transaction ;
+
+insert into users(user_id,name,created_at) values
+  (6000,'Thomas','2019-04-15 11:00:00.000');
+
+insert into user_tokens(user_id,token,created_at) values
+  (6000,'aaa-bbb-ccc','2019-04-15 11:00:00.000');
+
+rollback transaction;
+```
+
+##### 1.コミット
+
+```postgresql
+begin transaction ;
+
+insert into users(user_id,name,created_at) values
+  (6000,'Thomas','2019-04-15 11:00:00.000');
+
+insert into user_tokens(user_id,token,created_at) values
+  (6000,'aaa-bbb-ccc','2019-04-15 11:00:00.000');
+
+commit transaction;
+```
+
+#### トランザクション分離レベル
+
+* リードアンコミッティッド
+  * 他のトランザクションからコミットされてないデータを参照される可能性がある
+* リードコミッティッド
+  * トランザクションで確定するまでは他のトランザクションから参照されない
+  * トランザクション前後で他のトランザクションで更新・確定されたデータの差異を見出す場合がある
+* リピータブルリード
+  * 同じ検索条件で更新されたデータを読み込むことがある
+* シリアライザブル
+  * 完全にトランザクションが分離
+
 
