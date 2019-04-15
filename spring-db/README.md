@@ -10,8 +10,10 @@ Spring + Database の練習
 概要
 ---
 
-この演習ではデータベースを取り扱う練習をします。
-基本的な `SELECT`/`UPDATE`/`INSERT`/`DELETE` 文の他、 `CREATE TABLE` などを実行します。
+* この演習ではデータベースを取り扱う練習をします。
+* 基本的な `SELECT`/`UPDATE`/`INSERT`/`DELETE` 文の他、 `CREATE TABLE` などを実行します。
+  * `SELECT` はデータを特定する練習にもなるので多めにやっています
+* また、トランザクションも合わせて学びます。
 
 ---
 
