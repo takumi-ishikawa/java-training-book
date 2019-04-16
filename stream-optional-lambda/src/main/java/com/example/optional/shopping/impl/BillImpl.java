@@ -56,7 +56,13 @@ public class BillImpl implements Bill {
         // purchasedDate は null になる可能性のあるフィールドです
         // この値が null の場合は empty を返します
         // この値がある場合は Purchased のインスタンスを返します
-        throw new UnsupportedOperationException();
+        if (purchasedDate == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(new Purchased(total, purchasedDate));
+        }
+        // Optional.ofNullable(purchasedDate)
+        //     .map(date -> new Purchased(total, date))
     }
 
     @NotNull

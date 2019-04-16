@@ -5,14 +5,15 @@ import java.time.Instant;
 
 public class TimerApp {
 
-  private final TimeServiceImpl timeService;
+  private final TimeService timeService;
 
-  public TimerApp(final TimeServiceImpl timeService) {
+  public TimerApp(final TimeService timeService) {
     this.timeService = timeService;
   }
 
   private static TimerApp getInstance() {
-    throw new UnsupportedOperationException("not implemented");
+    //throw new UnsupportedOperationException("not implemented");
+    return new TimerApp(new TimeServiceImpl());
   }
 
   public static void main(String[] args) {

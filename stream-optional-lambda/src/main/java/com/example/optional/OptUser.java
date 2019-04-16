@@ -17,6 +17,8 @@ package com.example.optional;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class OptUser {
 
   @NotNull
@@ -33,20 +35,23 @@ public class OptUser {
   String responsiblePerson(@NotNull String position) {
     // opt の responsibleFor から値を取り出す
     // 存在しない場合は opt の getName から取り出した値を返す
-    throw new UnsupportedOperationException("not implemented");
+    Optional<String> optional = opt.responsibleFor(position);
+    return optional.orElse(opt.getName());
   }
 
   @NotNull
   String teamNameFromOpt() {
     // opt から teamName を取り出す。
     // 値がない場合はこのインスタンスが保持している teamName を返す
-    throw new UnsupportedOperationException("not implemented");
+    Optional<String> optional = opt.teamName();
+    return optional.orElse(teamName);
   }
 
   @NotNull
   String name() throws IllegalStateException {
     // opt から name を取り出す。
     // 値がない場合は IllegalStateException を投げる
-    throw new UnsupportedOperationException("not implemented");
+    Optional<String> optional = opt.name();
+    return optional.orElseThrow(() -> new IllegalArgumentException("exception"));
   }
 }

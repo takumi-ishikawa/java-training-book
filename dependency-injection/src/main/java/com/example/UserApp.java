@@ -3,18 +3,27 @@
  */
 package com.example;
 
+import com.example.datastore.MapBasedUserRepository;
+import com.example.datastore.MutableMapStore;
+import com.example.domain.IdGenerator;
 import com.example.domain.User;
+import com.example.infra.IdGeneratorImpl;
 import com.example.service.TimeServiceImpl;
 import com.example.service.UserServiceImpl;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserApp {
 
-    private final TimeServiceImpl timeService;
-    private final UserServiceImpl userService;
+    private final TimeService timeService;
+    private final UserService userService;
 
+    @Inject
     public UserApp(final TimeServiceImpl timeService,
         final UserServiceImpl userService) {
         this.timeService = timeService;
@@ -47,6 +56,15 @@ public class UserApp {
     );
 
     public static void main(String[] args) {
-
+//        TimeServiceImpl timeService = new TimeServiceImpl();
+//        IdGeneratorImpl idGenerator = new IdGeneratorImpl();
+//        MutableMapStore store = new MutableMapStore();
+//        MapBasedUserRepository repository = new MapBasedUserRepository(store);
+//        UserServiceImpl userService = new UserServiceImpl(idGenerator, repository);
+//        UserApp userApp = new UserApp(timeService, userService);
+//        userApp.runApp();
+        Injector injector = Guice.createInjector();
+        UserApp userApp = injector.getInstance(UserApp.class);
+        userApp.runApp();
     }
 }
