@@ -7,27 +7,28 @@ import org.seasar.doma.Table;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 @SuppressWarnings("WeakerAccess")
-@Table(name = "users")
+@Table(name = "user_tokens")
 @Entity(immutable = true, naming = NamingType.SNAKE_LOWER_CASE)
-public class UserEntity {
+public class UserTokenEntity {
 
   @Id
-  public final Long userId;
-  public final String name;
+  public final long userId;
+  public final String token;
   public final LocalDateTime createdAt;
 
-  public UserEntity(final Long userId, final String name, final LocalDateTime createdAt) {
+  public UserTokenEntity(final long userId, final String token,
+      final LocalDateTime createdAt) {
     this.userId = userId;
-    this.name = name;
+    this.token = token;
     this.createdAt = createdAt;
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder("UserEntity{");
+    final StringBuilder sb = new StringBuilder("UserTokenEntity{");
     sb.append("userId=").append(userId);
-    sb.append(", name='").append(name).append('\'');
+    sb.append(", token='").append(token).append('\'');
     sb.append(", createdAt=").append(createdAt);
     sb.append('}');
     return sb.toString();
