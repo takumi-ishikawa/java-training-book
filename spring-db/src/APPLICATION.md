@@ -32,7 +32,7 @@ Java アプリケーションからデータベースに接続する演習をし
     * `userId`
     * `name`
     * `value`
-1. `aliases` デーブルへの新規レコードの追加(パラメーターは次の通り)
+1. `aliases` テーブルへの新規レコードの追加(パラメーターは次の通り)
   * `userId` - `long`
   * `name` - `String`
   * `value` - `String`
