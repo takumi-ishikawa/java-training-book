@@ -26,10 +26,21 @@ dependencies {
 
 	runtimeOnly 'org.postgresql:postgresql'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+		exclude module: 'junit'
+	}
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+
+	testImplementation 'com.tngtech.archunit:archunit:0.10.2'
+	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.10.2'
+	testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.10.2'
 }
 
 idea.module.inheritOutputDirs = true
+
+test {
+	useJUnitPlatform()
+}
 
 task copyDomaResources(type: Sync)  {
 	from sourceSets.main.resources.srcDirs
