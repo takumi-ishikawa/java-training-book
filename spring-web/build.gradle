@@ -1,5 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'idea'
 	id 'java'
 }
 
@@ -16,7 +17,39 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compileOnly 'org.jetbrains:annotations:17.0.0'
+
 	implementation 'org.seasar.doma.boot:doma-spring-boot-starter:1.1.1'
+	implementation 'org.seasar.doma:doma:2.24.0'
+	annotationProcessor 'org.seasar.doma:doma:2.24.0'
+
 	runtimeOnly 'org.postgresql:postgresql'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+idea.module.inheritOutputDirs = true
+
+task copyDomaResources(type: Sync)  {
+	from sourceSets.main.resources.srcDirs
+	into compileJava.destinationDir
+	include 'doma.compile.config'
+	include 'META-INF/**/*.sql'
+	include 'META-INF/**/*.script'
+}
+
+compileJava {
+	dependsOn copyDomaResources
+	options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+	options.encoding = 'UTF-8'
+	options.compilerArgs = ['-proc:none']
+}
+
+task runApp(type: JavaExec, group: 'Application') {
+	main = 'com.example.App'
+	classpath(configurations.runtimeClasspath, sourceSets.main.output)
 }
