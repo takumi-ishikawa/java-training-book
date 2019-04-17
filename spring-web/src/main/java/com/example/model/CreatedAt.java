@@ -16,7 +16,6 @@ public class CreatedAt {
     this.instant = instant;
   }
 
-  @SuppressWarnings("WeakerAccess")
   @NotNull
   @Contract(value = "_ -> new", pure = true)
   public static CreatedAt of(@NotNull final Instant instant) {
@@ -27,6 +26,11 @@ public class CreatedAt {
   public static CreatedAt of(@NotNull final LocalDateTime localDateTime) {
     final Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
     return of(instant);
+  }
+
+  @NotNull
+  public Instant value() {
+    return instant;
   }
 
   @NotNull

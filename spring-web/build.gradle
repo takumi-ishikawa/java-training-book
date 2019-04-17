@@ -9,6 +9,7 @@ apply plugin: 'io.spring.dependency-management'
 group = 'com.example'
 version = '1'
 sourceCompatibility = JavaVersion.VERSION_12
+targetCompatibility = JavaVersion.VERSION_12
 
 repositories {
 	mavenCentral()
@@ -53,6 +54,7 @@ task copyDomaResources(type: Sync)  {
 compileJava {
 	dependsOn copyDomaResources
 	options.encoding = 'UTF-8'
+	options.compilerArgs = ['-Adoma.domain.converters=com.example.dao.DomainConvertersProvider']
 }
 
 compileTestJava {
