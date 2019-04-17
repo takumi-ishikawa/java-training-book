@@ -16,6 +16,12 @@ public class AppJson {
     this.message = message;
   }
 
+  @Contract(pure = true)
+  @NotNull
+  public static AppJson success() {
+    return success("success");
+  }
+
   @NotNull
   @Contract(value = "_ -> new", pure = true)
   public static AppJson success(@NotNull final String message) {
