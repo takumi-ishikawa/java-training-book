@@ -107,3 +107,31 @@ Date: Wed, 17 Apr 2019 05:12:57 GMT
   * `success` - `bool` 成功 : `true`/失敗 : `false`
   * `message` - `string`  `"success"`
 
+##### 6. エイリアスのリストを取得するリソース
+
+エイリアスを取得します。
+ページングに対応して、ユーザーが指定した1ページあたりの件数、ページ位置に従ったエイリアスのリストを取得します。
+
+* リソース URL - `/users/{name}/aliases`
+* メソッド - `GET`
+* 必須ヘッダー - `X-USER-TOKEN` - ユーザートークン
+* パラメーター
+  * `page` - ページ(のインデックス/デフォルト: `0`)
+  * `size` - 1ページあたり件数(デフォルト: `10`)
+* レスポンス - 以下のyamlを参考
+
+```yaml
+page: 2 # ユーザー指定のページ
+next_page: 3 #次のページ(次がない場合は省略)
+size: 10 # 1ページあたりのサイズ
+contents:
+  - alias_id: 123456 # alias の id
+    name: "ll" #alias の名前
+    value: "ls -la" #alias の値
+    url: http://localhost:8080/users/test-user/aliases/ll # alias の URL
+  - alias_id: 123456 # alias の id
+    name: "ll" #alias の名前
+    value: "ls -la" #alias の値
+    url: http://localhost:8080/users/test-user/aliases/ll # alias の URL
+```
+
