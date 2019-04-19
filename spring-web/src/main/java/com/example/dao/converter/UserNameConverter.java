@@ -7,6 +7,13 @@ import org.seasar.doma.ExternalDomain;
 public class UserNameConverter extends AbstractConverter<UserName, String> {
 
   public UserNameConverter() {
-    super(UserName::value, UserName::of);
+    super(UserName::value, value -> {
+      try {
+        return UserName.of(value);
+      } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+      }
+    });
   }
 }
