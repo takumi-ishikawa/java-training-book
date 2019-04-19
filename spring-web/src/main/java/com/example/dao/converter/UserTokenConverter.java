@@ -7,13 +7,6 @@ import org.seasar.doma.ExternalDomain;
 public class UserTokenConverter extends AbstractConverter<UserToken, String> {
 
   public UserTokenConverter() {
-    super(UserToken::value, value -> {
-      try {
-        return UserToken.of(value);
-      } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-      }
-    });
+    super(UserToken::value, UserToken::of);
   }
 }

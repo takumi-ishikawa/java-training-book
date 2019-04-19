@@ -10,8 +10,9 @@ public class UserToken {
 
   @NotNull
   private final String value;
-  private static final int maxValueLength = 127;
-  private static final int minValueLength = 8;
+  private static final int MAX_VALUE_LENGTH = 127;
+  private static final int MIN_VALUE_LENGTH = 8;
+  private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
 
   @Contract(pure = true)
   private UserToken(final @NotNull String value) {
@@ -20,21 +21,16 @@ public class UserToken {
 
   @NotNull
   @Contract(value = "_ -> new", pure = true)
-  public static UserToken of(final @NotNull String value) throws Exception {
-    if (isCorrect(value)) {
-      return new UserToken(value);
-    } else {
-      throw new Exception("Invalid UserToken");
-    }
+  public static UserToken of(final @NotNull String value) {
+    return new UserToken(value);
   }
 
-  private static Boolean isCorrect(String value) {
-    final Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
-    final Matcher matcher = pattern.matcher(value);
-    if (value.length() >= minValueLength && value.length() <= maxValueLength && matcher.find()) {
-      return true;
+  public void validate() {
+    final Matcher matcher = PATTERN.matcher(value);
+    if (value.length() >= MIN_VALUE_LENGTH && value.length() <= MAX_VALUE_LENGTH && matcher.find()) {
+      return;
     } else {
-      return false;
+      throw new IllegalArgumentException("Invalid UserToken");
     }
   }
 

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.seasar.doma.jdbc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
     try {
       Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
       Result<UserTokenEntity> tokenEntityResult = userTokenDao.insertUserToken(new UserTokenEntity(user.userId, user.token, user.createdAt));
-    } catch(Exception e) {
+    } catch(DataAccessException e) {
       logger.error(e.toString());
       return Optional.empty();
     }

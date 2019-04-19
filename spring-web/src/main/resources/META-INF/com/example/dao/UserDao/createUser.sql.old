@@ -1,0 +1,8 @@
+insert into users (user_id, name, created_at)
+values
+( /* userId */1000, /* userName */1000, /* createdAt */'FooFooFoo')
+;
+insert into user_tokens (user_id, token, created_at)
+values
+( /* userId */1000, /* userToken */'BarBarBar', /* createdAt */'FooFooFoo')
+;

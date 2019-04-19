@@ -16,6 +16,7 @@ import org.seasar.doma.jdbc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,16 +44,12 @@ public class UserServiceImpl implements UserService {
     return userRepository.findByName(userName);
   }
 
+  @Transactional
   @Override
-  public Optional<User> createUser(@NotNull String userToken, @NotNull String userName) {
+  public Optional<User> createUser(@NotNull UserToken userToken, @NotNull UserName userName) {
     final Long userId = idGenerator.createId();
     final Instant createdAt = Instant.now(clock);
     final LocalDateTime created = LocalDateTime.ofInstant(createdAt, ZoneOffset.UTC);
-    try {
-      return userRepository.createUser(User.of(UserId.of(userId), UserName.of(userName), UserToken.of(userToken), CreatedAt.of(created)));
-    } catch (Exception e) {
-      logger.error(e.toString());
-      return Optional.empty();
-    }
+    return userRepository.createUser(User.of(UserId.of(userId), userName, userToken, CreatedAt.of(created)));
   }
 }
