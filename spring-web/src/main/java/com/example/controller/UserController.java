@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.json.AppJson;
 import com.example.json.UserJson;
+import com.example.model.AppException;
+import com.example.model.ErrorType;
 import com.example.model.User;
 import com.example.model.UserId;
 import com.example.service.UserService;
@@ -37,5 +39,15 @@ public class UserController {
         .<ResponseEntity<Object>>map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(AppJson.failure("user not found")));
+  }
+
+  @GetMapping(value = "error", produces = "application/json")
+  ResponseEntity<Object> error() {
+    throw new AppException(ErrorType.USER_INPUT, "this is invalid uri");
+  }
+
+  @GetMapping(value = "bad", produces = "application/json")
+  ResponseEntity<Object> bad() {
+    throw new IllegalArgumentException();
   }
 }
