@@ -1,22 +1,25 @@
 package com.example.service.impl;
 
-import com.example.dao.entity.UserEntity;
-import com.example.dao.entity.UserTokenEntity;
-import com.example.model.*;
+import com.example.model.CreatedAt;
+import com.example.model.IdGenerator;
+import com.example.model.User;
+import com.example.model.UserId;
+import com.example.model.UserName;
+import com.example.model.UserRepository;
+import com.example.model.UserToken;
 import com.example.service.UserService;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.seasar.doma.jdbc.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -52,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
       Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
       Result<UserTokenEntity> tokenEntityResult = userTokenDao.insertUserToken(new UserTokenEntity(user.userId, user.token, user.createdAt));
     } catch(DataAccessException e) {
-      logger.error(e.toString());
+      logger.error("create new user", e);
       return Optional.empty();
     }
 

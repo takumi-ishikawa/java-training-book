@@ -1,14 +1,12 @@
 package com.example.model;
 
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserName {
 
@@ -30,10 +28,15 @@ public class UserName {
   }
 
   public void validate() {
-    Matcher matcher = PATTERN.matcher(value);
-    if (value.length() >= MIN_VALUE_LENGTH && value.length() <= MAX_VALUE_LENGTH && matcher.find()) {
-      return;
-    } else {
+    final Matcher matcher = PATTERN.matcher(value);
+
+    if (value.length() <= MIN_VALUE_LENGTH) {
+      throw new IllegalArgumentException("Invalid UserName");
+    }
+    if (value.length() >= MAX_VALUE_LENGTH) {
+      throw new IllegalArgumentException("Invalid UserName");
+    }
+    if (!matcher.find()) {
       throw new IllegalArgumentException("Invalid UserName");
     }
   }
