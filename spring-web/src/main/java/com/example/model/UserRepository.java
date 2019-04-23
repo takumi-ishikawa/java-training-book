@@ -12,8 +12,11 @@ public interface UserRepository {
 
   Optional<User> findById(@NotNull final UserId userId);
 
-  Optional<User> findByName(@NotNull final UserName userName);
+  Optional<User>findByName(@NotNull final UserName userName);
 
   Optional<User> createUser(@NotNull final User user);
 
+  Optional<User> updateUserToken(final @NotNull User user, final @NotNull UserToken userToken);
+
+  Optional<UserToken> findUserTokenByUserId(final @NotNull UserId userId);
 }

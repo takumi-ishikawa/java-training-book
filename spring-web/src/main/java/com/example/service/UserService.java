@@ -17,4 +17,8 @@ public interface UserService {
   Optional<User> findUserByName(@NotNull final UserName userName);
 
   Optional<User> createUser(@NotNull UserToken userToken, @NotNull UserName userName);
+
+  Optional<User> updateUserToken(@NotNull UserToken userToken, @NotNull UserName userName);
+
+  void authorizeUser(UserToken xUserToken, UserName userName);
 }
