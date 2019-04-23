@@ -115,4 +115,14 @@ public class UserController {
     }
     return responseEntity;
   }
+
+  @GetMapping(value = "error", produces = "application/json")
+  ResponseEntity<Object> error() {
+    throw new AppException(ErrorType.USER_INPUT, "this is invalid uri");
+  }
+
+  @GetMapping(value = "bad", produces = "application/json")
+  ResponseEntity<Object> bad() {
+    throw new IllegalArgumentException();
+  }
 }
