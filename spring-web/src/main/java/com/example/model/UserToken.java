@@ -12,7 +12,7 @@ public class UserToken {
   private final String value;
   private static final int MAX_VALUE_LENGTH = 127;
   private static final int MIN_VALUE_LENGTH = 8;
-  private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
+  private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
 
   @Contract(pure = true)
   private UserToken(final @NotNull String value) {
@@ -27,10 +27,15 @@ public class UserToken {
 
   public void validate() {
     final Matcher matcher = PATTERN.matcher(value);
-    if (value.length() >= MIN_VALUE_LENGTH && value.length() <= MAX_VALUE_LENGTH && matcher.find()) {
-      return;
-    } else {
-      throw new IllegalArgumentException("Invalid UserToken");
+
+    if (value.length() <= MIN_VALUE_LENGTH) {
+      throw new IllegalArgumentException("Invalid UserToken, too short");
+    }
+    if (value.length() >= MAX_VALUE_LENGTH) {
+      throw new IllegalArgumentException("Invalid UserToken, too long");
+    }
+    if (!matcher.find()) {
+      throw new IllegalArgumentException("Invalid UserToken, not match");
     }
   }
 

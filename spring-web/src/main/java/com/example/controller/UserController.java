@@ -62,6 +62,7 @@ public class UserController {
       final UserName userName = UserName.of(userNameString);
       userName.validate();
       user = userService.createUser(userToken, userName);
+      logger.info("success : createUserSuccess");
     } catch (IllegalArgumentException e) {
       logger.error(e.toString());
       user = Optional.empty();
@@ -98,20 +99,49 @@ public class UserController {
       userName.validate();
       userService.authorizeUser(UserToken.of(xUserToken), userName);
       user = userService.updateUserToken(userToken, userName);
+      logger.info("success : updateUserToken");
       responseEntity = ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
     } catch (AppException e) {
       if (e.errorType == ErrorType.NO_RESOURCE) {
         logger.error("error type is NOT_FOUND", e);
         responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("failure"));
       } else if (e.errorType == ErrorType.AUTHORIZATION) {
-        logger.error("error type is AUTHORIZATION");
+        logger.error("error type is AUTHORIZATION", e);
         responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AppJson.failure("failure"));
       }
     } catch (IllegalArgumentException e) {
       logger.error("invalid input", e);
       responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failure"));
     } catch (DataAccessException e) {
-      logger.error("Data Base error", e);
+      logger.error("Database error", e);
+      responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
+    }
+    return responseEntity;
+  }
+
+  @SuppressWarnings("MVCPathVariableInspection")
+  @RequestMapping(method = RequestMethod.DELETE, produces = "application/json", consumes = "application/json")
+  ResponseEntity<Object> deleteUserByUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken) {
+    ResponseEntity<Object> responseEntity = null;
+    try {
+      UserToken userToken = UserToken.of(xUserToken);
+      userToken.validate();
+      userService.deleteUserByUserToken(userToken);
+      responseEntity = ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
+    } catch (IllegalArgumentException e) {
+      logger.error("invalid input", e);
+      responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failure"));
+    } catch (AppException e) {
+      if (e.errorType == ErrorType.USER_INPUT) {
+        logger.error("error type is USER_INPUT", e);
+        responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("failure"));
+      } else {
+        logger.error("error type is ", e);
+        responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
+      }
+    } catch (DataAccessException e) {
+      logger.error("Database error", e);
+      responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
     }
     return responseEntity;
   }

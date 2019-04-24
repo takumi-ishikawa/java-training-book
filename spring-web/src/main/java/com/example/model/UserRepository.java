@@ -19,4 +19,10 @@ public interface UserRepository {
   Optional<User> updateUserToken(final @NotNull User user, final @NotNull UserToken userToken);
 
   Optional<UserToken> findUserTokenByUserId(final @NotNull UserId userId);
+
+  void deleteUserTokenEntity(UserTokenEntity userTokenEntity);
+
+  void deleteUserEntity(UserEntity userEntity);
+
+  Optional<UserTokenEntity> findUserTokenEntityByUserToken(UserToken userToken);
 }

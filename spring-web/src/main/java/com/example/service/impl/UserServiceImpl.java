@@ -1,5 +1,7 @@
 package com.example.service.impl;
 
+import com.example.dao.entity.UserEntity;
+import com.example.dao.entity.UserTokenEntity;
 import com.example.model.AppException;
 import com.example.model.CreatedAt;
 import com.example.model.ErrorType;
@@ -69,12 +71,20 @@ public class UserServiceImpl implements UserService {
     userRepository.findByName(userName).ifPresent(u -> {
       userRepository.findUserTokenByUserId(u.userId)
               .ifPresent(t -> {
-                logger.error("TEST¥t" + t.value());
-                logger.error("TEST¥t" + xUserToken.value());
                 if (!t.value().equals(xUserToken.value())) {
                   throw new AppException(ErrorType.AUTHORIZATION, "invalid user token");
                 }
               });
+    });
+  }
+
+  @Override
+  public void deleteUserByUserToken(UserToken userToken) {
+    userRepository.findUserTokenEntityByUserToken(userToken).ifPresentOrElse(t -> {
+      userRepository.deleteUserTokenEntity(t);
+      findUserById(t.userId).ifPresent(u -> userRepository.deleteUserEntity(new UserEntity(u.userId, u.name, u.createdAt)));
+    }, () -> {
+      throw new AppException(ErrorType.USER_INPUT, "deleteUserByUserToken is error");
     });
   }
 }

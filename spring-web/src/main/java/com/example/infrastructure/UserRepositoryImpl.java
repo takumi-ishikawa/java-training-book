@@ -81,4 +81,19 @@ public class UserRepositoryImpl implements UserRepository {
             .flatMap(u -> userTokenDao.findUserTokenByUserId(u.userId)
               .map(t -> UserToken.of(t.token.value())));
   }
+
+  @Override
+  public void deleteUserEntity(UserEntity userEntity) {
+    userDao.deleteUser(userEntity);
+  }
+
+  @Override
+  public void deleteUserTokenEntity(UserTokenEntity userTokenEntity) {
+    userTokenDao.deleteUserToken(userTokenEntity);
+  }
+
+  @Override
+  public Optional<UserTokenEntity> findUserTokenEntityByUserToken(UserToken userToken) {
+    return userTokenDao.findUserTokenEntityByUserToken(userToken);
+  }
 }

@@ -21,4 +21,6 @@ public interface UserService {
   Optional<User> updateUserToken(@NotNull UserToken userToken, @NotNull UserName userName);
 
   void authorizeUser(UserToken xUserToken, UserName userName);
+
+  void deleteUserByUserToken(UserToken userToken);
 }
