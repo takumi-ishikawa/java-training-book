@@ -78,13 +78,13 @@ public class UserServiceImpl implements UserService {
     });
   }
 
+  @Transactional
   @Override
-  public void deleteUserByUserToken(UserToken userToken) {
-    userRepository.findUserTokenEntityByUserToken(userToken).ifPresentOrElse(t -> {
-      userRepository.deleteUserTokenEntity(t);
-      findUserById(t.userId).ifPresent(u -> userRepository.deleteUserEntity(new UserEntity(u.userId, u.name, u.createdAt)));
-    }, () -> {
-      throw new AppException(ErrorType.USER_INPUT, "deleteUserByUserToken is error");
+  public void deleteUserByUserNameAndUserToken(UserName userName, UserToken userToken) {
+    userRepository.findUserByUserNameAndUserToken(userName, userToken).ifPresent(u -> {
+      userRepository.deleteUserTokenEntity(new UserTokenEntity(u.userId, u.token, u.createdAt));
+      userRepository.deleteUserEntity(new UserEntity(u.userId, u.name, u.createdAt));
+
     });
   }
 }

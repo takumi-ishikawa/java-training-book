@@ -22,5 +22,5 @@ public interface UserService {
 
   void authorizeUser(UserToken xUserToken, UserName userName);
 
-  void deleteUserByUserToken(UserToken userToken);
+  void deleteUserByUserNameAndUserToken(UserName userName, UserToken userToken);
 }

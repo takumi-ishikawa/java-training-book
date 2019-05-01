@@ -78,22 +78,28 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public Optional<UserToken> findUserTokenByUserId(final @NotNull UserId userId) {
     return findById(userId)
-            .flatMap(u -> userTokenDao.findUserTokenByUserId(u.userId)
-              .map(t -> UserToken.of(t.token.value())));
+            .flatMap(u -> userTokenDao.findUserTokenByUserId(u.userId))
+              .map(t -> t.token);
   }
 
   @Override
-  public void deleteUserEntity(UserEntity userEntity) {
+  public void deleteUserEntity(@NotNull final UserEntity userEntity) {
     userDao.deleteUser(userEntity);
   }
 
   @Override
-  public void deleteUserTokenEntity(UserTokenEntity userTokenEntity) {
+  public void deleteUserTokenEntity(@NotNull final UserTokenEntity userTokenEntity) {
     userTokenDao.deleteUserToken(userTokenEntity);
   }
 
   @Override
-  public Optional<UserTokenEntity> findUserTokenEntityByUserToken(UserToken userToken) {
-    return userTokenDao.findUserTokenEntityByUserToken(userToken);
+  public Optional<User> findUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken) {
+    return findByName(userName).map(u -> {
+      if (u.token.value().equals(userToken.value())) {
+        return u;
+      } else {
+        throw new IllegalArgumentException("invalid token");
+      }
+    });
   }
 }

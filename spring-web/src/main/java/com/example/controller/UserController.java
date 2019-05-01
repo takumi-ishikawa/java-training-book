@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.App;
 import com.example.controller.json.UserTokenJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -55,24 +55,17 @@ public class UserController {
   @SuppressWarnings("MVCPathVariableInspenction")
   @RequestMapping(produces = "application/json", method = RequestMethod.POST)
   ResponseEntity<Object> createUser( @RequestParam("userToken") String userTokenString, @RequestParam("userName") String userNameString) {
-    Optional<User> user = Optional.empty();
     try {
       final UserToken userToken = UserToken.of(userTokenString);
       userToken.validate();
       final UserName userName = UserName.of(userNameString);
       userName.validate();
-      user = userService.createUser(userToken, userName);
-      logger.info("success : createUserSuccess");
+      return userService.createUser(userToken, userName)
+              .<ResponseEntity<Object>>map(u -> ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success")))
+              .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failed to create user")));
     } catch (IllegalArgumentException e) {
-      logger.error(e.toString());
-      user = Optional.empty();
-    } finally {
-      if (user.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failure"));
-
-      } else {
-        return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
-      }
+      logger.error("failed to create user", e);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure(e.toString()));
     }
   }
 
@@ -88,9 +81,7 @@ public class UserController {
 
   @SuppressWarnings("MVCPathVariableInspection")
   @RequestMapping(method = RequestMethod.PUT, value = "{name}", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> updateUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken, @PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) throws IOException {
-    Optional<User> user = Optional.empty();
-    ResponseEntity<Object> responseEntity = null;
+  ResponseEntity<Object> updateUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken, @PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) {
     try {
       userService.findUserByName(UserName.of(userNameString));
       UserToken userToken = UserToken.of(userTokenJson.getToken());
@@ -98,51 +89,54 @@ public class UserController {
       UserName userName = UserName.of(userNameString);
       userName.validate();
       userService.authorizeUser(UserToken.of(xUserToken), userName);
-      user = userService.updateUserToken(userToken, userName);
+      userService.updateUserToken(userToken, userName);
       logger.info("success : updateUserToken");
-      responseEntity = ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
+      return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
     } catch (AppException e) {
       if (e.errorType == ErrorType.NO_RESOURCE) {
-        logger.error("error type is NOT_FOUND", e);
-        responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("failure"));
+        logger.error("failed to updateUserToken : error type is NOT_FOUND", e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("user is not found"));
       } else if (e.errorType == ErrorType.AUTHORIZATION) {
-        logger.error("error type is AUTHORIZATION", e);
-        responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AppJson.failure("failure"));
+        logger.error("failed to updateUserToken : error type is AUTHORIZATION", e);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AppJson.failure("unauthorized"));
+      } else {
+        logger.error("failed to updateUserToken : error type is UNKNOWN", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("server error"));
       }
     } catch (IllegalArgumentException e) {
-      logger.error("invalid input", e);
-      responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failure"));
+      logger.error("failed to updateUserToken : invalid input", e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("invalid input"));
     } catch (DataAccessException e) {
-      logger.error("Database error", e);
-      responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
+      logger.error("failed to updateUserToken : Database error", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("database error"));
     }
-    return responseEntity;
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
-  @RequestMapping(method = RequestMethod.DELETE, produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> deleteUserByUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken) {
-    ResponseEntity<Object> responseEntity = null;
+  @RequestMapping(method = RequestMethod.DELETE, value = "{name}", produces = "application/json", consumes = "application/json")
+  ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString, @RequestHeader("X-USER-TOKEN") final String xUserToken) {
     try {
-      UserToken userToken = UserToken.of(xUserToken);
+      final UserToken userToken = UserToken.of(xUserToken);
       userToken.validate();
-      userService.deleteUserByUserToken(userToken);
-      responseEntity = ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
+      final UserName userName = UserName.of(userNameString);
+      userName.validate();
+      userService.deleteUserByUserNameAndUserToken(userName, userToken);
+      logger.info("success : deleteUserByUserToken");
+      return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
     } catch (IllegalArgumentException e) {
-      logger.error("invalid input", e);
-      responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failure"));
+      logger.error("failed to deleteUserByUserToken : invalid input", e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("invalid input"));
     } catch (AppException e) {
       if (e.errorType == ErrorType.USER_INPUT) {
-        logger.error("error type is USER_INPUT", e);
-        responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("failure"));
+        logger.error("failed to deleteUserByUserToken : error type is USER_INPUT", e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("user is not found"));
       } else {
-        logger.error("error type is ", e);
-        responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
+        logger.error("failed to deleteUserByUserToken : error type is ", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("server error"));
       }
     } catch (DataAccessException e) {
-      logger.error("Database error", e);
-      responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failure"));
+      logger.error("failed to deleteUserByUserToken : Database error", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("database error"));
     }
-    return responseEntity;
   }
 }

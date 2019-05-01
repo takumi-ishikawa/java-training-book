@@ -24,5 +24,5 @@ public interface UserRepository {
 
   void deleteUserEntity(UserEntity userEntity);
 
-  Optional<UserTokenEntity> findUserTokenEntityByUserToken(UserToken userToken);
+  Optional<User> findUserByUserNameAndUserToken(UserName userName, UserToken userToken);
 }
