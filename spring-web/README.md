@@ -98,7 +98,7 @@ Date: Wed, 17 Apr 2019 05:12:57 GMT
 ユーザーを削除します。
 結果は成功 or 失敗で返されます。
 
-* リソース URL - `/users`
+* リソース URL - `/users/{name}` (`name` はユーザー名)
 * メソッド - `DELETE`
 * 必須ヘッダー - `X-USER-TOKEN` - ユーザートークン
 * パラメーター - なし
