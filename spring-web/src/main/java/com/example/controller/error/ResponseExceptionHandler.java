@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         .collect(Collectors.toUnmodifiableMap(Entry::getKey,
             entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
     logger.info("error at {}, {}", webRequest.getContextPath(), param);
+    logger.info("app exception", th);
     final AppJson body = AppJson.failure(th.getMessage());
     HttpStatus status =
         (th instanceof AppException) ?
@@ -47,9 +49,25 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         .collect(Collectors.toUnmodifiableMap(Entry::getKey,
             entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
     logger.info("error at {}, {}", webRequest.getContextPath(), param);
+    logger.info("invalid argument", e);
     final String message = e.getMessage();
     final String msg = message == null ? "invalid argument" : message;
     final AppJson json = AppJson.failure(msg);
     return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
+  }
+
+  @ExceptionHandler({DataAccessException.class})
+  ResponseEntity<Object> handleErrorDataAccess(RuntimeException e, WebRequest webRequest) {
+    final Map<String, String[]> map = webRequest.getParameterMap();
+    final Map<String, List<String>> param = map.entrySet()
+        .stream()
+        .collect(Collectors.toUnmodifiableMap(Entry::getKey,
+            entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
+    logger.info("error at {} {}", webRequest.getContextPath(), param);
+    logger.info("database error", e);
+    final String message = e.getMessage();
+    final String msg = message == null ? "database error" : message;
+    final AppJson json = AppJson.failure(msg);
+    return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
   }
 }
