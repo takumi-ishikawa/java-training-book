@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.App;
 import com.example.controller.json.UserTokenJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;

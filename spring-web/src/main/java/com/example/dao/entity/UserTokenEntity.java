@@ -8,8 +8,6 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.jdbc.entity.NamingType;
 
-import java.time.LocalDateTime;
-
 @SuppressWarnings("WeakerAccess")
 @Entity(immutable = true, naming = NamingType.SNAKE_LOWER_CASE)
 @Table(name = "user_tokens")
