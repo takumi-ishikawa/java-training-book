@@ -41,8 +41,8 @@ public class UserController {
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
-  @GetMapping(value = "{userName}", produces = "application/json")
-  ResponseEntity<Object> getUser( @PathVariable("userName") final String userNameString) {
+  @GetMapping(value = "{name}", produces = "application/json")
+  ResponseEntity<Object> getUser( @PathVariable("name") final String userNameString) {
     final Optional<User> user = userService.findUserByName(UserName.of(userNameString));
     return user.map(UserJson::fromUser)
             .<ResponseEntity<Object>>map(ResponseEntity::ok)
@@ -52,7 +52,7 @@ public class UserController {
 
   @SuppressWarnings("MVCPathVariableInspenction")
   @RequestMapping(produces = "application/json", method = RequestMethod.POST)
-  ResponseEntity<Object> createUser( @RequestParam("userToken") String userTokenString, @RequestParam("userName") String userNameString) {
+  ResponseEntity<Object> createUser( @RequestParam("userToken") String userTokenString, @RequestParam("name") String userNameString) {
     final UserToken userToken = UserToken.of(userTokenString);
     userToken.validate();
     final UserName userName = UserName.of(userNameString);
@@ -90,9 +90,9 @@ public class UserController {
   @RequestMapping(method = RequestMethod.DELETE, value = "{name}", produces = "application/json", consumes = "application/json")
   ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString, @RequestHeader("X-USER-TOKEN") final String xUserToken) {
     final UserToken userToken = UserToken.of(xUserToken);
-    userToken.validate();
+    //userToken.validate();
     final UserName userName = UserName.of(userNameString);
-    userName.validate();
+    //userName.validate();
     userService.deleteUserByUserNameAndUserToken(userName, userToken);
     logger.info("success : deleteUserByUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
