@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
   private final UserDao userDao;
   private final UserTokenDao userTokenDao;
 
-  private final Logger logger = LoggerFactory.getLogger("UserRepositoryImpl");
+  private final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
   @Contract(pure = true)
   public UserRepositoryImpl(@NotNull final UserDao userDao, UserTokenDao userTokenDao) {

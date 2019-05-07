@@ -29,7 +29,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
   @NotNull
-  private Logger logger = LoggerFactory.getLogger("UserServiceImpl");
+  private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
   private final UserRepository userRepository;
   private final Clock clock;
   private final IdGenerator idGenerator;
