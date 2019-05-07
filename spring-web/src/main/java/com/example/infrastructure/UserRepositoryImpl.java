@@ -55,7 +55,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  @Transactional
   @Override
   public Optional<User> createUser(final User user) {
     Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
