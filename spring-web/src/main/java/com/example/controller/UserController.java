@@ -87,9 +87,9 @@ public class UserController {
   ResponseEntity<Object> updateUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken, @PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) {
     try {
       userService.findUserByName(UserName.of(userNameString));
-      UserToken userToken = UserToken.of(userTokenJson.getToken());
+      final UserToken userToken = UserToken.of(userTokenJson.getToken());
       userToken.validate();
-      UserName userName = UserName.of(userNameString);
+      final UserName userName = UserName.of(userNameString);
       userName.validate();
       userService.authorizeUser(UserToken.of(xUserToken), userName);
       userService.updateUserToken(userToken, userName);
