@@ -65,7 +65,10 @@ public class UserController {
               .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failed to create user")));
     } catch (IllegalArgumentException e) {
       logger.error("failed to create user", e);
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure(e.toString()));
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AppJson.failure("failed to create user"));
+    } catch(DataAccessException e) {
+      logger.error("failed to create new user", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppJson.failure("failed to create user"));
     }
   }
 

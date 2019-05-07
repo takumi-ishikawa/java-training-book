@@ -58,13 +58,8 @@ public class UserRepositoryImpl implements UserRepository {
   @Transactional
   @Override
   public Optional<User> createUser(final User user) {
-    try {
-      Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
-      Result<UserTokenEntity> tokenEntityResult = userTokenDao.insertUserToken(new UserTokenEntity(user.userId, user.token, user.createdAt));
-    } catch(DataAccessException e) {
-      logger.error("create new user", e);
-      return Optional.empty();
-    }
+    Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
+    Result<UserTokenEntity> tokenEntityResult = userTokenDao.insertUserToken(new UserTokenEntity(user.userId, user.token, user.createdAt));
 
     return Optional.of(user);
   }
