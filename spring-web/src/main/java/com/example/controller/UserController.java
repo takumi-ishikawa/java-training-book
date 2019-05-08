@@ -54,9 +54,7 @@ public class UserController {
   @RequestMapping(produces = "application/json", method = RequestMethod.POST)
   ResponseEntity<Object> createUser( @RequestParam("userToken") String userTokenString, @RequestParam("name") String userNameString) {
     final UserToken userToken = UserToken.of(userTokenString);
-    userToken.validate();
     final UserName userName = UserName.of(userNameString);
-    userName.validate();
     return userService.createUser(userToken, userName)
             .<ResponseEntity<Object>>map(u -> ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success")))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failed to create user")));
@@ -77,9 +75,7 @@ public class UserController {
   ResponseEntity<Object> updateUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken, @PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) {
     userService.findUserByName(UserName.of(userNameString));
     final UserToken userToken = UserToken.of(userTokenJson.getToken());
-    userToken.validate();
     final UserName userName = UserName.of(userNameString);
-    userName.validate();
     userService.authorizeUser(UserToken.of(xUserToken), userName);
     userService.updateUserToken(userToken, userName);
     logger.info("success : updateUserToken");
@@ -90,9 +86,7 @@ public class UserController {
   @RequestMapping(method = RequestMethod.DELETE, value = "{name}", produces = "application/json", consumes = "application/json")
   ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString, @RequestHeader("X-USER-TOKEN") final String xUserToken) {
     final UserToken userToken = UserToken.of(xUserToken);
-    //userToken.validate();
     final UserName userName = UserName.of(userNameString);
-    //userName.validate();
     userService.deleteUserByUserNameAndUserToken(userName, userToken);
     logger.info("success : deleteUserByUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
