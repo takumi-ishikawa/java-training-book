@@ -2,20 +2,15 @@ package com.example.service;
 
 import com.example.UserService;
 import com.example.datastore.MapBasedUserRepository;
-import com.example.domain.IdGenerator;
 import com.example.domain.User;
-import com.example.domain.UserRepository;
 import com.example.infra.IdGeneratorImpl;
-
-import javax.inject.Inject;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-  private final IdGenerator idGenerator;
-  private final UserRepository repository;
+  private final IdGeneratorImpl idGenerator;
+  private final MapBasedUserRepository repository;
 
-  @Inject
   public UserServiceImpl(final IdGeneratorImpl idGenerator,
       final MapBasedUserRepository repository) {
     this.idGenerator = idGenerator;

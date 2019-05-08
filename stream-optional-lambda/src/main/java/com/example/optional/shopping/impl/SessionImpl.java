@@ -34,6 +34,6 @@ public class SessionImpl implements Session {
 
     @Override
     public @NotNull Optional<User> findUserById(int userId) {
-        return Optional.ofNullable(map.get(userId));
+        throw new UnsupportedOperationException();
     }
 }

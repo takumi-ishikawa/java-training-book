@@ -18,7 +18,6 @@ package com.example.optional.shopping;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +32,6 @@ public class App {
     }
 
     Optional<List<CartItem>> findUsersCartItem(final int userId) {
-        return session.findUserById(userId)
-                .map(User::shoppingCart)
-                .map(ShoppingCart::items)
-                .filter(i -> i.size() != 0);
-    }
-
-    Optional<Bill> findUsersBill(final int userId, final YearMonth yearMonth) {
-        return session.findUserById(userId)
-                .flatMap(u -> u.bill(yearMonth));
+        throw new UnsupportedOperationException();
     }
 }

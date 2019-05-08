@@ -45,16 +45,16 @@ class Opt {
 
   @NotNull
   Optional<String> name() {
-    return Optional.of(name);
+    throw new UnsupportedOperationException("not implemented");
   }
 
   @NotNull
   Optional<String> teamName() {
-    return Optional.<String>empty();
+    throw new UnsupportedOperationException("not implemented");
   }
 
   @NotNull
   Optional<String> responsibleFor(final String position) {
-    return Optional.ofNullable(map.get(position));
+    throw new UnsupportedOperationException("not implemented");
   }
 }

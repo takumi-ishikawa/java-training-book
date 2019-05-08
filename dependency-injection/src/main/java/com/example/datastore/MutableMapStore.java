@@ -22,7 +22,6 @@ public class MutableMapStore {
   }
 
   User put(final User user) {
-    map.put(user.id, user);
-    return user;
+    return map.put(user.id, user);
   }
 }
