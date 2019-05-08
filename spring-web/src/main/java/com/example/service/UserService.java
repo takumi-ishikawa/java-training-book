@@ -19,8 +19,6 @@ public interface UserService {
 
   Optional<User> updateUserToken(@NotNull UserToken userToken, @NotNull UserName userName);
 
-  void authorizeUser(@NotNull final UserToken xUserToken, @NotNull final UserName userName);
-
   void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
 
   List<Alias> findAliasesByUserNameAndUserToken(@NotNull final UserName userName,

@@ -59,18 +59,6 @@ public class UserServiceImpl implements UserService {
     return userRepository.findByName(userName).flatMap(u -> userRepository.updateUserToken(u, userToken));
   }
 
-  @Override
-  public void authorizeUser(@NotNull final UserToken xUserToken, @NotNull final UserName userName) {
-    userRepository.findByName(userName).ifPresent(u -> {
-      userRepository.findUserTokenByUserId(u.userId)
-              .ifPresent(t -> {
-                if (!t.value().equals(xUserToken.value())) {
-                  throw new AppException(ErrorType.AUTHORIZATION, "invalid user token");
-                }
-              });
-    });
-  }
-
   @Transactional
   @Override
   public void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken) {

@@ -75,12 +75,10 @@ public class UserController {
   @SuppressWarnings("MVCPathVariableInspection")
   @RequestMapping(method = RequestMethod.PUT, value = "{name}", produces = "application/json", consumes = "application/json")
   ResponseEntity<Object> updateUserToken(@RequestHeader("X-USER-TOKEN") final String xUserToken, @PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) {
-    userService.findUserByName(UserName.of(userNameString));
     final UserToken userToken = UserToken.of(userTokenJson.getToken());
     userToken.validate();
     final UserName userName = UserName.of(userNameString);
     userName.validate();
-    userService.authorizeUser(UserToken.of(xUserToken), userName);
     userService.updateUserToken(userToken, userName);
     logger.info("success : updateUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
