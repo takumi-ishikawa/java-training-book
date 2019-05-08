@@ -25,9 +25,11 @@ public class UserTokenFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     final String userToken = request.getHeader("X-USER-TOKEN");
-    if (!validate(userToken)) {
-      logger.info("invalid request : path: {}, remote {}", request.getRequestURI(), request.getRemoteAddr());
-      throw new IllegalArgumentException("invalid user token");
+    if (!request.getMethod().equals("GET")) {
+      if (!validate(userToken)) {
+        logger.info("invalid request : path: {}, remote {}", request.getRequestURI(), request.getRemoteAddr());
+        throw new IllegalArgumentException("invalid user token");
+      }
     }
     filterChain.doFilter(request, response);
   }

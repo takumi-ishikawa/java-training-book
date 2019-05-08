@@ -27,9 +27,12 @@ public class UserNameFilter extends OncePerRequestFilter {
     final String uri = request.getRequestURI();
     final String[] splitedUri = uri.split("/");
     final String userName = splitedUri[splitedUri.length - 1];
-    if (!validate(userName)) {
-      logger.info("invalid request : path: {}, remote {}", request.getRequestURI(), request.getRemoteAddr());
-      throw new IllegalArgumentException("invalid user name");
+    if (!request.getMethod().equals("GET")) {
+      if (!validate(userName)) {
+        logger.info("invalid request : path: {}, remote {}", request.getRequestURI(), request.getRemoteAddr());
+        throw new IllegalArgumentException("invalid user name");
+      }
+
     }
     filterChain.doFilter(request, response);
   }
