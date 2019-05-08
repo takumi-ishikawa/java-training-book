@@ -1,10 +1,15 @@
 package com.example.infrastructure;
 
+import com.example.dao.AliasDao;
 import com.example.dao.UserDao;
 import com.example.dao.UserTokenDao;
+import com.example.dao.entity.AliasDataView;
 import com.example.dao.entity.UserDataView;
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
+import com.example.model.Alias;
+import com.example.model.AliasPage;
+import com.example.model.AliasSize;
 import com.example.model.AppException;
 import com.example.model.ErrorType;
 import com.example.model.User;
@@ -21,7 +26,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserRepositoryImpl implements UserRepository {
@@ -29,13 +36,15 @@ public class UserRepositoryImpl implements UserRepository {
   @NotNull
   private final UserDao userDao;
   private final UserTokenDao userTokenDao;
+  private final AliasDao aliasDao;
 
   private final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
   @Contract(pure = true)
-  public UserRepositoryImpl(@NotNull final UserDao userDao, UserTokenDao userTokenDao) {
+  public UserRepositoryImpl(@NotNull final UserDao userDao, @NotNull final UserTokenDao userTokenDao, @NotNull final AliasDao aliasDao) {
     this.userDao = userDao;
     this.userTokenDao = userTokenDao;
+    this.aliasDao = aliasDao;
   }
 
   @Override
@@ -95,5 +104,14 @@ public class UserRepositoryImpl implements UserRepository {
         throw new IllegalArgumentException("invalid token");
       }
     });
+  }
+
+  @Override
+  public List<Alias> findAliasesByUserNameAndUserToken(@NotNull UserName userName, @NotNull UserToken userToken, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
+    Optional<User> user = findUserByUserNameAndUserToken(userName, userToken);
+    return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasPage, aliasSize)
+              .stream()
+              .map(AliasDataView::toAlias)
+              .collect(Collectors.toList());
   }
 }

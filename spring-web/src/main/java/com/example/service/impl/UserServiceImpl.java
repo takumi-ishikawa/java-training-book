@@ -2,15 +2,7 @@ package com.example.service.impl;
 
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
-import com.example.model.AppException;
-import com.example.model.CreatedAt;
-import com.example.model.ErrorType;
-import com.example.model.IdGenerator;
-import com.example.model.User;
-import com.example.model.UserId;
-import com.example.model.UserName;
-import com.example.model.UserRepository;
-import com.example.model.UserToken;
+import com.example.model.*;
 import com.example.service.UserService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +15,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -67,7 +60,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void authorizeUser(UserToken xUserToken, UserName userName) {
+  public void authorizeUser(@NotNull final UserToken xUserToken, @NotNull final UserName userName) {
     userRepository.findByName(userName).ifPresent(u -> {
       userRepository.findUserTokenByUserId(u.userId)
               .ifPresent(t -> {
@@ -80,11 +73,15 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public void deleteUserByUserNameAndUserToken(UserName userName, UserToken userToken) {
+  public void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken) {
     userRepository.findUserByUserNameAndUserToken(userName, userToken).ifPresent(u -> {
       userRepository.deleteUserTokenEntity(new UserTokenEntity(u.userId, u.token, u.createdAt));
       userRepository.deleteUserEntity(new UserEntity(u.userId, u.name, u.createdAt));
-
     });
+  }
+
+  @Override
+  public List<Alias> findAliasesByUserNameAndUserToken(@NotNull UserName userName, @NotNull UserToken userToken, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
+    return userRepository.findAliasesByUserNameAndUserToken(userName, userToken, aliasPage, aliasSize);
   }
 }

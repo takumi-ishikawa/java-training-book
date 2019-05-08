@@ -26,7 +26,7 @@ public class UserNameFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     final String uri = request.getRequestURI();
     final String[] splitedUri = uri.split("/");
-    final String userName = splitedUri[splitedUri.length - 1];
+    final String userName = splitedUri[1];
     if (!request.getMethod().equals("GET")) {
       if (!validate(userName)) {
         logger.info("invalid request : path: {}, remote {}", request.getRequestURI(), request.getRemoteAddr());

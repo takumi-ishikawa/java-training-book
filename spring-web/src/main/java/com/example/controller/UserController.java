@@ -1,19 +1,17 @@
 package com.example.controller;
 
 import com.example.controller.json.UserTokenJson;
+import com.example.json.AliasesJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
-import com.example.model.AppException;
-import com.example.model.ErrorType;
-import com.example.model.User;
-import com.example.model.UserName;
-import com.example.model.UserToken;
+import com.example.model.*;
 import com.example.service.UserService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -90,5 +90,27 @@ public class UserController {
     userService.deleteUserByUserNameAndUserToken(userName, userToken);
     logger.info("success : deleteUserByUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
+  }
+
+  @SuppressWarnings("MVCPathVariableInspection")
+  @GetMapping(value = "{name}/aliases", produces = "application/json", consumes = "application/json")
+  ResponseEntity<Object> getAliases(@RequestHeader("X-USER-TOKEN") final String xUserToken,
+                                    @PathVariable("name") final String userNameString,
+                                    @RequestParam final Long page,
+                                    @RequestParam final Long size) {
+    final UserToken userToken = UserToken.of(xUserToken);
+    final UserName userName = UserName.of(userNameString);
+    final AliasPage aliasPage = AliasPage.of(page);
+    final AliasSize aliasSize = AliasSize.of(size);
+    List<Alias> aliases = userService.findAliasesByUserNameAndUserToken(userName, userToken, aliasPage, aliasSize);
+    List<AliasContent> aliasContents = aliases.stream()
+            .map(a -> new AliasContent(a.aliasId.value(),
+                    a.name.value(),
+                    a.value.value(),
+                    "http://lovalhost:8080/users/" + userNameString + "/aliases/" + a.name.value()))
+            .collect(Collectors.toUnmodifiableList());
+    AliasesJson aliasesJson = new AliasesJson(aliasPage.value(), aliasPage.value() + 1, aliasSize.value(), aliasContents);
+    logger.info("success : getAliases");
+    return ResponseEntity.status(HttpStatus.OK).body(aliasesJson);
   }
 }

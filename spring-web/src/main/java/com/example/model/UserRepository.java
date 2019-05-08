@@ -1,12 +1,11 @@
 package com.example.model;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
 import org.jetbrains.annotations.NotNull;
-import org.seasar.doma.jdbc.Result;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -16,13 +15,15 @@ public interface UserRepository {
 
   Optional<User> createUser(@NotNull final User user);
 
-  Optional<User> updateUserToken(final @NotNull User user, final @NotNull UserToken userToken);
+  Optional<User> updateUserToken(@NotNull final User user, final @NotNull UserToken userToken);
 
-  Optional<UserToken> findUserTokenByUserId(final @NotNull UserId userId);
+  Optional<UserToken> findUserTokenByUserId(@NotNull final UserId userId);
 
-  void deleteUserTokenEntity(UserTokenEntity userTokenEntity);
+  void deleteUserTokenEntity(@NotNull final UserTokenEntity userTokenEntity);
 
-  void deleteUserEntity(UserEntity userEntity);
+  void deleteUserEntity(@NotNull UserEntity userEntity);
 
-  Optional<User> findUserByUserNameAndUserToken(UserName userName, UserToken userToken);
+  Optional<User> findUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
+
+  List<Alias> findAliasesByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken, @NotNull final AliasPage aliasPage, @NotNull final AliasSize aliasSize);
 }

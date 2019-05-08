@@ -1,12 +1,11 @@
 package com.example.service;
 
 import com.example.dao.entity.UserEntity;
-import com.example.model.User;
-import com.example.model.UserId;
+import com.example.model.*;
+
+import java.util.List;
 import java.util.Optional;
 
-import com.example.model.UserName;
-import com.example.model.UserToken;
 import org.jetbrains.annotations.NotNull;
 import org.seasar.doma.jdbc.Result;
 
@@ -20,7 +19,12 @@ public interface UserService {
 
   Optional<User> updateUserToken(@NotNull UserToken userToken, @NotNull UserName userName);
 
-  void authorizeUser(UserToken xUserToken, UserName userName);
+  void authorizeUser(@NotNull final UserToken xUserToken, @NotNull final UserName userName);
 
-  void deleteUserByUserNameAndUserToken(UserName userName, UserToken userToken);
+  void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
+
+  List<Alias> findAliasesByUserNameAndUserToken(@NotNull final UserName userName,
+                                                @NotNull final UserToken userToken,
+                                                @NotNull final AliasPage aliasPage,
+                                                @NotNull final AliasSize aliasSize);
 }
