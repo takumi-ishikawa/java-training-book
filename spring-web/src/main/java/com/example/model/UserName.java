@@ -23,7 +23,7 @@ public class UserName {
 
   @NotNull
   @Contract(value = "_ -> new", pure = true)
-  public static UserName of(@NotNull final String value) throws IllegalArgumentException {
+  public static UserName of(@NotNull final String value) {
     return new UserName(value);
   }
 
