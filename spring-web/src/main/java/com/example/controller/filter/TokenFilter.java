@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class UserNameAndUserTokenFilter extends OncePerRequestFilter {
+public class TokenFilter extends OncePerRequestFilter {
 
-  private Logger logger = LoggerFactory.getLogger(UserNameAndUserTokenFilter.class);
+  private Logger logger = LoggerFactory.getLogger(TokenFilter.class);
   private final UserRepository userRepository;
 
   @Contract(pure = true)
-  public UserNameAndUserTokenFilter(@NotNull final UserRepository userRepository) {
+  public TokenFilter(@NotNull final UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
