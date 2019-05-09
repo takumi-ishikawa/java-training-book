@@ -4,14 +4,21 @@ import com.example.controller.json.UserTokenJson;
 import com.example.json.AliasesJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
-import com.example.model.*;
+import com.example.model.Alias;
+import com.example.model.AliasContent;
+import com.example.model.AliasPage;
+import com.example.model.AliasSize;
+import com.example.model.AppException;
+import com.example.model.ErrorType;
+import com.example.model.User;
+import com.example.model.UserName;
+import com.example.model.UserToken;
 import com.example.service.UserService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -34,15 +40,12 @@ public class UserController {
 
   @NotNull
   private final UserService userService;
-  private final ForwardedHeaderFilter forwardedHeaderFilter;
   private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
   @Contract(pure = true)
   public UserController(
-      final @NotNull UserService userService,
-      final @NotNull ForwardedHeaderFilter forwardedHeaderFilter) {
+          final @NotNull UserService userService) {
     this.userService = userService;
-    this.forwardedHeaderFilter = forwardedHeaderFilter;
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
@@ -103,8 +106,7 @@ public class UserController {
 
   @SuppressWarnings("MVCPathVariableInspection")
   @GetMapping(value = "{name}/aliases", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> getAliases(@RequestHeader("X-USER-TOKEN") final String xUserToken,
-                                    @PathVariable("name") final String userNameString,
+  ResponseEntity<Object> getAliases(@PathVariable("name") final String userNameString,
                                     @RequestParam(defaultValue = "0") final Long page,
                                     @RequestParam(defaultValue = "10") final Long size,
                                     UriComponentsBuilder uriComponentsBuilder) {
