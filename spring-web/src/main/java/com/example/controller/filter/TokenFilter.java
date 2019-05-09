@@ -15,12 +15,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
   private Logger logger = LoggerFactory.getLogger(TokenFilter.class);
   private final UserRepository userRepository;
+  private Pattern USER_NAME_PATTERN = Pattern.compile("(?<=^/users/)[a-zA-Z0-9]+");
 
   @Contract(pure = true)
   public TokenFilter(@NotNull final UserRepository userRepository) {
@@ -28,13 +31,16 @@ public class TokenFilter extends OncePerRequestFilter {
   }
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+  protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
     final String userToken = request.getHeader("X-USER-TOKEN");
-    final String uri = request.getRequestURI();
-    final String[] splitedUri = uri.split("/");
-    final String userName = splitedUri[2];
-    if (!request.getMethod().equals("GET")) {
-      userRepository.findUserByUserNameAndUserToken(UserName.of(userName), UserToken.of(userToken));
+    final Matcher userNameMatcher = USER_NAME_PATTERN.matcher(request.getRequestURI());
+    if (userNameMatcher.find()) {
+      final String userName = userNameMatcher.group();
+      if (!request.getMethod().equals("GET")) {
+        userRepository.findUserByUserNameAndUserToken(UserName.of(userName), UserToken.of(userToken));
+      }
+    } else {
+      throw new IllegalArgumentException("failed to find name");
     }
     filterChain.doFilter(request, response);
   }
