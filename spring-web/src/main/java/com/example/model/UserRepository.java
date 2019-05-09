@@ -25,5 +25,5 @@ public interface UserRepository {
 
   Optional<User> findUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
 
-  List<Alias> findAliasesByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken, @NotNull final AliasPage aliasPage, @NotNull final AliasSize aliasSize);
+  List<Alias> findAliasesByUserName(@NotNull final UserName userName, @NotNull final AliasPage aliasPage, @NotNull final AliasSize aliasSize);
 }

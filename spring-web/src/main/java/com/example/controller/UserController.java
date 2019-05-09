@@ -102,11 +102,10 @@ public class UserController {
                                     @PathVariable("name") final String userNameString,
                                     @RequestParam final Long page,
                                     @RequestParam final Long size) {
-    final UserToken userToken = UserToken.of(xUserToken);
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
     final AliasSize aliasSize = AliasSize.of(size);
-    List<Alias> aliases = userService.findAliasesByUserNameAndUserToken(userName, userToken, aliasPage, aliasSize);
+    List<Alias> aliases = userService.findAliasesByUserName(userName, aliasPage, aliasSize);
     List<AliasContent> aliasContents = aliases.stream()
             .map(a -> new AliasContent(a.aliasId.value(),
                     a.name.value(),

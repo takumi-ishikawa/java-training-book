@@ -107,8 +107,8 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public List<Alias> findAliasesByUserNameAndUserToken(@NotNull UserName userName, @NotNull UserToken userToken, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
-    Optional<User> user = findUserByUserNameAndUserToken(userName, userToken);
+  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
+    Optional<User> user = findByName(userName);
     return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasPage, aliasSize)
               .stream()
               .map(AliasDataView::toAlias)

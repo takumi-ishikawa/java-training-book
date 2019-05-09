@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<Alias> findAliasesByUserNameAndUserToken(@NotNull UserName userName, @NotNull UserToken userToken, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
-    return userRepository.findAliasesByUserNameAndUserToken(userName, userToken, aliasPage, aliasSize);
+  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
+    return userRepository.findAliasesByUserName(userName, aliasPage, aliasSize);
   }
 }
