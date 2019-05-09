@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -118,7 +119,7 @@ public class UserController {
             .map(a -> new AliasContent(a.aliasId.value(),
                     a.name.value(),
                     a.value.value(),
-                    uriComponentsBuilder.path("/users/" + userName.value() + "/aliases/").build().toUriString() + a.name.value()))
+                    uriComponentsBuilder.path("/users/{name}/aliases/{alias}").build(Map.of("name", userName.value(), "alias", a.name.value())).toString()))
             .collect(Collectors.toList());
     final Long nextPage;
     if (aliases.size() == aliasSize.value() + 1) {
