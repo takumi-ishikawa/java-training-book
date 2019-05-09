@@ -100,8 +100,8 @@ public class UserController {
   @GetMapping(value = "{name}/aliases", produces = "application/json", consumes = "application/json")
   ResponseEntity<Object> getAliases(@RequestHeader("X-USER-TOKEN") final String xUserToken,
                                     @PathVariable("name") final String userNameString,
-                                    @RequestParam final Long page,
-                                    @RequestParam final Long size) {
+                                    @RequestParam(defaultValue = "0") final Long page,
+                                    @RequestParam(defaultValue = "10") final Long size) {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
     final AliasSize aliasSize = AliasSize.of(size);
@@ -111,8 +111,15 @@ public class UserController {
                     a.name.value(),
                     a.value.value(),
                     "http://lovalhost:8080/users/" + userNameString + "/aliases/" + a.name.value()))
-            .collect(Collectors.toUnmodifiableList());
-    AliasesJson aliasesJson = new AliasesJson(aliasPage.value(), aliasPage.value() + 1, aliasSize.value(), aliasContents);
+            .collect(Collectors.toList());
+    final Long nextPage;
+    if (aliases.size() == aliasSize.value() + 1) {
+      nextPage = aliasPage.value() + 1;
+      aliasContents.remove(aliasContents.size() - 1);
+    } else {
+      nextPage = null;
+    }
+    AliasesJson aliasesJson = new AliasesJson(aliasPage.value(), nextPage, aliasSize.value(), aliasContents);
     logger.info("success : getAliases");
     return ResponseEntity.status(HttpStatus.OK).body(aliasesJson);
   }
