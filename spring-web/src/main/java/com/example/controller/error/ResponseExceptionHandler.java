@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import com.example.model.NoResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -69,5 +71,20 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     final String msg = message == null ? "database error" : message;
     final AppJson json = AppJson.failure(msg);
     return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
+  }
+
+  @ExceptionHandler({NoResourceException.class})
+  ResponseEntity<Object> handleErrorNoResource(RuntimeException e, WebRequest webRequest) {
+    final Map<String, String[]> map = webRequest.getParameterMap();
+    final Map<String, List<String>> param = map.entrySet()
+            .stream()
+            .collect(Collectors.toUnmodifiableMap(Entry::getKey,
+                    entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
+    logger.info("error at {} {}", webRequest.getContextPath(), param);
+    logger.info("database error", e);
+    final String message = e.getMessage();
+    final String msg = message == null ? "no resource error" : message;
+    final AppJson json = AppJson.failure(msg);
+    return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
   }
 }

@@ -1,5 +1,6 @@
 package com.example.controller.filter;
 
+import com.example.model.NoResourceException;
 import com.example.model.UserName;
 import com.example.model.UserRepository;
 import com.example.model.UserToken;
@@ -40,7 +41,7 @@ public class TokenFilter extends OncePerRequestFilter {
         userRepository.findUserByUserNameAndUserToken(UserName.of(userName), UserToken.of(userToken));
       }
     } else {
-      throw new IllegalArgumentException("failed to find name");
+      throw new NoResourceException("failed to find name");
     }
     filterChain.doFilter(request, response);
   }
