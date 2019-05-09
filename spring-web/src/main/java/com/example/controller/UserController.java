@@ -96,7 +96,7 @@ public class UserController {
     userToken.validate();
     final UserName userName = UserName.of(userNameString);
     userName.validate();
-    userService.deleteUserByUserNameAndUserToken(userName, userToken);
+    userService.deleteUserByUserName(userName);
     logger.info("success : deleteUserByUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
   }

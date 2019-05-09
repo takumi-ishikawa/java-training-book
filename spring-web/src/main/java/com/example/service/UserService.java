@@ -19,7 +19,7 @@ public interface UserService {
 
   Optional<User> updateUserToken(@NotNull UserToken userToken, @NotNull UserName userName);
 
-  void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
+  void deleteUserByUserName(@NotNull final UserName userName);
 
   List<Alias> findAliasesByUserName(@NotNull final UserName userName,
                                     @NotNull final AliasPage aliasPage,

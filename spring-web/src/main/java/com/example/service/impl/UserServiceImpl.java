@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public void deleteUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken) {
-    userRepository.findUserByUserNameAndUserToken(userName, userToken).ifPresent(u -> {
+  public void deleteUserByUserName(@NotNull final UserName userName) {
+    userRepository.findByName(userName).ifPresent(u -> {
       userRepository.deleteUserTokenEntity(new UserTokenEntity(u.userId, u.token, u.createdAt));
       userRepository.deleteUserEntity(new UserEntity(u.userId, u.name, u.createdAt));
     });
