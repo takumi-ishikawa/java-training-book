@@ -8,10 +8,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.time.Clock;
-import java.time.Instant;
-import java.time.temporal.ChronoField;
 
 @Configuration
 public class AppConfig {
@@ -31,6 +30,11 @@ public class AppConfig {
     return new ObjectMapper()
             .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  }
+
+  @Bean
+  ForwardedHeaderFilter forwardedHeaderFilter() {
+    return new ForwardedHeaderFilter();
   }
 
 }

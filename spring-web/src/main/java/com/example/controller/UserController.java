@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.filter.ForwardedHeaderFilter;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,12 +34,15 @@ public class UserController {
 
   @NotNull
   private final UserService userService;
+  private final ForwardedHeaderFilter forwardedHeaderFilter;
   private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
   @Contract(pure = true)
   public UserController(
-      final @NotNull UserService userService) {
+      final @NotNull UserService userService,
+      final @NotNull ForwardedHeaderFilter forwardedHeaderFilter) {
     this.userService = userService;
+    this.forwardedHeaderFilter = forwardedHeaderFilter;
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
@@ -101,7 +106,8 @@ public class UserController {
   ResponseEntity<Object> getAliases(@RequestHeader("X-USER-TOKEN") final String xUserToken,
                                     @PathVariable("name") final String userNameString,
                                     @RequestParam(defaultValue = "0") final Long page,
-                                    @RequestParam(defaultValue = "10") final Long size) {
+                                    @RequestParam(defaultValue = "10") final Long size,
+                                    UriComponentsBuilder uriComponentsBuilder) {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
     final AliasSize aliasSize = AliasSize.of(size);
@@ -110,7 +116,7 @@ public class UserController {
             .map(a -> new AliasContent(a.aliasId.value(),
                     a.name.value(),
                     a.value.value(),
-                    "http://lovalhost:8080/users/" + userNameString + "/aliases/" + a.name.value()))
+                    uriComponentsBuilder.path("/users/" + userName.value() + "/aliases/").build().toUriString() + a.name.value()))
             .collect(Collectors.toList());
     final Long nextPage;
     if (aliases.size() == aliasSize.value() + 1) {
