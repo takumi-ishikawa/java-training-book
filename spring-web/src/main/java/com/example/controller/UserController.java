@@ -11,6 +11,7 @@ import com.example.model.AliasPage;
 import com.example.model.AliasSize;
 import com.example.model.AppException;
 import com.example.model.ErrorType;
+import com.example.model.NoResourceException;
 import com.example.model.User;
 import com.example.model.UserName;
 import com.example.model.UserToken;
@@ -53,11 +54,10 @@ public class UserController {
   @SuppressWarnings("MVCPathVariableInspection")
   @GetMapping(value = "{name}", produces = "application/json")
   ResponseEntity<Object> getUser( @PathVariable("name") final String userNameString) {
-    final Optional<User> user = userService.findUserByName(UserName.of(userNameString));
-    return user.map(UserJson::fromUser)
+    return userService.findUserByName(UserName.of(userNameString))
+            .map(UserJson::fromUser)
             .<ResponseEntity<Object>>map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-              .body(AppJson.failure("user not found")));
+            .orElseThrow(() -> new NoResourceException("user is not found"));
   }
 
   @SuppressWarnings("MVCPathVariableInspenction")

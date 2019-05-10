@@ -53,13 +53,8 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Optional<User> findByName(final @NotNull UserName userName) {
-    Optional<User> user = userDao.findUserByName(userName)
+    return userDao.findUserByName(userName)
             .map(UserDataView::toUser);
-    if (user.isEmpty()) {
-      throw new AppException(ErrorType.NO_RESOURCE, "user is not found.");
-    } else {
-      return user;
-    }
   }
 
   @Override
