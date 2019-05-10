@@ -24,6 +24,14 @@ public class AliasSize {
         return value;
     }
 
+    public AliasSize increment() {
+        return AliasSize.of(value + 1);
+    }
+
+    public AliasSize decrement() {
+        return AliasSize.of(value - 1);
+    }
+
     public void validate() {
         if (value < 0) {
             throw new IllegalArgumentException("Invalid AliasSize, too small");

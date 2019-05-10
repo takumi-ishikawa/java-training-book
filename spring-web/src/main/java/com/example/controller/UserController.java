@@ -1,18 +1,20 @@
 package com.example.controller;
 
 import com.example.controller.json.UserTokenJson;
-import com.example.json.AliasesJson;
+import com.example.json.AliasJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
 import com.example.model.Alias;
 import com.example.model.AliasContent;
+import com.example.model.AliasContents;
+import com.example.model.AliasNextPage;
 import com.example.model.AliasOffset;
 import com.example.model.AliasPage;
 import com.example.model.AliasSize;
+import com.example.model.Aliases;
 import com.example.model.AppException;
 import com.example.model.ErrorType;
 import com.example.model.NoResourceException;
-import com.example.model.User;
 import com.example.model.UserName;
 import com.example.model.UserToken;
 import com.example.service.UserService;
@@ -34,7 +36,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 @RestController
@@ -114,25 +116,19 @@ public class UserController {
                                     UriComponentsBuilder uriComponentsBuilder) {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
-    final AliasSize originalAliasSize = AliasSize.of(size);
-    final AliasSize aliasSize = AliasSize.of(size + 1);
-    final AliasOffset aliasOffset = AliasOffset.of(page * size);
-    List<Alias> aliases = userService.findAliasesByUserName(userName, aliasSize, aliasOffset);
-    List<AliasContent> aliasContents = aliases.stream()
-            .map(a -> new AliasContent(a.aliasId.value(),
-                    a.name.value(),
-                    a.value.value(),
-                    uriComponentsBuilder.path("/users/{name}/aliases/{alias}").build(Map.of("name", userName.value(), "alias", a.name.value())).toString()))
-            .collect(Collectors.toList());
-    final Long nextPage;
-    if (aliases.size() == aliasSize.value()) {
-      nextPage = aliasPage.value() + 1;
-      aliasContents.remove(aliasContents.size() - 1);
-    } else {
-      nextPage = null;
-    }
-    AliasesJson aliasesJson = new AliasesJson(aliasPage.value(), nextPage, originalAliasSize.value(), aliasContents);
+    final AliasSize aliasSize = AliasSize.of(size);
+    final AliasOffset aliasOffset = AliasOffset.of(page, size);
+    final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize.increment(), aliasOffset);
+    final AliasContents aliasContents = AliasContents.fromAliases(aliases, userName, uriComponentsBuilder.path("/users/{name}/aliases/{alias}"));
+    final AliasNextPage aliasNextPage = AliasNextPage.of(aliasPage.value(), aliasSize.increment().value(), aliases.size());
+    aliasContents.popIfSizeOver(aliasSize.value());
+    final AliasJson aliasJson = new AliasJson.Builder()
+            .page(aliasPage)
+            .nextPage(aliasNextPage.toOptionalLong())
+            .size(aliasSize)
+            .contents(aliasContents)
+            .build();
     logger.info("success : getAliases");
-    return ResponseEntity.status(HttpStatus.OK).body(aliasesJson);
+    return ResponseEntity.status(HttpStatus.OK).body(aliasJson);
   }
 }

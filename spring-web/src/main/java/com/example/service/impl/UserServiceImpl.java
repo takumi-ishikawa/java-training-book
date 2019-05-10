@@ -2,9 +2,9 @@ package com.example.service.impl;
 
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
-import com.example.model.Alias;
 import com.example.model.AliasOffset;
 import com.example.model.AliasSize;
+import com.example.model.Aliases;
 import com.example.model.CreatedAt;
 import com.example.model.IdGenerator;
 import com.example.model.User;
@@ -24,7 +24,6 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -78,7 +77,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
+  public Aliases findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
     return userRepository.findAliasesByUserName(userName, aliasSize, aliasOffset);
   }
 }

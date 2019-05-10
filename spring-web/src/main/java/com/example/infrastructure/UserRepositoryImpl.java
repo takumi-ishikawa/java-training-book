@@ -10,6 +10,7 @@ import com.example.dao.entity.UserTokenEntity;
 import com.example.model.Alias;
 import com.example.model.AliasOffset;
 import com.example.model.AliasSize;
+import com.example.model.Aliases;
 import com.example.model.AppException;
 import com.example.model.ErrorType;
 import com.example.model.User;
@@ -100,11 +101,11 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
+  public Aliases findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
     Optional<User> user = findByName(userName);
-    return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasSize, aliasOffset)
-              .stream()
-              .map(AliasDataView::toAlias)
-              .collect(Collectors.toList());
+    return Aliases.of(aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasSize, aliasOffset)
+            .stream()
+            .map(AliasDataView::toAlias)
+            .collect(Collectors.toList()));
   }
 }

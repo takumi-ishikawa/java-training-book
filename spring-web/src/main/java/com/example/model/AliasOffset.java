@@ -10,14 +10,14 @@ public class AliasOffset {
   private final long value;
 
   @Contract
-  public AliasOffset(long value) {
-    this.value = value;
+  public AliasOffset(@NotNull final long page, @NotNull final long size) {
+    this.value = page * size;
   }
 
   @NotNull
   @Contract(value = "_ -> new", pure = true)
-  public static AliasOffset of(final long value) {
-    return new AliasOffset(value);
+  public static AliasOffset of(@NotNull final long page, @NotNull final long size) {
+    return new AliasOffset(page, size);
   }
 
   public long value() {
