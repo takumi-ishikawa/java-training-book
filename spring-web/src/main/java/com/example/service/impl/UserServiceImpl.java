@@ -2,7 +2,16 @@ package com.example.service.impl;
 
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
-import com.example.model.*;
+import com.example.model.Alias;
+import com.example.model.AliasOffset;
+import com.example.model.AliasSize;
+import com.example.model.CreatedAt;
+import com.example.model.IdGenerator;
+import com.example.model.User;
+import com.example.model.UserId;
+import com.example.model.UserName;
+import com.example.model.UserRepository;
+import com.example.model.UserToken;
 import com.example.service.UserService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +78,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
-    return userRepository.findAliasesByUserName(userName, aliasPage, aliasSize);
+  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
+    return userRepository.findAliasesByUserName(userName, aliasSize, aliasOffset);
   }
 }

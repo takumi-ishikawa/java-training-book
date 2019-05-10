@@ -8,7 +8,7 @@ import com.example.dao.entity.UserDataView;
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
 import com.example.model.Alias;
-import com.example.model.AliasPage;
+import com.example.model.AliasOffset;
 import com.example.model.AliasSize;
 import com.example.model.AppException;
 import com.example.model.ErrorType;
@@ -22,9 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.seasar.doma.jdbc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -107,9 +105,9 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasPage aliasPage, @NotNull AliasSize aliasSize) {
+  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
     Optional<User> user = findByName(userName);
-    return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasPage, aliasSize)
+    return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasSize, aliasOffset)
               .stream()
               .map(AliasDataView::toAlias)
               .collect(Collectors.toList());

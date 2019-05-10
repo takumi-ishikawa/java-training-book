@@ -1,7 +1,7 @@
 package com.example.dao;
 
 import com.example.dao.entity.AliasDataView;
-import com.example.model.AliasPage;
+import com.example.model.AliasOffset;
 import com.example.model.AliasSize;
 import com.example.model.UserId;
 import org.seasar.doma.Dao;
@@ -15,6 +15,6 @@ import java.util.List;
 public interface AliasDao {
 
   @Select
-  List<AliasDataView> findAliasesById(final UserId userId, final AliasPage aliasPage, final AliasSize aliasSize);
+  List<AliasDataView> findAliasesById(final UserId userId, final AliasSize aliasSize, final AliasOffset aliasOffset);
 
 }

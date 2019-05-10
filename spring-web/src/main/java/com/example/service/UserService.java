@@ -1,13 +1,16 @@
 package com.example.service;
 
-import com.example.dao.entity.UserEntity;
-import com.example.model.*;
+import com.example.model.Alias;
+import com.example.model.AliasOffset;
+import com.example.model.AliasSize;
+import com.example.model.User;
+import com.example.model.UserId;
+import com.example.model.UserName;
+import com.example.model.UserToken;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-import org.seasar.doma.jdbc.Result;
 
 public interface UserService {
 
@@ -22,6 +25,6 @@ public interface UserService {
   void deleteUserByUserName(@NotNull final UserName userName);
 
   List<Alias> findAliasesByUserName(@NotNull final UserName userName,
-                                    @NotNull final AliasPage aliasPage,
-                                    @NotNull final AliasSize aliasSize);
+                                    @NotNull final AliasSize aliasSize,
+                                    @NotNull final AliasOffset aliasOffset);
 }

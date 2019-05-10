@@ -5,5 +5,5 @@ select alias_id,
        created_at
 from aliases
 where user_id = /* userId.value() */1000
-order by alias_id limit /* aliasSize.value() + 1 */5 offset /* aliasPage.value() * aliasSize.value() */1
+order by alias_id limit /* aliasSize.value() */5 offset /* aliasOffset.value() */1
 ;
