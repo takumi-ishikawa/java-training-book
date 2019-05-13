@@ -4,10 +4,7 @@ import com.example.controller.json.UserTokenJson;
 import com.example.json.AliasesJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
-import com.example.model.AliasContents;
 import com.example.model.AliasName;
-import com.example.model.AliasNextPage;
-import com.example.model.AliasOffset;
 import com.example.model.AliasPage;
 import com.example.model.AliasSize;
 import com.example.model.Aliases;
@@ -33,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
 import java.util.function.Function;
 
 @RestController
@@ -117,7 +115,8 @@ public class UserController {
 
     final Function<AliasName, String> toResourceUri = aliasName ->
             uriComponentsBuilder.path("/users/{name}/aliases/{alias}")
-                    .build(userName.value(), aliasName.value()).toASCIIString();
+                    .build(Map.of("name", userName.value(), "alias", aliasName.value()))
+                    .toASCIIString();
 
     final AliasesJson json = AliasesJson.from(aliases, toResourceUri);
     logger.info("success : getAliases");

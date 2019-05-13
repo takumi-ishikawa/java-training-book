@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import com.example.dao.converter.*;
+import com.example.model.AliasName;
 import org.seasar.doma.DomainConverters;
 
 @DomainConverters({
@@ -9,7 +10,8 @@ import org.seasar.doma.DomainConverters;
     UserNameConverter.class,
     UserTokenConverter.class,
     AliasIdConverter.class,
-    AliasValueConverter.class
+    AliasValueConverter.class,
+    AliasNameConverter.class
 })
 public class DomainConvertersProvider {
 }

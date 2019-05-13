@@ -1,6 +1,5 @@
 package com.example.json;
 
-import com.example.model.AliasContents;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
