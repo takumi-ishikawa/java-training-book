@@ -4,36 +4,47 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Aliases {
 
   @NotNull
+  private final AliasPage page;
+  @NotNull
+  private final AliasSize size;
+
+  @NotNull
   public final List<Alias> aliases;
 
-  public Aliases(@NotNull List<Alias> aliases) {
+  public Aliases(@NotNull AliasPage page, @NotNull AliasSize size, @NotNull List<Alias> aliases) {
+    this.page = page;
+    this.size = size;
     this.aliases = aliases;
   }
 
+  @Contract(value = "_, _, _ -> new", pure = true)
   @NotNull
-  @Contract(value = "_ -> new", pure = true)
-  public static Aliases of(@NotNull final List<Alias> aliases) {
-    return new Aliases(aliases);
+  public static Aliases of(
+          @NotNull AliasPage page,
+          @NotNull AliasSize size,
+          @NotNull final List<Alias> aliases) {
+    return new Aliases(page, size, aliases);
   }
 
-  public AliasContents fromAliases(
-          @NotNull final UserName userName,
-          final Function<AliasName, String> toUriFunction) {
-    return AliasContents.of(this.aliases.stream()
-            .map(a -> new AliasContent(a.aliasId,
-                    a.name,
-                    a.value,
-                    toUriFunction.apply(a.name)))
-            .collect(Collectors.toList()));
+  public AliasPage page() {
+    return page;
   }
 
-  public long size() {
-    return aliases.size();
+  public AliasNextPage nextPage() {
+    return AliasNextPage.currentPage(page)
+            .requestSize(size)
+            .resultSize(aliases.size());
+  }
+
+  public AliasSize requestSize() {
+    return size;
+  }
+
+  public AliasSize size() {
+    return AliasSize.of(aliases.size());
   }
 }

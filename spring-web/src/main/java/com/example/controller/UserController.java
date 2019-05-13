@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.controller.json.UserTokenJson;
-import com.example.json.AliasJson;
+import com.example.json.AliasesJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
 import com.example.model.AliasContents;
@@ -113,23 +113,14 @@ public class UserController {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
     final AliasSize aliasSize = AliasSize.of(size);
-    final AliasOffset aliasOffset = AliasOffset.of(page, size);
-    final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize.increment(), aliasOffset);
+    final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize, aliasPage);
 
     final Function<AliasName, String> toResourceUri = aliasName ->
             uriComponentsBuilder.path("/users/{name}/aliases/{alias}")
                     .build(userName.value(), aliasName.value()).toASCIIString();
 
-    final AliasContents aliasContents = aliases.fromAliases(userName, toResourceUri);
-    final AliasNextPage aliasNextPage = AliasNextPage.of(aliasPage.value(), aliasSize.increment().value(), aliases.size());
-    aliasContents.popIfSizeOver(aliasSize.value());
-    final AliasJson aliasJson = new AliasJson.Builder()
-            .page(aliasPage)
-            .nextPage(aliasNextPage.toOptionalLong())
-            .size(aliasSize)
-            .contents(aliasContents)
-            .build();
+    final AliasesJson json = AliasesJson.from(aliases, toResourceUri);
     logger.info("success : getAliases");
-    return ResponseEntity.status(HttpStatus.OK).body(aliasJson);
+    return ResponseEntity.status(HttpStatus.OK).body(json);
   }
 }

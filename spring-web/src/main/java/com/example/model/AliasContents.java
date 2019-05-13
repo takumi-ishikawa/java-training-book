@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.example.json.AliasJson;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,24 +9,24 @@ import java.util.List;
 public class AliasContents {
 
   @NotNull
-  public final List<AliasContent> aliasContents;
+  public final List<AliasJson> aliasJsons;
 
-  public AliasContents(@NotNull final List<AliasContent> aliasContents) {
-    this.aliasContents = aliasContents;
+  public AliasContents(@NotNull final List<AliasJson> aliasJsons) {
+    this.aliasJsons = aliasJsons;
   }
 
   @NotNull
   @Contract(value = "_ -> new", pure = true)
-  public static AliasContents of(@NotNull final List<AliasContent> aliasContents) {
-    return new AliasContents(aliasContents);
+  public static AliasContents of(@NotNull final List<AliasJson> aliasJsons) {
+    return new AliasContents(aliasJsons);
   }
 
   public void popIfSizeOver(@NotNull final long size) {
-    if (aliasContents.size() == 0) {
+    if (aliasJsons.size() == 0) {
       return;
     }
-    if (aliasContents.size() > size) {
-      aliasContents.remove(aliasContents.size() - 1);
+    if (aliasJsons.size() > size) {
+      aliasJsons.remove(aliasJsons.size() - 1);
     }
   }
 }

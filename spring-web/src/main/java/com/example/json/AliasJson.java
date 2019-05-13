@@ -1,78 +1,74 @@
 package com.example.json;
 
-import com.example.model.AliasContents;
-import com.example.model.AliasNextPage;
-import com.example.model.AliasPage;
-import com.example.model.AliasSize;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import com.example.model.Alias;
+import com.example.model.AliasId;
+import com.example.model.AliasName;
+import com.example.model.AliasValue;
 
-import java.util.OptionalLong;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class AliasJson {
 
-  public final Long page;
-  @NotNull
-  public final Long nextPage;
-  @NotNull
-  public final Long size;
-  @NotNull
-  public final AliasContents contents;
+  private final Long aliasId;
+  private final String name;
+  private final String value;
+  private final String url;
 
-  public static class Builder {
-    private Long page;
-    private Long nextPage;
-    private Long size;
-    private AliasContents contents;
-
-    public Builder() {}
-
-    public Builder page(AliasPage aliasPage) {
-      this.page = aliasPage.value();
-      return this;
-    }
-
-    public Builder nextPage(OptionalLong aliasNextPage) {
-      aliasNextPage.ifPresent(p -> nextPage = p);
-      return this;
-    }
-
-    public Builder size(AliasSize aliasSize) {
-      this.size = aliasSize.value();
-      return this;
-    }
-
-    public Builder contents(AliasContents aliasContents) {
-      this.contents = aliasContents;
-      return this;
-    }
-
-    public AliasJson build() {
-      return AliasJson.of(this);
-    }
+  public AliasJson(final Long aliasId, final String name, final String value, final String url) {
+    this.aliasId = aliasId;
+    this.name = name;
+    this.value = value;
+    this.url = url;
   }
 
-  @Contract(pure = true)
-  public AliasJson(final Builder builder) {
-    this.page = builder.page;
-    this.nextPage = builder.nextPage;
-    this.size = builder.size;
-    this.contents = builder.contents;
+  public AliasJson(AliasId aliasId, AliasName aliasName, AliasValue alias, String url) {
+    this(aliasId.value(), aliasName.value(), alias.value(), url);
   }
 
-  @NotNull
-  @Contract(value = "_, _, _, _ -> new!", pure = true)
-  public static AliasJson of(final Builder builder) {
-    return new AliasJson(builder);
+  public static AliasJson from(Alias alias, Function<? super AliasName, ? extends String> uriResolver) {
+    return new AliasJson(alias.aliasId, alias.name, alias.value, uriResolver.apply(alias.name));
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    AliasJson that = (AliasJson) o;
+    return Objects.equals(aliasId, that.aliasId) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(value, that.value) &&
+            Objects.equals(url, that.url);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(aliasId, name, value, url);
   }
 
   @Override
   public String toString() {
     return "AliasJson{" +
-            "page=" + page +
-            ", nextPage=" + nextPage +
-            ", size=" + size +
-            ", contents=" + contents +
+            "aliasId=" + aliasId +
+            ", name='" + name + '\'' +
+            ", value='" + value + '\'' +
+            ", url='" + url + '\'' +
             '}';
+  }
+
+  public Long getAliasId() {
+    return aliasId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public String getUrl() {
+    return url;
   }
 }

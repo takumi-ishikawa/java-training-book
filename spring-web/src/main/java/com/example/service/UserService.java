@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.AliasOffset;
+import com.example.model.AliasPage;
 import com.example.model.AliasSize;
 import com.example.model.Aliases;
 import com.example.model.User;
@@ -25,5 +26,5 @@ public interface UserService {
 
   Aliases findAliasesByUserName(@NotNull final UserName userName,
                                 @NotNull final AliasSize aliasSize,
-                                @NotNull final AliasOffset aliasOffset);
+                                @NotNull final AliasPage aliasPage);
 }

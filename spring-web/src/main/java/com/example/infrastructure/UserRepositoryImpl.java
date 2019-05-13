@@ -101,11 +101,11 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public Aliases findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
+  public List<Alias> findAliasesByUserName(@NotNull UserName userName, @NotNull AliasSize aliasSize, @NotNull final AliasOffset aliasOffset) {
     Optional<User> user = findByName(userName);
-    return Aliases.of(aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasSize, aliasOffset)
+    return aliasDao.findAliasesById(user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId, aliasSize, aliasOffset)
             .stream()
             .map(AliasDataView::toAlias)
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
   }
 }

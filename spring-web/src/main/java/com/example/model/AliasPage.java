@@ -30,6 +30,10 @@ public class AliasPage {
         }
     }
 
+    public AliasOffset toOffset(AliasSize size) {
+        return new  AliasOffset(value * size.value());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

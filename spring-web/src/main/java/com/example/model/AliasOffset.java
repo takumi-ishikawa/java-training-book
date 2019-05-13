@@ -9,6 +9,11 @@ public class AliasOffset {
 
   private final long value;
 
+  @Contract(pure = true)
+  AliasOffset(long value) {
+    this.value = value;
+  }
+
   @Contract
   public AliasOffset(@NotNull final long page, @NotNull final long size) {
     this.value = page * size;
