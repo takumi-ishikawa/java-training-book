@@ -74,17 +74,15 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler({NoResourceException.class})
-  ResponseEntity<Object> handleErrorNoResource(RuntimeException e, WebRequest webRequest) {
+  ResponseEntity<Object> handleErrorNoResource(NoResourceException e, WebRequest webRequest) {
     final Map<String, String[]> map = webRequest.getParameterMap();
     final Map<String, List<String>> param = map.entrySet()
             .stream()
             .collect(Collectors.toUnmodifiableMap(Entry::getKey,
                     entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
     logger.info("error at {} {}", webRequest.getContextPath(), param);
-    logger.info("database error", e);
-    final String message = e.getMessage();
-    final String msg = message == null ? "no resource error" : message;
-    final AppJson json = AppJson.failure(msg);
+    logger.info("no resource", e);
+    final AppJson json = AppJson.failure(e.getMessage());
     return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
   }
 }
