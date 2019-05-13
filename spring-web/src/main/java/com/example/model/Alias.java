@@ -11,7 +11,7 @@ public class Alias {
     @NotNull
     public final UserId userId;
     @NotNull
-    public final UserName name;
+    public final AliasName name;
     @NotNull
     public final AliasValue value;
     @NotNull
@@ -19,7 +19,7 @@ public class Alias {
 
     public Alias(@NotNull AliasId aliasId,
                  @NotNull UserId userId,
-                 @NotNull UserName name,
+                 @NotNull AliasName name,
                  @NotNull AliasValue value,
                  @NotNull CreatedAt createdAt) {
         this.aliasId = aliasId;
@@ -30,10 +30,10 @@ public class Alias {
     }
 
     @NotNull
-    @Contract(value = "_, _, _, _ -> new", pure = true)
+    @Contract(value = "_, ,__, _, _ -> new", pure = true)
     public static Alias of(@NotNull final AliasId aliasId,
                            @NotNull final UserId userId,
-                           @NotNull final UserName userName,
+                           @NotNull final AliasName userName,
                            @NotNull final AliasValue value,
                            @NotNull final CreatedAt createdAt) {
         return new Alias(aliasId, userId, userName, value, createdAt);

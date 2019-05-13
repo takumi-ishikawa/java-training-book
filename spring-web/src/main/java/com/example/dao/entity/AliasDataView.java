@@ -2,6 +2,7 @@ package com.example.dao.entity;
 
 import com.example.model.Alias;
 import com.example.model.AliasId;
+import com.example.model.AliasName;
 import com.example.model.AliasValue;
 import com.example.model.CreatedAt;
 import com.example.model.UserId;
@@ -17,7 +18,7 @@ public class AliasDataView {
 
     public final AliasId aliasId;
     public final UserId userId;
-    public final UserName name;
+    public final AliasName name;
     public final AliasValue value;
     public final CreatedAt createdAt;
 
@@ -25,7 +26,7 @@ public class AliasDataView {
     @Contract(pure = true)
     public AliasDataView(@NotNull final AliasId aliasId,
                        @NotNull final UserId userId,
-                       @NotNull final UserName name,
+                       @NotNull final AliasName name,
                        @NotNull final AliasValue value,
                        @NotNull final CreatedAt createdAt) {
         this.aliasId = aliasId;

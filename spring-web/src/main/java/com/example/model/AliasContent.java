@@ -16,6 +16,10 @@ public class AliasContent {
     this.url = url;
   }
 
+  public AliasContent(AliasId aliasId, AliasName aliasName, AliasValue alias, String url) {
+    this(aliasId.value(), aliasName.value(), alias.value(), url);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

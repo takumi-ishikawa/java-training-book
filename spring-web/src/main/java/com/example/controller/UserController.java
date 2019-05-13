@@ -4,9 +4,8 @@ import com.example.controller.json.UserTokenJson;
 import com.example.json.AliasJson;
 import com.example.json.AppJson;
 import com.example.json.UserJson;
-import com.example.model.Alias;
-import com.example.model.AliasContent;
 import com.example.model.AliasContents;
+import com.example.model.AliasName;
 import com.example.model.AliasNextPage;
 import com.example.model.AliasOffset;
 import com.example.model.AliasPage;
@@ -34,10 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalLong;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/users")
@@ -119,7 +115,12 @@ public class UserController {
     final AliasSize aliasSize = AliasSize.of(size);
     final AliasOffset aliasOffset = AliasOffset.of(page, size);
     final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize.increment(), aliasOffset);
-    final AliasContents aliasContents = AliasContents.fromAliases(aliases, userName, uriComponentsBuilder.path("/users/{name}/aliases/{alias}"));
+
+    final Function<AliasName, String> toResourceUri = aliasName ->
+            uriComponentsBuilder.path("/users/{name}/aliases/{alias}")
+                    .build(userName.value(), aliasName.value()).toASCIIString();
+
+    final AliasContents aliasContents = aliases.fromAliases(userName, toResourceUri);
     final AliasNextPage aliasNextPage = AliasNextPage.of(aliasPage.value(), aliasSize.increment().value(), aliases.size());
     aliasContents.popIfSizeOver(aliasSize.value());
     final AliasJson aliasJson = new AliasJson.Builder()
