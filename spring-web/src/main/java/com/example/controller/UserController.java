@@ -92,11 +92,8 @@ public class UserController {
 
   @SuppressWarnings("MVCPathVariableInspection")
   @RequestMapping(method = RequestMethod.DELETE, value = "{name}", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString, @RequestHeader("X-USER-TOKEN") final String xUserToken) {
-    final UserToken userToken = UserToken.of(xUserToken);
-    userToken.validate();
+  ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString) {
     final UserName userName = UserName.of(userNameString);
-    userName.validate();
     userService.deleteUserByUserName(userName);
     logger.info("success : deleteUserByUserToken");
     return ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success"));
