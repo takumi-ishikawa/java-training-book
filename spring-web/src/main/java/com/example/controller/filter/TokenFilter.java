@@ -35,11 +35,17 @@ public class TokenFilter extends OncePerRequestFilter {
   protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
     final String userToken = request.getHeader("X-USER-TOKEN");
     final Matcher userNameMatcher = USER_NAME_PATTERN.matcher(request.getRequestURI());
+    if (request.getMethod().equals("POST")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+    if (request.getMethod().equals("GET")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
     if (userNameMatcher.find()) {
       final String userName = userNameMatcher.group();
-      if (!request.getMethod().equals("GET")) {
-        userRepository.findUserByUserNameAndUserToken(UserName.of(userName), UserToken.of(userToken));
-      }
+      userRepository.findUserByUserNameAndUserToken(UserName.of(userName), UserToken.of(userToken));
     } else {
       throw new NoResourceException("failed to find name");
     }
