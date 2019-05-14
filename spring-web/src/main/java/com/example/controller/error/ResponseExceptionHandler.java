@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.example.model.NoResourceException;
+import com.example.model.NotOneResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -82,6 +83,19 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
                     entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
     logger.info("error at {} {}", webRequest.getContextPath(), param);
     logger.info("no resource", e);
+    final AppJson json = AppJson.failure(e.getMessage());
+    return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+  }
+
+  @ExceptionHandler({NotOneResultException.class})
+  ResponseEntity<Object> handleErrorNotOneResult(NotOneResultException e, WebRequest webRequest) {
+    final Map<String, String[]> map = webRequest.getParameterMap();
+    final Map<String, List<String>> param = map.entrySet()
+            .stream()
+            .collect(Collectors.toUnmodifiableMap(Entry::getKey,
+                    entry -> Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
+    logger.info("error at {} {}", webRequest.getContextPath(), param);
+    logger.info("not one result", e);
     final AppJson json = AppJson.failure(e.getMessage());
     return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
   }

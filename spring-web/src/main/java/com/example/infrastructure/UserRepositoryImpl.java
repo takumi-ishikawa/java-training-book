@@ -10,6 +10,7 @@ import com.example.dao.entity.UserTokenEntity;
 import com.example.model.Alias;
 import com.example.model.AliasOffset;
 import com.example.model.AliasSize;
+import com.example.model.NotOneResultException;
 import com.example.model.User;
 import com.example.model.UserId;
 import com.example.model.UserName;
@@ -58,7 +59,13 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public Optional<User> createUser(final User user) {
     Result<UserEntity> userEntityResult = userDao.insertUser(new UserEntity(user.userId, user.name, user.createdAt));
+    if (userEntityResult.getCount() != 1) {
+      throw new NotOneResultException("not one userEntityResult");
+    }
     Result<UserTokenEntity> tokenEntityResult = userTokenDao.insertUserToken(new UserTokenEntity(user.userId, user.token, user.createdAt));
+    if (tokenEntityResult.getCount() != 1) {
+      throw new NotOneResultException("not one tokenEntityResult");
+    }
 
     return Optional.of(user);
   }
@@ -66,6 +73,9 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public Optional<User> updateUserToken(final @NotNull User user, final@NotNull UserToken userToken) {
     Result<UserTokenEntity> userTokenEntityResult = userTokenDao.updateUserToken(new UserTokenEntity(user.userId, userToken, user.createdAt));
+    if (userTokenEntityResult.getCount() != 1) {
+      throw new NotOneResultException("not one userTokenEntityResult");
+    }
     return Optional.of(user);
   }
 
