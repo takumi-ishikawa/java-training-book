@@ -97,6 +97,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     logger.info("error at {} {}", webRequest.getContextPath(), param);
     logger.info("not one result", e);
     final AppJson json = AppJson.failure(e.getMessage());
-    return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+    return handleExceptionInternal(e, json, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
   }
 }
