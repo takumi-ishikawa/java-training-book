@@ -107,7 +107,9 @@ public class UserController {
                                     UriComponentsBuilder uriComponentsBuilder) {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
+    aliasPage.validate();
     final AliasSize aliasSize = AliasSize.of(size);
+    aliasSize.validate();
     final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize, aliasPage);
 
     final Function<AliasName, String> toResourceUri = aliasName ->
