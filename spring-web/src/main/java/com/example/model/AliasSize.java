@@ -34,7 +34,7 @@ public class AliasSize {
 
     public void validate() {
         if (value < 0) {
-            throw new IllegalArgumentException("Invalid AliasSize, too small");
+            throw new IllegalArgumentException("Invalid AliasSize. Negative values can not be used.");
         }
     }
 

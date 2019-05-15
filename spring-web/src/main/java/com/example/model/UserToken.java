@@ -28,10 +28,10 @@ public class UserToken {
   public void validate() {
     final Matcher matcher = PATTERN.matcher(value);
 
-    if (value.length() <= MIN_VALUE_LENGTH) {
+    if (value.length() < MIN_VALUE_LENGTH) {
       throw new IllegalArgumentException("Invalid UserToken, too short");
     }
-    if (value.length() >= MAX_VALUE_LENGTH) {
+    if (value.length() > MAX_VALUE_LENGTH) {
       throw new IllegalArgumentException("Invalid UserToken, too long");
     }
     if (!matcher.find()) {

@@ -26,7 +26,7 @@ public class AliasPage {
 
     public void validate() {
         if (value < 0) {
-            throw new IllegalArgumentException("Invalid AliasPage, too large");
+            throw new IllegalArgumentException("Invalid AliasPage. Negative values can not be used. ");
         }
     }
 

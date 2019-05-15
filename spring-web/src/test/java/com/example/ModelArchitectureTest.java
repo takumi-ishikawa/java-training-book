@@ -17,7 +17,7 @@ class ModelArchitectureTest {
     final JavaClasses classes = new ClassFileImporter().importPackages("com.example.model");
 
     final ArchRule rule = classes()
-        .should().accessClassesThat().resideInAnyPackage("java.lang", "java.util","java.time", "com.example.model")
+        .should().accessClassesThat().resideInAnyPackage("java.lang", "java.util", "java.util.function", "java.time", "com.example.model")
         .because("model should be independent of any components");
 
     rule.check(classes);
