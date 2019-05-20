@@ -1,11 +1,11 @@
 package com.example.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserNameTest {
 
@@ -38,8 +38,7 @@ class UserNameTest {
 
     @Test
     void tokenが36文字で例外が発生する() {
-      assertThrows(IllegalArgumentException.class, () -> UserName.of("a".repeat(36))
-              .validate());
+      assertThrows(IllegalArgumentException.class, () -> UserName.of("a".repeat(36)).validate());
     }
 
     @Test

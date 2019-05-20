@@ -1,6 +1,5 @@
 package com.example;
 
-
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
@@ -16,9 +15,13 @@ class ModelArchitectureTest {
   void modelDidNotDependOnAnyPackages() {
     final JavaClasses classes = new ClassFileImporter().importPackages("com.example.model");
 
-    final ArchRule rule = classes()
-        .should().accessClassesThat().resideInAnyPackage("java.lang", "java.util", "java.util.function", "java.time", "com.example.model")
-        .because("model should be independent of any components");
+    final ArchRule rule =
+        classes()
+            .should()
+            .accessClassesThat()
+            .resideInAnyPackage(
+                "java.lang", "java.util", "java.util.function", "java.time", "com.example.model")
+            .because("model should be independent of any components");
 
     rule.check(classes);
   }

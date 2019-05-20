@@ -1,10 +1,10 @@
 package com.example.model;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class UserTokenTest {
 
@@ -32,20 +32,17 @@ class UserTokenTest {
 
   @Test
   void tokenが126文字で例外が発生しない() {
-    assertDoesNotThrow(() -> UserToken.of("a".repeat(126))
-            .validate());
+    assertDoesNotThrow(() -> UserToken.of("a".repeat(126)).validate());
   }
 
   @Test
   void tokenが127文字で例外が発生しない() {
-    assertDoesNotThrow(() -> UserToken.of("a".repeat(127))
-            .validate());
+    assertDoesNotThrow(() -> UserToken.of("a".repeat(127)).validate());
   }
 
   @Test
   void tokenが128文字で例外が発生する() {
-    assertThrows(IllegalArgumentException.class, () -> UserToken.of("a".repeat(128))
-            .validate());
+    assertThrows(IllegalArgumentException.class, () -> UserToken.of("a".repeat(128)).validate());
   }
 
   @Test
