@@ -20,7 +20,8 @@ public class UserDataView {
   public final CreatedAt createdAt;
 
   @Contract(pure = true)
-  public UserDataView(final @NotNull UserId userId,
+  public UserDataView(
+      final @NotNull UserId userId,
       final @NotNull UserName name,
       final @NotNull UserToken token,
       final @NotNull CreatedAt createdAt) {

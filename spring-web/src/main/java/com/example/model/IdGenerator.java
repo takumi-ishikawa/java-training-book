@@ -8,7 +8,7 @@ public interface IdGenerator {
   long createId();
 
   @NotNull
-  default  <T> T createId(@NotNull LongFunction<? extends T> constructor) {
+  default <T> T createId(@NotNull LongFunction<? extends T> constructor) {
     return constructor.apply(createId());
   }
 }

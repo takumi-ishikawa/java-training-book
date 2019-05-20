@@ -1,21 +1,26 @@
 package com.example.model;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class AliasName {
 
-  @NotNull
-  private final String value;
+  @NotNull private final String value;
 
-  public AliasName(@NotNull String value) {
+  private AliasName(@NotNull String value) {
     this.value = value;
   }
 
   @NotNull
   public String value() {
     return value;
+  }
+
+  @NotNull
+  @Contract(value = "_ -> new", pure = true)
+  public static AliasName of(@NotNull final String value) {
+    return new AliasName(value);
   }
 
   @Override
@@ -33,8 +38,6 @@ public class AliasName {
 
   @Override
   public String toString() {
-    return "AliasName{" +
-            "value='" + value + '\'' +
-            '}';
+    return "AliasName{" + "value='" + value + '\'' + '}';
   }
 }

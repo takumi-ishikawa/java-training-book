@@ -7,11 +7,9 @@ import org.seasar.doma.jdbc.domain.DomainConverter;
 
 abstract class AbstractConverter<APP, DB> implements DomainConverter<APP, DB> {
 
-  @NotNull
-  private final Function<? super APP, ? extends DB> toDbValue;
+  @NotNull private final Function<? super APP, ? extends DB> toDbValue;
 
-  @NotNull
-  private final Function<? super DB, ? extends APP> toAppValue;
+  @NotNull private final Function<? super DB, ? extends APP> toAppValue;
 
   @Contract(pure = true)
   AbstractConverter(

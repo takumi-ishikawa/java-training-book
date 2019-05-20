@@ -1,9 +1,8 @@
 package com.example.model;
 
+import java.util.Objects;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class AliasOffset {
 
@@ -44,8 +43,6 @@ public class AliasOffset {
 
   @Override
   public String toString() {
-    return "AliasOffset{" +
-            "value=" + value +
-            '}';
+    return "AliasOffset{" + "value=" + value + '}';
   }
 }

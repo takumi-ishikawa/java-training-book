@@ -6,17 +6,15 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("WeakerAccess")
 public class User {
 
-  @NotNull
-  public final UserId userId;
-  @NotNull
-  public final UserName name;
-  @NotNull
-  public final UserToken token;
-  @NotNull
-  public final CreatedAt createdAt;
+  @NotNull public final UserId userId;
+  @NotNull public final UserName name;
+  @NotNull public final UserToken token;
+  @NotNull public final CreatedAt createdAt;
 
   @Contract(pure = true)
-  private User(@NotNull final UserId userId, @NotNull final UserName name,
+  private User(
+      @NotNull final UserId userId,
+      @NotNull final UserName name,
       @NotNull final UserToken token,
       @NotNull final CreatedAt createdAt) {
     this.userId = userId;
@@ -27,7 +25,9 @@ public class User {
 
   @NotNull
   @Contract(value = "_, _, _, _ -> new", pure = true)
-  public static User of(@NotNull final UserId userId, @NotNull final UserName name,
+  public static User of(
+      @NotNull final UserId userId,
+      @NotNull final UserName name,
       @NotNull final UserToken token,
       @NotNull final CreatedAt createdAt) {
     return new User(userId, name, token, createdAt);

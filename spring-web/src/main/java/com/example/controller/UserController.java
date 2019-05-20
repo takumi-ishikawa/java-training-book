@@ -14,6 +14,8 @@ import com.example.model.NoResourceException;
 import com.example.model.UserName;
 import com.example.model.UserToken;
 import com.example.service.UserService;
+import java.util.Map;
+import java.util.function.Function;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -23,49 +25,51 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Map;
-import java.util.function.Function;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-  @NotNull
-  private final UserService userService;
+  @NotNull private final UserService userService;
   private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
   @Contract(pure = true)
-  public UserController(
-          final @NotNull UserService userService) {
+  public UserController(final @NotNull UserService userService) {
     this.userService = userService;
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
   @GetMapping(value = "{name}", produces = "application/json")
-  ResponseEntity<Object> getUser( @PathVariable("name") final String userNameString) {
-    return userService.findUserByName(UserName.of(userNameString))
-            .map(UserJson::fromUser)
-            .<ResponseEntity<Object>>map(ResponseEntity::ok)
-            .orElseThrow(() -> new NoResourceException("user is not found"));
+  ResponseEntity<Object> getUser(@PathVariable("name") final String userNameString) {
+    return userService
+        .findUserByName(UserName.of(userNameString))
+        .map(UserJson::fromUser)
+        .<ResponseEntity<Object>>map(ResponseEntity::ok)
+        .orElseThrow(() -> new NoResourceException("user is not found"));
   }
 
   @SuppressWarnings("MVCPathVariableInspenction")
   @RequestMapping(produces = "application/json", method = RequestMethod.POST)
-  ResponseEntity<Object> createUser( @RequestParam("userToken") String userTokenString, @RequestParam("name") String userNameString) {
+  ResponseEntity<Object> createUser(
+      @RequestParam("userToken") String userTokenString,
+      @RequestParam("name") String userNameString) {
     final UserToken userToken = UserToken.of(userTokenString);
     userToken.validate();
     final UserName userName = UserName.of(userNameString);
     userName.validate();
-    return userService.createUser(userToken, userName)
-            .<ResponseEntity<Object>>map(u -> ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success")))
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AppJson.failure("failed to create user")));
+    return userService
+        .createUser(userToken, userName)
+        .<ResponseEntity<Object>>map(
+            u -> ResponseEntity.status(HttpStatus.OK).body(AppJson.success("success")))
+        .orElseGet(
+            () ->
+                ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(AppJson.failure("failed to create user")));
   }
 
   @GetMapping(value = "error", produces = "application/json")
@@ -79,8 +83,14 @@ public class UserController {
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
-  @RequestMapping(method = RequestMethod.PUT, value = "{name}", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> updateUserToken(@PathVariable("name") final String userNameString, @RequestBody final UserTokenJson userTokenJson) {
+  @RequestMapping(
+      method = RequestMethod.PUT,
+      value = "{name}",
+      produces = "application/json",
+      consumes = "application/json")
+  ResponseEntity<Object> updateUserToken(
+      @PathVariable("name") final String userNameString,
+      @RequestBody final UserTokenJson userTokenJson) {
     final UserToken userToken = UserToken.of(userTokenJson.getToken());
     userToken.validate();
     final UserName userName = UserName.of(userNameString);
@@ -91,8 +101,13 @@ public class UserController {
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
-  @RequestMapping(method = RequestMethod.DELETE, value = "{name}", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> deleteUserByuserNameAndUserToken(@PathVariable("name") final String userNameString) {
+  @RequestMapping(
+      method = RequestMethod.DELETE,
+      value = "{name}",
+      produces = "application/json",
+      consumes = "application/json")
+  ResponseEntity<Object> deleteUserByuserNameAndUserToken(
+      @PathVariable("name") final String userNameString) {
     final UserName userName = UserName.of(userNameString);
     userService.deleteUserByUserName(userName);
     logger.info("success : deleteUserByUserToken");
@@ -100,11 +115,15 @@ public class UserController {
   }
 
   @SuppressWarnings("MVCPathVariableInspection")
-  @GetMapping(value = "{name}/aliases", produces = "application/json", consumes = "application/json")
-  ResponseEntity<Object> getAliases(@PathVariable("name") final String userNameString,
-                                    @RequestParam(defaultValue = "0") final Long page,
-                                    @RequestParam(defaultValue = "10") final Long size,
-                                    UriComponentsBuilder uriComponentsBuilder) {
+  @GetMapping(
+      value = "{name}/aliases",
+      produces = "application/json",
+      consumes = "application/json")
+  ResponseEntity<Object> getAliases(
+      @PathVariable("name") final String userNameString,
+      @RequestParam(defaultValue = "0") final Long page,
+      @RequestParam(defaultValue = "10") final Long size,
+      UriComponentsBuilder uriComponentsBuilder) {
     final UserName userName = UserName.of(userNameString);
     final AliasPage aliasPage = AliasPage.of(page);
     aliasPage.validate();
@@ -112,10 +131,12 @@ public class UserController {
     aliasSize.validate();
     final Aliases aliases = userService.findAliasesByUserName(userName, aliasSize, aliasPage);
 
-    final Function<AliasName, String> toResourceUri = aliasName ->
-            uriComponentsBuilder.path("/users/{name}/aliases/{alias}")
-                    .build(Map.of("name", userName.value(), "alias", aliasName.value()))
-                    .toASCIIString();
+    final Function<AliasName, String> toResourceUri =
+        aliasName ->
+            uriComponentsBuilder
+                .path("/users/{name}/aliases/{alias}")
+                .build(Map.of("name", userName.value(), "alias", aliasName.value()))
+                .toASCIIString();
 
     final AliasesJson json = AliasesJson.from(aliases, toResourceUri);
     logger.info("success : getAliases");

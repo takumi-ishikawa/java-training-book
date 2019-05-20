@@ -1,19 +1,15 @@
 package com.example.model;
 
+import java.util.List;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class Aliases {
 
-  @NotNull
-  private final AliasPage page;
-  @NotNull
-  private final AliasSize size;
+  @NotNull private final AliasPage page;
+  @NotNull private final AliasSize size;
 
-  @NotNull
-  public final List<Alias> aliases;
+  @NotNull public final List<Alias> aliases;
 
   public Aliases(@NotNull AliasPage page, @NotNull AliasSize size, @NotNull List<Alias> aliases) {
     this.page = page;
@@ -24,9 +20,7 @@ public class Aliases {
   @Contract(value = "_, _, _ -> new", pure = true)
   @NotNull
   public static Aliases of(
-          @NotNull AliasPage page,
-          @NotNull AliasSize size,
-          @NotNull final List<Alias> aliases) {
+      @NotNull AliasPage page, @NotNull AliasSize size, @NotNull final List<Alias> aliases) {
     return new Aliases(page, size, aliases);
   }
 
@@ -35,9 +29,7 @@ public class Aliases {
   }
 
   public AliasNextPage nextPage() {
-    return AliasNextPage.currentPage(page)
-            .requestSize(size)
-            .resultSize(aliases.size());
+    return AliasNextPage.currentPage(page).requestSize(size).resultSize(aliases.size());
   }
 
   public AliasSize requestSize() {

@@ -4,7 +4,6 @@ import com.example.model.ErrorType;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorTypeMapper {
-
   USER_INPUT(HttpStatus.BAD_REQUEST),
   AUTHORIZATION(HttpStatus.UNAUTHORIZED),
   AUTHENTICATION(HttpStatus.FORBIDDEN),

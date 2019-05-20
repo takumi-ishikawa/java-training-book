@@ -14,12 +14,12 @@ import org.seasar.doma.jdbc.entity.NamingType;
 @Table(name = "users")
 public class UserEntity {
 
-  @Id
-  public final UserId userId;
+  @Id public final UserId userId;
   public final UserName name;
   public final CreatedAt createdAt;
 
-  public UserEntity(final @NotNull UserId userId,
+  public UserEntity(
+      final @NotNull UserId userId,
       final @NotNull UserName name,
       final @NotNull CreatedAt createdAt) {
     this.userId = userId;

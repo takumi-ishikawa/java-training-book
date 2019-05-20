@@ -16,34 +16,38 @@ import org.seasar.doma.jdbc.entity.NamingType;
 @Table(name = "aliases")
 public class AliasEntity {
 
-    @Id
-    public final AliasId aliasId;
-    public final UserId userId;
-    public final UserName name;
-    public final AliasValue value;
-    public final CreatedAt createdAt;
+  @Id public final AliasId aliasId;
+  public final UserId userId;
+  public final UserName name;
+  public final AliasValue value;
+  public final CreatedAt createdAt;
 
+  public AliasEntity(
+      @NotNull final AliasId aliasId,
+      @NotNull final UserId userId,
+      @NotNull final UserName name,
+      @NotNull final AliasValue value,
+      @NotNull final CreatedAt createdAt) {
+    this.aliasId = aliasId;
+    this.userId = userId;
+    this.name = name;
+    this.value = value;
+    this.createdAt = createdAt;
+  }
 
-    public AliasEntity(@NotNull final AliasId aliasId,
-                       @NotNull final UserId userId,
-                       @NotNull final UserName name,
-                       @NotNull final AliasValue value,
-                       @NotNull final CreatedAt createdAt) {
-        this.aliasId = aliasId;
-        this.userId = userId;
-        this.name = name;
-        this.value = value;
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return "AliasEntity{" +
-                "aliasId=" + aliasId +
-                ", userId=" + userId +
-                ", name=" + name +
-                ", aliasValue=" + value +
-                ", createdAt=" + createdAt +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "AliasEntity{"
+        + "aliasId="
+        + aliasId
+        + ", userId="
+        + userId
+        + ", name="
+        + name
+        + ", aliasValue="
+        + value
+        + ", createdAt="
+        + createdAt
+        + '}';
+  }
 }

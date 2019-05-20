@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'idea'
 	id 'java'
+	id "com.github.sherter.google-java-format" version "0.8"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -12,6 +13,7 @@ sourceCompatibility = JavaVersion.VERSION_12
 targetCompatibility = JavaVersion.VERSION_12
 
 repositories {
+	jcenter()
 	mavenCentral()
 }
 
@@ -20,6 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	compileOnly 'org.jetbrains:annotations:17.0.0'
+	testCompileOnly 'org.jetbrains:annotations:17.0.0'
 
 	implementation 'org.seasar.doma.boot:doma-spring-boot-starter:1.1.1'
 	implementation 'org.seasar.doma:doma:2.24.0'
@@ -35,6 +38,8 @@ dependencies {
 	testImplementation 'com.tngtech.archunit:archunit:0.10.2'
 	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.10.2'
 	testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.10.2'
+
+	testCompile "org.mockito:mockito-core:2.27.0"
 }
 
 idea.module.inheritOutputDirs = true

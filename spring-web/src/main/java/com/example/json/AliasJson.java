@@ -4,7 +4,6 @@ import com.example.model.Alias;
 import com.example.model.AliasId;
 import com.example.model.AliasName;
 import com.example.model.AliasValue;
-
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -26,7 +25,8 @@ public class AliasJson {
     this(aliasId.value(), aliasName.value(), alias.value(), url);
   }
 
-  public static AliasJson from(Alias alias, Function<? super AliasName, ? extends String> uriResolver) {
+  public static AliasJson from(
+      Alias alias, Function<? super AliasName, ? extends String> uriResolver) {
     return new AliasJson(alias.aliasId, alias.name, alias.value, uriResolver.apply(alias.name));
   }
 
@@ -35,10 +35,10 @@ public class AliasJson {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     AliasJson that = (AliasJson) o;
-    return Objects.equals(aliasId, that.aliasId) &&
-            Objects.equals(name, that.name) &&
-            Objects.equals(value, that.value) &&
-            Objects.equals(url, that.url);
+    return Objects.equals(aliasId, that.aliasId)
+        && Objects.equals(name, that.name)
+        && Objects.equals(value, that.value)
+        && Objects.equals(url, that.url);
   }
 
   @Override
@@ -48,12 +48,19 @@ public class AliasJson {
 
   @Override
   public String toString() {
-    return "AliasJson{" +
-            "aliasId=" + aliasId +
-            ", name='" + name + '\'' +
-            ", value='" + value + '\'' +
-            ", url='" + url + '\'' +
-            '}';
+    return "AliasJson{"
+        + "aliasId="
+        + aliasId
+        + ", name='"
+        + name
+        + '\''
+        + ", value='"
+        + value
+        + '\''
+        + ", url='"
+        + url
+        + '\''
+        + '}';
   }
 
   public Long getAliasId() {

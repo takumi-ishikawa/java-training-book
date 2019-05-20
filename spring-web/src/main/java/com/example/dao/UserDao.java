@@ -4,14 +4,13 @@ import com.example.dao.entity.UserDataView;
 import com.example.dao.entity.UserEntity;
 import com.example.model.UserId;
 import com.example.model.UserName;
+import java.util.Optional;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
-
-import java.util.Optional;
 
 @ConfigAutowireable
 @Dao

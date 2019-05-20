@@ -1,15 +1,13 @@
 package com.example.model;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class UserToken {
 
-  @NotNull
-  private final String value;
+  @NotNull private final String value;
   private static final int MAX_VALUE_LENGTH = 127;
   private static final int MIN_VALUE_LENGTH = 8;
   private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
@@ -55,7 +53,6 @@ public class UserToken {
     final UserToken userToken = (UserToken) o;
 
     return value.equals(userToken.value);
-
   }
 
   @Override

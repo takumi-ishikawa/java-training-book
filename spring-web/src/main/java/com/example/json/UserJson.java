@@ -12,10 +12,8 @@ import org.jetbrains.annotations.NotNull;
 public class UserJson {
 
   public final long userId;
-  @NotNull
-  public final String name;
-  @NotNull
-  public final Instant createdAt;
+  @NotNull public final String name;
+  @NotNull public final Instant createdAt;
 
   @Contract(pure = true)
   public UserJson(final long userId, @NotNull final String name, @NotNull final Instant createdAt) {

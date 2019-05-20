@@ -13,13 +13,11 @@ import org.seasar.doma.jdbc.entity.NamingType;
 @Table(name = "user_tokens")
 public class UserTokenEntity {
 
-  @Id
-  public final UserId userId;
+  @Id public final UserId userId;
   public final UserToken token;
   public final CreatedAt createdAt;
 
-  public UserTokenEntity(final UserId userId, final UserToken token,
-                         final CreatedAt createdAt) {
+  public UserTokenEntity(final UserId userId, final UserToken token, final CreatedAt createdAt) {
     this.userId = userId;
     this.token = token;
     this.createdAt = createdAt;

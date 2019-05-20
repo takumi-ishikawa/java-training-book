@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CreatedAt {
 
-  @NotNull
-  private final Instant instant;
+  @NotNull private final Instant instant;
 
   @Contract(pure = true)
   private CreatedAt(@NotNull final Instant instant) {
@@ -50,7 +49,6 @@ public class CreatedAt {
     final CreatedAt createdAt = (CreatedAt) o;
 
     return instant.equals(createdAt.instant);
-
   }
 
   @Override

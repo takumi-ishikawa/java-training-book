@@ -5,12 +5,14 @@ import com.example.model.impl.IdGeneratorImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import java.time.Clock;
+import javax.sql.DataSource;
+import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.dialect.Dialect;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ForwardedHeaderFilter;
-
-import java.time.Clock;
 
 @Configuration
 public class AppConfig {
@@ -28,8 +30,8 @@ public class AppConfig {
   @Bean
   ObjectMapper objectMapper() {
     return new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   @Bean
@@ -37,4 +39,18 @@ public class AppConfig {
     return new ForwardedHeaderFilter();
   }
 
+  @Bean
+  Config config() {
+    return new Config() {
+      @Override
+      public DataSource getDataSource() {
+        return null;
+      }
+
+      @Override
+      public Dialect getDialect() {
+        return null;
+      }
+    };
+  }
 }

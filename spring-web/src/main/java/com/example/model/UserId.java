@@ -34,7 +34,6 @@ public class UserId {
     final UserId userId = (UserId) o;
 
     return value == userId.value;
-
   }
 
   @Override

@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class AppJson {
 
   public final boolean success;
-  @NotNull
-  public final String message;
+  @NotNull public final String message;
 
   @Contract(pure = true)
   private AppJson(final boolean success, @NotNull final String message) {

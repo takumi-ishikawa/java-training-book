@@ -2,10 +2,9 @@ package com.example.model;
 
 import com.example.dao.entity.UserEntity;
 import com.example.dao.entity.UserTokenEntity;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public interface UserRepository {
 
@@ -23,7 +22,11 @@ public interface UserRepository {
 
   void deleteUserEntity(@NotNull UserEntity userEntity);
 
-  Optional<User> findUserByUserNameAndUserToken(@NotNull final UserName userName, @NotNull final UserToken userToken);
+  Optional<User> findUserByUserNameAndUserToken(
+      @NotNull final UserName userName, @NotNull final UserToken userToken);
 
-  List<Alias> findAliasesByUserName(@NotNull final UserName userName, @NotNull final AliasSize aliasSize, @NotNull final AliasOffset aliasOffset);
+  List<Alias> findAliasesByUserName(
+      @NotNull final UserName userName,
+      @NotNull final AliasSize aliasSize,
+      @NotNull final AliasOffset aliasOffset);
 }
