@@ -20,14 +20,11 @@ class IdGeneratorImplTest {
 
     @Test
     void ほぼ同時にcreateIdしたときに異なる値が返ってくれば良い() {
-      long id1 = idGenerator.createId();
-      //      try {
-      //        Thread.sleep(0);
-      //      } catch (InterruptedException e) {
-      //        e.printStackTrace();
-      //      }
-      long id2 = idGenerator.createId();
-      assertThat(id1).isNotEqualTo(id2);
+      for (int i = 0; i < 100; i++) {
+        long id1 = idGenerator.createId();
+        long id2 = idGenerator.createId();
+        assertThat(id1).isNotEqualTo(id2);
+      }
     }
   }
 }
