@@ -14,6 +14,6 @@ import org.seasar.doma.boot.ConfigAutowireable;
 public interface AliasDao {
 
   @Select
-  List<AliasDataView> findAliasesById(
+  List<AliasDataView> findAliasesByUserId(
       final UserId userId, final AliasSize aliasSize, final AliasOffset aliasOffset);
 }

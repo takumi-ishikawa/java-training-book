@@ -116,7 +116,7 @@ public class UserRepositoryImpl implements UserRepository {
       @NotNull final AliasOffset aliasOffset) {
     Optional<User> user = findByName(userName);
     return aliasDao
-        .findAliasesById(
+        .findAliasesByUserId(
             user.orElseThrow(() -> new IllegalArgumentException("invalid input")).userId,
             aliasSize,
             aliasOffset)

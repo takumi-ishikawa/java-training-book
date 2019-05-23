@@ -208,7 +208,7 @@ class UserRepositoryImplTest {
   class findAliasesByUserName {
     @Test
     void エイリアスが見つからなかった場合は例外が発生する() {
-      when(aliasDao.findAliasesById(UserId.of(1111L), AliasSize.of(1L), AliasOffset.of(2L, 1L)))
+      when(aliasDao.findAliasesByUserId(UserId.of(1111L), AliasSize.of(1L), AliasOffset.of(2L, 1L)))
           .thenReturn(Collections.emptyList());
       assertThrows(
           IllegalArgumentException.class,
@@ -230,7 +230,7 @@ class UserRepositoryImplTest {
       when(userDao.findUserByName(user.name))
           .thenReturn(
               Optional.of(new UserDataView(user.userId, user.name, user.token, user.createdAt)));
-      when(aliasDao.findAliasesById(user.userId, aliasSize, aliasOffset))
+      when(aliasDao.findAliasesByUserId(user.userId, aliasSize, aliasOffset))
           .thenReturn(
               List.of(
                   new AliasDataView(
