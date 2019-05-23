@@ -81,7 +81,7 @@ class UserRepositoryImplTest {
   }
 
   @Nested
-  class UpdateUserToken {
+  class UpdateUserTokenTest {
     @Test
     void 存在しないUserの場合は例外が発生する() {
       User user =
@@ -113,7 +113,7 @@ class UserRepositoryImplTest {
   }
 
   @Nested
-  class findUserTokenByUserIdTest {
+  class FindUserTokenByUserIdTest {
     @Test
     void UserIdが存在しない場合はemptyが返ってくる() {
       when(userTokenDao.findUserTokenByUserId(any())).thenReturn(Optional.empty());
@@ -174,7 +174,7 @@ class UserRepositoryImplTest {
   }
 
   @Nested
-  class findUserByUserNameAndUserToken {
+  class FindUserByUserNameAndUserTokenTest {
     @Test
     void 存在しないUserNameとUserTokenの場合はemptyが返ってくる() {
       when(userDao.findUserByName(any())).thenReturn(Optional.empty());
@@ -205,7 +205,7 @@ class UserRepositoryImplTest {
   }
 
   @Nested
-  class findAliasesByUserName {
+  class FindAliasesByUserNameTest {
     @Test
     void エイリアスが見つからなかった場合は例外が発生する() {
       when(aliasDao.findAliasesByUserId(UserId.of(1111L), AliasSize.of(1L), AliasOffset.of(2L, 1L)))
