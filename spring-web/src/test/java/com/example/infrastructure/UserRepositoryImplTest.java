@@ -225,7 +225,7 @@ class UserRepositoryImplTest {
   @Nested
   class FindAliasesByUserNameTest {
     @Test
-    void エイリアスが見つからなかった場合は例外が発生する() {
+    void ユーザーが見つからなかった場合は例外が発生する() {
       when(aliasDao.findAliasesByUserId(UserId.of(1111L), AliasSize.of(1L), AliasOffset.of(2L, 1L)))
           .thenReturn(Collections.emptyList());
       assertThrows(
@@ -236,7 +236,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    void エイリアスが見つかった場合は入力したUserNameに対応するUserIdをもつAliasのリストが返ってくる() {
+    void ユーザーが見つかった場合は入力したUserNameに対応するUserIdをもつAliasのリストが返ってくる() {
       User user =
           User.of(
               UserId.of(1000L),
