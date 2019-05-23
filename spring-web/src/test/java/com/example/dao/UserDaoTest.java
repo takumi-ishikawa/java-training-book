@@ -25,7 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Import(DomaAutoConfiguration.class)
 @ComponentScan
 @Sql({
-  "classpath:META-INF/com/example/dao/deleteSampleTables.sql",
+  "classpath:META-INF/com/example/dao/dropSampleTables.sql",
   "classpath:META-INF/com/example/dao/createSampleTables.sql",
   "classpath:META-INF/com/example/dao/insertSampleData.sql"
 })
