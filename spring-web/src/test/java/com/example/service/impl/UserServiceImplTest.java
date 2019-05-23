@@ -149,13 +149,13 @@ class UserServiceImplTest {
     }
 
     @Test
-    void ユーザーが見つかった場合は入力したAliasNameと同じ値をもつAliasesを返す() {
+    void ユーザーが見つかった場合は入力したUserNameに対応するUserIdをもつAliasesを返す() {
       AliasPage aliasPage = AliasPage.of(1L);
       AliasSize aliasSize = AliasSize.of(2L);
       Alias alias =
           Alias.of(
               AliasId.of(1L),
-              UserId.of(2L),
+              UserId.of(1000L),
               AliasName.of("testAliasName"),
               AliasValue.of("testAliasValue"),
               CreatedAt.of(Instant.now()));
@@ -164,26 +164,7 @@ class UserServiceImplTest {
       assertThat(
               userService.findAliasesByUserName(UserName.of("testUserName"), aliasSize, aliasPage)
                   .aliases)
-          .allSatisfy(a -> assertThat(a.name).isEqualTo(AliasName.of("testAliasName")));
-    }
-
-    @Test
-    void ユーザーが見つかった場合は入力したAliasValueと同じ値をもつAliasesを返す() {
-      AliasPage aliasPage = AliasPage.of(1L);
-      AliasSize aliasSize = AliasSize.of(2L);
-      Alias alias =
-          Alias.of(
-              AliasId.of(1L),
-              UserId.of(2L),
-              AliasName.of("testAliasName"),
-              AliasValue.of("testAliasValue"),
-              CreatedAt.of(Instant.now()));
-      List<Alias> aliasList = List.of(alias);
-      when(userRepository.findAliasesByUserName(any(), any(), any())).thenReturn(aliasList);
-      assertThat(
-              userService.findAliasesByUserName(UserName.of("testUserName"), aliasSize, aliasPage)
-                  .aliases)
-          .allSatisfy(a -> assertThat(a.value).isEqualTo(AliasValue.of("testAliasValue")));
+          .allSatisfy(a -> assertThat(a.userId).isEqualTo(UserId.of(1000L)));
     }
   }
 }
