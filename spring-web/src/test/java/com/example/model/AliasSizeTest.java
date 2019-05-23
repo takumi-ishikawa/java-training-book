@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 class AliasSizeTest {
 
   @Test
-  void インクリメントが正しいかどうか() {
+  void インクリメントして返ってきたオブジェクトがが正しいかどうか() {
     assertThat(AliasSize.of(1).increment()).isEqualTo(AliasSize.of(2));
   }
 
   @Test
-  void デクリメントが正しいかどうか() {
+  void デクリメントして返ってきたオブジェクトが正しいかどうか() {
     assertThat(AliasSize.of(1).decrement()).isEqualTo(AliasSize.of(0));
   }
 

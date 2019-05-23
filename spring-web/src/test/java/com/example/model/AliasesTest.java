@@ -56,7 +56,7 @@ class AliasesTest {
   @Nested
   class SizeTest {
     @Test
-    void sizeで返されるオブジェクトがnullでないこと() {
+    void Aliases生成時に1つのAliasのListを入れた場合は返ってくるオブジェクトのsizeが2となれば良い() {
       Aliases testAliases =
           Aliases.of(
               AliasPage.of(1),
@@ -69,7 +69,7 @@ class AliasesTest {
                       AliasValue.of("testAliasValue"),
                       CreatedAt.of(
                           LocalDateTime.of(2019, 1, 1, 0, 0, 0).toInstant(ZoneOffset.UTC)))));
-      assertThat(testAliases.size()).isInstanceOf(AliasSize.class);
+      assertThat(testAliases.size()).isEqualTo(AliasSize.of(1));
     }
   }
 }

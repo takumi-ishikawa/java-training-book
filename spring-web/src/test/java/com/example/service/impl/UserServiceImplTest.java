@@ -13,7 +13,6 @@ import com.example.model.AliasName;
 import com.example.model.AliasPage;
 import com.example.model.AliasSize;
 import com.example.model.AliasValue;
-import com.example.model.Aliases;
 import com.example.model.CreatedAt;
 import com.example.model.IdGenerator;
 import com.example.model.User;
@@ -112,7 +111,7 @@ class UserServiceImplTest {
   @Nested
   class deleteUserByUserNameTest {
     @Test
-    void ユーザが見つからない場合は例外を返す() {
+    void ユーザが見つからない場合は例外が発生する() {
       when(userRepository.findByName(any())).thenThrow(IllegalArgumentException.class);
       assertThrows(
           IllegalArgumentException.class,
@@ -120,7 +119,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void ユーザが見つかった場合はUserを返す() {
+    void ユーザが見つかった場合は入力したUserNameと同じ値をもつUserを返す() {
       UserName testUserName = UserName.of("testUserName");
       when(userRepository.findByName(testUserName))
           .thenReturn(
@@ -130,14 +129,15 @@ class UserServiceImplTest {
                       testUserName,
                       UserToken.of("abc1234567890"),
                       CreatedAt.of(Instant.now()))));
-      assertThat(userService.deleteUserByUserName(testUserName).get()).isInstanceOf(User.class);
+      assertThat(userService.deleteUserByUserName(testUserName).get().name)
+          .isEqualTo(UserName.of("testUserName"));
     }
   }
 
   @Nested
   class findAliasesByUserName {
     @Test
-    void ユーザーが見つからない場合は例外を返す() {
+    void ユーザーが見つからない場合は例外が発生する() {
       when(userRepository.findAliasesByUserName(any(), any(), any()))
           .thenThrow(IllegalArgumentException.class);
       assertThrows(
@@ -149,7 +149,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void ユーザーが見つかった場合はAliasesを返す() {
+    void ユーザーが見つかった場合は入力したAliasNameと同じ値をもつAliasesを返す() {
       AliasPage aliasPage = AliasPage.of(1L);
       AliasSize aliasSize = AliasSize.of(2L);
       Alias alias =
@@ -162,8 +162,28 @@ class UserServiceImplTest {
       List<Alias> aliasList = List.of(alias);
       when(userRepository.findAliasesByUserName(any(), any(), any())).thenReturn(aliasList);
       assertThat(
-              userService.findAliasesByUserName(UserName.of("testUserName"), aliasSize, aliasPage))
-          .isInstanceOf(Aliases.class);
+              userService.findAliasesByUserName(UserName.of("testUserName"), aliasSize, aliasPage)
+                  .aliases)
+          .allSatisfy(a -> assertThat(a.name).isEqualTo(AliasName.of("testAliasName")));
+    }
+
+    @Test
+    void ユーザーが見つかった場合は入力したAliasValueと同じ値をもつAliasesを返す() {
+      AliasPage aliasPage = AliasPage.of(1L);
+      AliasSize aliasSize = AliasSize.of(2L);
+      Alias alias =
+          Alias.of(
+              AliasId.of(1L),
+              UserId.of(2L),
+              AliasName.of("testAliasName"),
+              AliasValue.of("testAliasValue"),
+              CreatedAt.of(Instant.now()));
+      List<Alias> aliasList = List.of(alias);
+      when(userRepository.findAliasesByUserName(any(), any(), any())).thenReturn(aliasList);
+      assertThat(
+              userService.findAliasesByUserName(UserName.of("testUserName"), aliasSize, aliasPage)
+                  .aliases)
+          .allSatisfy(a -> assertThat(a.value).isEqualTo(AliasValue.of("testAliasValue")));
     }
   }
 }

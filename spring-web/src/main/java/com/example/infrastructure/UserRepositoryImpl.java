@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.seasar.doma.jdbc.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,8 +30,6 @@ public class UserRepositoryImpl implements UserRepository {
   @NotNull private final UserDao userDao;
   private final UserTokenDao userTokenDao;
   private final AliasDao aliasDao;
-
-  private final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
   @Contract(pure = true)
   public UserRepositoryImpl(

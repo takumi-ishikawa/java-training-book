@@ -25,7 +25,7 @@ class AliasNextPageTest {
   }
 
   @Test
-  void AliasNextPageのBuilderが返すオブジェクトがnullであること() {
+  void AliasNextPageのBuilderが返すオブジェクトがFinalPageであること() {
     AliasNextPage aliasNextPage =
         AliasNextPage.currentPage(AliasPage.of(1)).requestSize(AliasSize.of(2)).resultSize(4);
     assertThat(aliasNextPage).isInstanceOf(FinalPage.class);

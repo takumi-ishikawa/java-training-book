@@ -2,7 +2,6 @@ package com.example.dao;
 
 import com.example.dao.entity.UserTokenEntity;
 import com.example.model.UserId;
-import com.example.model.UserToken;
 import java.util.Optional;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -24,9 +23,6 @@ public interface UserTokenDao {
 
   @Update
   Result<UserTokenEntity> updateUserToken(final UserTokenEntity userTokenEntity);
-
-  @Select
-  Optional<UserTokenEntity> findUserTokenEntityByUserToken(final UserToken userToken);
 
   @Delete
   Result<UserTokenEntity> deleteUserToken(final UserTokenEntity userTokenEntity);

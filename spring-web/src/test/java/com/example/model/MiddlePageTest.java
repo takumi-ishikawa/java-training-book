@@ -13,7 +13,7 @@ class MiddlePageTest {
   }
 
   @Test
-  void sizeとresponseSizeが同じ場合はpageに1足した値を持っているのが正しい() {
+  void sizeとresponseSizeが同じ場合はpageに1足した値をもっているのが正しい() {
     assertThat(AliasNextPage.of(1, 2, 2).valueOrNull()).isEqualTo(2);
   }
 }

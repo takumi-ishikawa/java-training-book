@@ -3,6 +3,7 @@ package com.example.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,13 @@ class CreatedAtTest {
     void test2() {
       CreatedAt testCreatedAt = CreatedAt.of(LocalDateTime.of(2019, 1, 1, 0, 0, 0));
       assertThat(testCreatedAt).isInstanceOf(CreatedAt.class);
+    }
+
+    @Test
+    @DisplayName("CreatedAt.asLocalDateTime()で返されるオブジェクトがnullではないこと")
+    void test3() {
+      CreatedAt testCreatedAt = CreatedAt.of(Instant.now());
+      assertThat(testCreatedAt.asLocalDateTime()).isInstanceOf(LocalDateTime.class);
     }
   }
 }

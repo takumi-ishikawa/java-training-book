@@ -17,4 +17,12 @@ class AliasOffsetTest {
       assertThat(testAliasOffset).isInstanceOf(AliasOffset.class);
     }
   }
+
+  @Nested
+  class ValueTest {
+    @Test
+    void pageが2でsizeが3の場合はvalueが6になると良い() {
+      assertThat(AliasOffset.of(2, 3).value()).isEqualTo(6);
+    }
+  }
 }

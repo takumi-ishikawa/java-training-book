@@ -22,15 +22,12 @@ import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-  @NotNull private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
   private final UserRepository userRepository;
   private final Clock clock;
   private final IdGenerator idGenerator;
