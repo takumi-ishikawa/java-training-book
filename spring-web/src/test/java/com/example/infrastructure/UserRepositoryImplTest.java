@@ -236,7 +236,26 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    void ユーザーが見つかった場合は入力したUserNameに対応するUserIdをもつAliasのリストが返ってくる() {
+    void ユーザーが見つかったかつエイリアスが見つからなかった場合は空リストが返ってくる() {
+      User user =
+          User.of(
+              UserId.of(1000L),
+              UserName.of("testUserName"),
+              UserToken.of("testUserToken"),
+              CreatedAt.of(Instant.now()));
+      AliasSize aliasSize = AliasSize.of(1L);
+      AliasOffset aliasOffset = AliasOffset.of(2L, 1L);
+      when(userDao.findUserByName(user.name))
+          .thenReturn(
+              Optional.of(new UserDataView(user.userId, user.name, user.token, user.createdAt)));
+      when(aliasDao.findAliasesByUserId(user.userId, aliasSize, aliasOffset))
+          .thenReturn(Collections.emptyList());
+      assertThat(userRepository.findAliasesByUserName(user.name, aliasSize, aliasOffset))
+          .isEqualTo(Collections.EMPTY_LIST);
+    }
+
+    @Test
+    void ユーザーが見つかったかつエイリアスが見つかった場合は入力したUserNameに対応するUserIdをもつAliasのリストが返ってくる() {
       User user =
           User.of(
               UserId.of(1000L),
