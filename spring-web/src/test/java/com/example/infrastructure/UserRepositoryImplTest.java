@@ -155,6 +155,15 @@ class UserRepositoryImplTest {
                   new UserEntity(
                       UserId.of(1000L), UserName.of("testUserName"), CreatedAt.of(Instant.now()))));
     }
+
+    @Test
+    void ユーザーのdeleteに成功した場合はなにも起きない() {
+      UserEntity userEntity =
+          new UserEntity(
+              UserId.of(1000L), UserName.of("testUserName"), CreatedAt.of(Instant.now()));
+      when(userDao.deleteUser(any())).thenReturn(new Result<>(1, userEntity));
+      userRepository.deleteUserEntity(userEntity);
+    }
   }
 
   @Nested
@@ -170,6 +179,15 @@ class UserRepositoryImplTest {
                       UserId.of(1000L),
                       UserToken.of("testUserToken"),
                       CreatedAt.of(Instant.now()))));
+    }
+
+    @Test
+    void トークンのdeleteに成功した場合はなにも起きない() {
+      UserTokenEntity userTokenEntity =
+          new UserTokenEntity(
+              UserId.of(1000L), UserToken.of("testUserToken"), CreatedAt.of(Instant.now()));
+      when(userTokenDao.deleteUserToken(any())).thenReturn(new Result<>(1, userTokenEntity));
+      userRepository.deleteUserTokenEntity(userTokenEntity);
     }
   }
 
