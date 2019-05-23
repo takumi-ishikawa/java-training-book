@@ -48,7 +48,7 @@ class UserServiceImplTest {
   @Nested
   class CreateUserTest {
     @Test
-    void Optionalのemptyが返ってくると正しい() {
+    void 存在しないUserTokenとUserNameを入力した場合はemptyが返ってくる() {
       when(userRepository.createUser(any())).thenReturn(Optional.empty());
       userService
           .createUser(UserToken.of("testUserToken"), UserName.of("testUserName"))
@@ -78,7 +78,7 @@ class UserServiceImplTest {
   @Nested
   class UpdateUserToken {
     @Test
-    void Optionalのemptyが返ってくると正しい() {
+    void 存在しないUserTokenとUserNameを入力するとemptyが返ってくる() {
       when(userRepository.updateUserToken(any(), any())).thenReturn(Optional.empty());
       userService
           .updateUserToken(UserToken.of("testUserToken"), UserName.of("testUserName"))
