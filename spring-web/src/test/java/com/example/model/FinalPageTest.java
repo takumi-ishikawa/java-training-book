@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class FinalPageTest {
 
   @Test
-  void sizeとresoinsePageが異なる場合はnullをもっているのが正しい() {
+  void sizeとresponseSizeが異なる場合はnullをもっているのが正しい() {
     assertNull(AliasNextPage.of(1, 2, 3).valueOrNull());
   }
 }
