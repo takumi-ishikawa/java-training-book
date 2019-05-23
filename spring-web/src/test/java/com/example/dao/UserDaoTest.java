@@ -54,26 +54,12 @@ class UserDaoTest {
     assertThat(userDao.findUserByName(UserName.of("J"))).isEqualTo(Optional.empty());
   }
 
-  //  @Test
-  //  void insertできた結果としてResultが返ってくる() {
-  //    UserEntity userEntity =
-  //        new UserEntity(UserId.of(5000L), UserName.of("Udon"), CreatedAt.of(Instant.now()));
-  //    assertThat(userDao.insertUser(userEntity)).isInstanceOf(Result.class);
-  //  }
-
   @Test
   void すでに存在するUserEntityの場合はinsertできずに例外が発生する() {
     UserEntity userEntity =
         new UserEntity(UserId.of(5000L), UserName.of("Udon"), CreatedAt.of(Instant.now()));
     assertThrows(JdbcException.class, () -> userDao.insertUser(userEntity));
   }
-
-  //  @Test
-  //  void 存在するUserEntityの場合はdeleteできた結果としてResultが返ってくる() {
-  //    UserEntity userEntity =
-  //        new UserEntity(UserId.of(5000L), UserName.of("Udon"), CreatedAt.of(Instant.now()));
-  //    assertThat(userDao.deleteUser(userEntity)).isInstanceOf(Result.class);
-  //  }
 
   @Test
   void 存在しないUserEntityの場合はdeleteできずに例外が発生する() {
