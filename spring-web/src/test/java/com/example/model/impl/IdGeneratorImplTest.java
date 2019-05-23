@@ -15,7 +15,7 @@ class IdGeneratorImplTest {
   @Nested
   class createIdTest {
     @Test
-    void 返り血がLongであると良い() {
+    void 返り値がLongであると良い() {
       assertThat(idGenerator.createId()).isInstanceOf(Long.class);
     }
 
