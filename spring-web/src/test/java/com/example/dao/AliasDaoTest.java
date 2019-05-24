@@ -30,17 +30,38 @@ class AliasDaoTest {
   @Autowired AliasDao aliasDao;
 
   @Test
-  void UserId1000の場合に返ってきたリストの要素のUserIdが1000であると良い() {
+  void UserIdが1000の場合に返ってきたリストの要素のUserIdが1000であると良い() {
     UserId userId = UserId.of(1000L);
-    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(1L), AliasOffset.of(1L, 2L)))
+    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(1L, 2L)))
         .allSatisfy(a -> assertThat(a.userId).isEqualTo(userId));
+  }
+
+  @Test
+  void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが1かつsizeが2の場合に返ってきたリストの要素の数が2であると良い() {
+    UserId userId = UserId.of(4000L);
+    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(1L, 2L)).size())
+        .isEqualTo(2);
+  }
+
+  @Test
+  void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが2かつsizeが2の場合に返ってきたリストの要素の数が1であると良い() {
+    UserId userId = UserId.of(4000L);
+    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(2L, 2L)).size())
+        .isEqualTo(1);
+  }
+
+  @Test
+  void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが3かつsizeが2の場合に返ってきたリストが空リストであると良い() {
+    UserId userId = UserId.of(4000L);
+    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(3L, 2L)))
+        .isEqualTo(Collections.EMPTY_LIST);
   }
 
   @Test
   void UserIdが1111の場合は空リストが返ってくる() {
     assertThat(
             aliasDao.findAliasesByUserId(
-                UserId.of(1111L), AliasSize.of(1L), AliasOffset.of(1L, 2L)))
-        .isEqualTo(Collections.emptyList());
+                UserId.of(1111L), AliasSize.of(2L), AliasOffset.of(1L, 2L)))
+        .isEqualTo(Collections.EMPTY_LIST);
   }
 }
