@@ -123,8 +123,7 @@ class UserRepositoryImplTest {
     @Test
     void UserIdが存在しない場合はemptyが返ってくる() {
       when(userTokenDao.findUserTokenByUserId(any())).thenReturn(Optional.empty());
-      assertThat(userRepository.findUserTokenByUserId(UserId.of(1111L)))
-          .isEqualTo(Optional.empty());
+      assertThat(userRepository.findUserTokenByUserId(UserId.of(1111L))).isEmpty();
     }
 
     @Test
@@ -206,7 +205,7 @@ class UserRepositoryImplTest {
       assertThat(
               userRepository.findUserByUserNameAndUserToken(
                   UserName.of("testUserName"), UserToken.of("testUserToken")))
-          .isEqualTo(Optional.empty());
+          .isEmpty();
     }
 
     @Test
