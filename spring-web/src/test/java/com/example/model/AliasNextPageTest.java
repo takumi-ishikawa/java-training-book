@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 class AliasNextPageTest {
 
   @Test
-  void sizeとresponseSizeが同じ場合はofが返すオブジェクトがMiddlePageであること() {
-    assertThat(AliasNextPage.of(1, 2, 2)).isInstanceOf(MiddlePage.class);
+  void pageが1でsizeが2でresponseSizeが2の場合はofが返すオブジェクトの値が3であること() {
+    assertThat(AliasNextPage.of(1, 2, 2).valueOrNull()).isEqualTo(2);
   }
 
   @Test
-  void sizeとresoinseSizeが異なる場合はofが返すオブジェクトがFinalPageであること() {
-    assertThat(AliasNextPage.of(1, 2, 3)).isInstanceOf(FinalPage.class);
+  void pageが1でsizeとresoinseSizeが異なる値の場合はofが返すオブジェクトの値がnullであること() {
+    assertThat(AliasNextPage.of(1, 2, 3).valueOrNull()).isNull();
   }
 
   @Test
