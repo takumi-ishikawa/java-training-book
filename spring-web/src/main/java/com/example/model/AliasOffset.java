@@ -21,11 +21,25 @@ public class AliasOffset {
   @NotNull
   @Contract(value = "_ -> new", pure = true)
   public static AliasOffset of(@NotNull final long page, @NotNull final long size) {
+    validatePage(page);
+    validateSize(size);
     return new AliasOffset(page, size);
   }
 
   public long value() {
     return value;
+  }
+
+  public static void validatePage(final long page) {
+    if (page < 0) {
+      throw new IllegalArgumentException("can not use negative page");
+    }
+  }
+
+  public static void validateSize(final long size) {
+    if (size < 0) {
+      throw new IllegalArgumentException("can not use negative size");
+    }
   }
 
   @Override
