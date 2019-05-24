@@ -1,6 +1,7 @@
 package com.example.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -167,7 +168,7 @@ class UserRepositoryImplTest {
           new UserEntity(
               UserId.of(1000L), UserName.of("testUserName"), CreatedAt.of(Instant.now()));
       when(userDao.deleteUser(any())).thenReturn(new Result<>(1, userEntity));
-      userRepository.deleteUserEntity(userEntity);
+      assertThatCode(() -> userRepository.deleteUserEntity(userEntity)).doesNotThrowAnyException();
     }
   }
 
@@ -192,7 +193,8 @@ class UserRepositoryImplTest {
           new UserTokenEntity(
               UserId.of(1000L), UserToken.of("testUserToken"), CreatedAt.of(Instant.now()));
       when(userTokenDao.deleteUserToken(any())).thenReturn(new Result<>(1, userTokenEntity));
-      userRepository.deleteUserTokenEntity(userTokenEntity);
+      assertThatCode(() -> userRepository.deleteUserTokenEntity(userTokenEntity))
+          .doesNotThrowAnyException();
     }
   }
 
