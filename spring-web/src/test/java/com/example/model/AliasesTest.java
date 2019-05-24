@@ -3,6 +3,7 @@ package com.example.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -36,7 +37,29 @@ class AliasesTest {
   @Nested
   class NextPageTest {
     @Test
-    void nextPageで返されるオブジェクトがnullではないこと() {
+    void pageが1でsizeが1である場合にnextPageで返されるオブジェクトの値が2であること() {
+      Aliases testAliases =
+          Aliases.of(
+              AliasPage.of(1),
+              AliasSize.of(1),
+              List.of(
+                  Alias.of(
+                      AliasId.of(1234),
+                      UserId.of(5678),
+                      AliasName.of("testAliasName1"),
+                      AliasValue.of("testAliasValue1"),
+                      CreatedAt.of(Instant.now())),
+                  Alias.of(
+                      AliasId.of(1111),
+                      UserId.of(2222),
+                      AliasName.of("testAliasName2"),
+                      AliasValue.of("testAliasValue2"),
+                      CreatedAt.of(Instant.now()))));
+      assertThat(testAliases.nextPage().valueOrNull()).isEqualTo(2);
+    }
+
+    @Test
+    void pageが1でsizeが2である場合にnextPageで返されるオブジェクトの値がnullであること() {
       Aliases testAliases =
           Aliases.of(
               AliasPage.of(1),
@@ -45,11 +68,16 @@ class AliasesTest {
                   Alias.of(
                       AliasId.of(1234),
                       UserId.of(5678),
-                      AliasName.of("testAliasName"),
-                      AliasValue.of("testAliasValue"),
-                      CreatedAt.of(
-                          LocalDateTime.of(2019, 1, 1, 0, 0, 0).toInstant(ZoneOffset.UTC)))));
-      assertThat(testAliases.nextPage()).isInstanceOf(AliasNextPage.class);
+                      AliasName.of("testAliasName1"),
+                      AliasValue.of("testAliasValue1"),
+                      CreatedAt.of(Instant.now())),
+                  Alias.of(
+                      AliasId.of(1111),
+                      UserId.of(2222),
+                      AliasName.of("testAliasName2"),
+                      AliasValue.of("testAliasValue2"),
+                      CreatedAt.of(Instant.now()))));
+      assertThat(testAliases.nextPage().valueOrNull()).isNull();
     }
   }
 
