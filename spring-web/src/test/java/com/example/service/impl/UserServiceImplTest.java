@@ -76,7 +76,7 @@ class UserServiceImplTest {
   }
 
   @Nested
-  class UpdateUserToken {
+  class UpdateUserTokenTest {
     @Test
     void 存在しないUserTokenとUserNameを入力するとemptyが返ってくる() {
       when(userRepository.updateUserToken(any(), any())).thenReturn(Optional.empty());
@@ -109,7 +109,7 @@ class UserServiceImplTest {
   }
 
   @Nested
-  class deleteUserByUserNameTest {
+  class DeleteUserByUserNameTest {
     @Test
     void ユーザが見つからない場合は例外が発生する() {
       when(userRepository.findByName(any())).thenThrow(IllegalArgumentException.class);
@@ -135,7 +135,7 @@ class UserServiceImplTest {
   }
 
   @Nested
-  class findAliasesByUserName {
+  class FindAliasesByUserNameTest {
     @Test
     void ユーザーが見つからない場合は例外が発生する() {
       when(userRepository.findAliasesByUserName(any(), any(), any()))
