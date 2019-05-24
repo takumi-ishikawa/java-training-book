@@ -111,11 +111,10 @@ class UserServiceImplTest {
   @Nested
   class DeleteUserByUserNameTest {
     @Test
-    void ユーザが見つからない場合は例外が発生する() {
-      when(userRepository.findByName(any())).thenThrow(IllegalArgumentException.class);
-      assertThrows(
-          IllegalArgumentException.class,
-          () -> userService.deleteUserByUserName(UserName.of("testUser")));
+    void ユーザが見つからない場合はemptyが返ってくる() {
+      when(userRepository.findByName(any())).thenReturn(Optional.empty());
+      assertThat(userService.deleteUserByUserName(UserName.of("testUser")))
+          .isEqualTo(Optional.empty());
     }
 
     @Test
