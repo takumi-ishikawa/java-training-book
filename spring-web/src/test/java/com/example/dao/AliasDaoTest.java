@@ -39,14 +39,16 @@ class AliasDaoTest {
   @Test
   void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが1かつsizeが2の場合に返ってきたリストの要素の数が2であると良い() {
     UserId userId = UserId.of(4000L);
-    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(1L, 2L)).size())
+    assertThat(
+            aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(1L, 2L)).size())
         .isEqualTo(2);
   }
 
   @Test
   void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが2かつsizeが2の場合に返ってきたリストの要素の数が1であると良い() {
     UserId userId = UserId.of(4000L);
-    assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(2L, 2L)).size())
+    assertThat(
+            aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(2L, 2L)).size())
         .isEqualTo(1);
   }
 

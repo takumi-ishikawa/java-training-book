@@ -97,11 +97,14 @@ class UserServiceImplTest {
           .thenReturn(
               Optional.of(
                   User.of(UserId.of(1L), userName, userToken, CreatedAt.of(Instant.now()))));
-      assertThat(userService.updateUserToken(UserToken.of("testUserToken"), UserName.of("testUserName")))
-          .hasValueSatisfying(user -> {
-            assertThat(user.token).isEqualTo(UserToken.of("testUserToken"));
-            assertThat(user.name).isEqualTo(UserName.of("testUserName"));
-          });
+      assertThat(
+              userService.updateUserToken(
+                  UserToken.of("testUserToken"), UserName.of("testUserName")))
+          .hasValueSatisfying(
+              user -> {
+                assertThat(user.token).isEqualTo(UserToken.of("testUserToken"));
+                assertThat(user.name).isEqualTo(UserName.of("testUserName"));
+              });
     }
   }
 
