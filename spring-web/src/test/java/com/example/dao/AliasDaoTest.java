@@ -66,4 +66,14 @@ class AliasDaoTest {
                 UserId.of(1111L), AliasSize.of(2L), AliasOffset.of(1L, 2L)))
         .isEqualTo(Collections.EMPTY_LIST);
   }
+
+  @Test
+  void
+      UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが1かつsizeが2の場合に返ってきたリストの要素がもつAliasIdが4030から4040の範囲内であること() {
+    assertThat(
+            aliasDao.findAliasesByUserId(
+                UserId.of(4000L), AliasSize.of(2L), AliasOffset.of(1L, 2L)))
+        .allSatisfy(
+            aliasDataView -> assertThat(aliasDataView.aliasId.value()).isBetween(4030L, 4040L));
+  }
 }
