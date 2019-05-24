@@ -3,6 +3,7 @@ package com.example.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -34,6 +35,15 @@ class CreatedAtTest {
     void test3() {
       CreatedAt testCreatedAt = CreatedAt.of(Instant.now());
       assertThat(testCreatedAt.asLocalDateTime()).isInstanceOf(LocalDateTime.class);
+    }
+
+    @Test
+    @DisplayName("CreatedAt.of(Instant)とCreatedAt.of(LocalDateTime)で返されるオブジェクトの時刻が一致すること")
+    void test4() {
+      Clock clock = Clock.fixed(Instant.now(), ZoneOffset.UTC);
+      CreatedAt instantCreatedAt = CreatedAt.of(Instant.now(clock));
+      CreatedAt localDateTimeCreatedAt = CreatedAt.of(LocalDateTime.now(clock));
+      assertThat(instantCreatedAt).isEqualTo(localDateTimeCreatedAt);
     }
   }
 }
