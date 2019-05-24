@@ -2,8 +2,9 @@ package com.example.controller.error;
 
 import com.example.json.AppJson;
 import com.example.model.AppException;
-import com.example.model.NoResourceException;
-import com.example.model.NotOneResultException;
+import com.example.model.error.InvalidDecrementException;
+import com.example.model.error.NoResourceException;
+import com.example.model.error.NotOneResultException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +117,25 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
                         Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
     logger.info("error at {} {}", webRequest.getContextPath(), param);
     logger.info("not one result", e);
+    final AppJson json = AppJson.failure(e.getMessage());
+    return handleExceptionInternal(
+        e, json, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
+  }
+
+  @ExceptionHandler({InvalidDecrementException.class})
+  ResponseEntity<Object> handleErrorInvalidDecrementResult(
+      InvalidDecrementException e, WebRequest webRequest) {
+    final Map<String, String[]> map = webRequest.getParameterMap();
+    final Map<String, List<String>> param =
+        map.entrySet()
+            .stream()
+            .collect(
+                Collectors.toUnmodifiableMap(
+                    Entry::getKey,
+                    entry ->
+                        Arrays.stream(entry.getValue()).collect(Collectors.toUnmodifiableList())));
+    logger.info("error at {} {}", webRequest.getContextPath(), param);
+    logger.info("can not decrement", e);
     final AppJson json = AppJson.failure(e.getMessage());
     return handleExceptionInternal(
         e, json, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);

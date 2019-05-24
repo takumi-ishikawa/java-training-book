@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.example.model.error.InvalidDecrementException;
 import java.util.Objects;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +29,19 @@ public class AliasSize {
   }
 
   public AliasSize decrement() {
+    validateDecrement(value);
     return AliasSize.of(value - 1);
   }
 
   public void validate() {
     if (value < 0) {
       throw new IllegalArgumentException("Invalid AliasSize. Negative values can not be used.");
+    }
+  }
+
+  private void validateDecrement(long value) {
+    if (value - 1 < 0) {
+      throw new InvalidDecrementException("size is 0");
     }
   }
 

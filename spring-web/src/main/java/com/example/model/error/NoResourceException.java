@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.error;
 
 public class NoResourceException extends RuntimeException {
 

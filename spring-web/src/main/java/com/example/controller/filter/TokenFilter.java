@@ -1,9 +1,9 @@
 package com.example.controller.filter;
 
-import com.example.model.NoResourceException;
 import com.example.model.UserName;
 import com.example.model.UserRepository;
 import com.example.model.UserToken;
+import com.example.model.error.NoResourceException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
