@@ -69,13 +69,14 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Optional<User> updateUserToken(
-      final @NotNull User user, final @NotNull UserToken userToken) {
+      final @NotNull User user, final @NotNull UserToken newUserToken) {
     Result<UserTokenEntity> userTokenEntityResult =
-        userTokenDao.updateUserToken(new UserTokenEntity(user.userId, userToken, user.createdAt));
+        userTokenDao.updateUserToken(
+            new UserTokenEntity(user.userId, newUserToken, user.createdAt));
     if (userTokenEntityResult.getCount() != 1) {
       throw new NotOneResultException("not one userTokenEntityResult");
     }
-    return Optional.of(user);
+    return Optional.of(User.of(user.userId, user.name, newUserToken, user.createdAt));
   }
 
   @Override

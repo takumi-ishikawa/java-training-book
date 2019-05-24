@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.Objects;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,5 +32,25 @@ public class User {
       @NotNull final UserToken token,
       @NotNull final CreatedAt createdAt) {
     return new User(userId, name, token, createdAt);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return userId.equals(user.userId)
+        && name.equals(user.name)
+        && token.equals(user.token)
+        && createdAt.equals(user.createdAt);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(userId, name, token, createdAt);
   }
 }

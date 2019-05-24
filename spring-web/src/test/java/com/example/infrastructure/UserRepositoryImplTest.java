@@ -97,7 +97,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    void updateに成功した場合は入力したUserと同じUserが返ってくる() {
+    void updateに成功した場合は入力したUserのUserTokenを更新したUserが返ってくる() {
       User user =
           User.of(
               UserId.of(1L),
@@ -108,7 +108,12 @@ class UserRepositoryImplTest {
           .thenReturn(
               new Result<>(1, new UserTokenEntity(user.userId, user.token, user.createdAt)));
       assertThat(userRepository.updateUserToken(user, UserToken.of("testNewUserToken")))
-          .isEqualTo(Optional.of(user));
+          .contains(
+              User.of(
+                  UserId.of(1L),
+                  UserName.of("testUserName"),
+                  UserToken.of("testNewUserToken"),
+                  user.createdAt));
     }
   }
 
