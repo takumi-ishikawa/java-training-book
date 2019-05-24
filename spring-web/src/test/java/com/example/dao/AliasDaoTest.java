@@ -56,7 +56,7 @@ class AliasDaoTest {
   void UserIdが4000かつAliasSizeが2かつAliasOffsetのpageが3かつsizeが2の場合に返ってきたリストが空リストであると良い() {
     UserId userId = UserId.of(4000L);
     assertThat(aliasDao.findAliasesByUserId(userId, AliasSize.of(2L), AliasOffset.of(3L, 2L)))
-        .isEqualTo(Collections.EMPTY_LIST);
+        .isEqualTo(Collections.emptyList());
   }
 
   @Test
@@ -64,7 +64,7 @@ class AliasDaoTest {
     assertThat(
             aliasDao.findAliasesByUserId(
                 UserId.of(1111L), AliasSize.of(2L), AliasOffset.of(1L, 2L)))
-        .isEqualTo(Collections.EMPTY_LIST);
+        .isEqualTo(Collections.emptyList());
   }
 
   @Test

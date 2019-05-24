@@ -256,7 +256,7 @@ class UserRepositoryImplTest {
       when(aliasDao.findAliasesByUserId(user.userId, aliasSize, aliasOffset))
           .thenReturn(Collections.emptyList());
       assertThat(userRepository.findAliasesByUserName(user.name, aliasSize, aliasOffset))
-          .isEqualTo(Collections.EMPTY_LIST);
+          .isEqualTo(Collections.emptyList());
     }
 
     @Test

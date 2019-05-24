@@ -39,8 +39,9 @@ class UserTokenDaoTest {
   void UserIdが1000の場合にそれに対応するUserTokenをもつUserTokenEntityが返ってくる() {
     assertThat(userTokenDao.findUserTokenByUserId(UserId.of(1000L)))
         .hasValueSatisfying(
-            userTokenEntity -> assertThat(userTokenEntity.token)
-                .isEqualTo(UserToken.of("838128c4-acb1-46ba-a3ee-4c995cb0f57c")));
+            userTokenEntity ->
+                assertThat(userTokenEntity.token)
+                    .isEqualTo(UserToken.of("838128c4-acb1-46ba-a3ee-4c995cb0f57c")));
   }
 
   @Test
