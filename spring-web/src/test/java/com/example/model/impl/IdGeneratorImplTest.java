@@ -24,7 +24,7 @@ class IdGeneratorImplTest {
       for (int i = 0; i < NUM_OF_TIMES_TO_CREATE_ID; i++) {
         long id1 = idGenerator.createId();
         long id2 = idGenerator.createId();
-        assertThat(id1).isNotEqualTo(id2);
+        assertThat(id1).isLessThan(id2);
       }
     }
   }
